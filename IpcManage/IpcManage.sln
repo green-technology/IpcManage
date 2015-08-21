@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IpcManage", "IpcManage\IpcManage.vcxproj", "{2326733B-6220-427C-9A7B-878B536F2E95}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IpcManageClient", "IpcManageClient\IpcManageClient.vcxproj", "{7179FC83-AB05-4112-B37F-527FF67A83D8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2326733B-6220-427C-9A7B-878B536F2E95}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2326733B-6220-427C-9A7B-878B536F2E95}.Debug|Win32.Build.0 = Debug|Win32
+		{2326733B-6220-427C-9A7B-878B536F2E95}.Release|Win32.ActiveCfg = Release|Win32
+		{2326733B-6220-427C-9A7B-878B536F2E95}.Release|Win32.Build.0 = Release|Win32
+		{7179FC83-AB05-4112-B37F-527FF67A83D8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7179FC83-AB05-4112-B37F-527FF67A83D8}.Debug|Win32.Build.0 = Debug|Win32
+		{7179FC83-AB05-4112-B37F-527FF67A83D8}.Release|Win32.ActiveCfg = Release|Win32
+		{7179FC83-AB05-4112-B37F-527FF67A83D8}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
