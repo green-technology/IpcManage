@@ -65,8 +65,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\rpc\gen-cpp\IpcManageServer.h" />
+    <ClInclude Include="..\..\rpc\gen-cpp\IpcManageServerHandler.h" />
     <ClInclude Include="..\..\rpc\gen-cpp\IpcManageServer_constants.h" />
     <ClInclude Include="..\..\rpc\gen-cpp\IpcManageServer_types.h" />
+    <ClInclude Include="..\..\rpc\gen-cpp\IpcManageTools.h" />
     <ClInclude Include="..\..\rpc\gen-cpp\OperateStruct_constants.h" />
     <ClInclude Include="..\..\rpc\gen-cpp\OperateStruct_types.h" />
     <ClInclude Include="..\..\rpc\gen-cpp\ReturnStruct_constants.h" />
@@ -74,9 +76,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\rpc\gen-cpp\IpcManageServer.cpp" />
+    <ClCompile Include="..\..\rpc\gen-cpp\IpcManageServerHandler.cpp" />
     <ClCompile Include="..\..\rpc\gen-cpp\IpcManageServer_constants.cpp" />
     <ClCompile Include="..\..\rpc\gen-cpp\IpcManageServer_server.cpp" />
     <ClCompile Include="..\..\rpc\gen-cpp\IpcManageServer_types.cpp" />
+    <ClCompile Include="..\..\rpc\gen-cpp\IpcManageTools.cpp" />
     <ClCompile Include="..\..\rpc\gen-cpp\OperateStruct_constants.cpp" />
     <ClCompile Include="..\..\rpc\gen-cpp\OperateStruct_types.cpp" />
     <ClCompile Include="..\..\rpc\gen-cpp\ReturnStruct_constants.cpp" />

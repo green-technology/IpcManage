@@ -16,7 +16,7 @@
 #include <stdexcept>
 #include <sstream>
 
-#include "IpcManageServer.h"
+#include "IpcManageServerHandler.h"
 
 using namespace std;
 using namespace ::apache::thrift;
@@ -28,42 +28,6 @@ using namespace ::apache::thrift::server;
 using namespace  ::ipcms;
 //using namespace  shared;
 
-class IpcManageServerHandler : virtual public IpcManageServerIf {
- public:
-  IpcManageServerHandler() {
-    // Your initialization goes here
-  }
-
-  void UserLogin( ::ipcms::UserLoginReturnStruct& _return, const std::string& userName) {
-    // Your implementation goes here
-    printf("UserLogin\n");
-	_return.SessionID = "11";
-	_return.UserID = "22";
-  }
-
-  void GetResInfoList(std::vector< ::ipcms::ResourceInfoReturnStruct> & _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const int32_t resType) {
-    // Your implementation goes here
-    printf("GetResInfoList\n");
-  }
-
-  int8_t PlayVideo(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::PlayVideoDataPacket& playVideo) {
-    // Your implementation goes here
-    printf("PlayVideo\n");
-	return 0;
-  }
-
-  void ApplyPTZControl( ::ipcms::ApplyPTZControlReturnStruct& _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::ApplyPTZControlDataPacket& applyPtz) {
-    // Your implementation goes here
-    printf("ApplyPTZControl\n");
-  }
-
-  bool UserLogout(const  ::ipcms::UserVerificationDataPacket& userVerify) {
-    // Your implementation goes here
-    printf("UserLogout\n");
-	return true;
-  }
-
-};
 
 int main(int argc, char **argv) {
 	
