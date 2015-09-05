@@ -41,13 +41,13 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\thirdParty\boost_1_55_0_vs2010;..\..\thirdParty\thrift_0.9.2_vs2010\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\thirdParty\boost_1_55_0_vs2010;..\..\thirdParty\thrift_0.9.2_vs2010\include;..\..\thirdParty\ipc_sdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\thirdParty\thrift_0.9.2_vs2010\lib_debug;..\..\thirdParty\boost_1_55_0_vs2010\lib\;..\..\thirdParty\openssl-1.0.1m-vs2010\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libthrift.lib;libeay32MTd.lib;ssleay32MTd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\thirdParty\thrift_0.9.2_vs2010\lib_debug;..\..\thirdParty\boost_1_55_0_vs2010\lib\;..\..\thirdParty\openssl-1.0.1m-vs2010\lib;..\..\thirdParty\ipc_sdk\dh;..\..\thirdParty\ipc_sdk\hc;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libthrift.lib;libeay32MTd.lib;ssleay32MTd.lib;dhnetsdk.lib;HCNetSDK.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

@@ -1,12 +1,12 @@
-﻿生成启动时间为 2015/8/31 22:54:08。
+﻿生成启动时间为 2015/9/5 11:51:10。
      1>项目“D:\zfc\source\IpcManage\IpcManage\IpcManage\IpcManage.vcxproj”在节点 2 上(build 个目标)。
      1>InitializeBuildStatus:
-         正在创建“Debug\IpcManage.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+         正在对“Debug\IpcManage.unsuccessfulbuild”执行 Touch 任务。
        ClCompile:
-         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\thirdParty\boost_1_55_0_vs2010 /I..\..\thirdParty\thrift_0.9.2_vs2010\include /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt "..\..\rpc\gen-cpp\IpcManageTools.cpp"
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\thirdParty\boost_1_55_0_vs2010 /I..\..\thirdParty\thrift_0.9.2_vs2010\include /I..\..\thirdParty\ipc_sdk /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt "..\..\rpc\gen-cpp\IpcManageTools.cpp"
          IpcManageTools.cpp
        Link:
-         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\zfc\source\IpcManage\IpcManage\Debug\IpcManage.exe" /NOLOGO /LIBPATH:..\..\thirdParty\thrift_0.9.2_vs2010\lib_debug /LIBPATH:..\..\thirdParty\boost_1_55_0_vs2010\lib\ /LIBPATH:"..\..\thirdParty\openssl-1.0.1m-vs2010\lib" libthrift.lib libeay32MTd.lib ssleay32MTd.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\IpcManage.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\zfc\source\IpcManage\IpcManage\Debug\IpcManage.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\zfc\source\IpcManage\IpcManage\Debug\IpcManage.lib" /MACHINE:X86 Debug\IpcManageServer.obj
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\zfc\source\IpcManage\IpcManage\Debug\IpcManage.exe" /NOLOGO /LIBPATH:..\..\thirdParty\thrift_0.9.2_vs2010\lib_debug /LIBPATH:..\..\thirdParty\boost_1_55_0_vs2010\lib\ /LIBPATH:"..\..\thirdParty\openssl-1.0.1m-vs2010\lib" /LIBPATH:..\..\thirdParty\ipc_sdk\dh /LIBPATH:..\..\thirdParty\ipc_sdk\hc libthrift.lib libeay32MTd.lib ssleay32MTd.lib dhnetsdk.lib HCNetSDK.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\IpcManage.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\zfc\source\IpcManage\IpcManage\Debug\IpcManage.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\zfc\source\IpcManage\IpcManage\Debug\IpcManage.lib" /MACHINE:X86 Debug\IpcManageServer.obj
          Debug\IpcManageServerHandler.obj
          Debug\IpcManageServer_constants.obj
          Debug\IpcManageServer_server.obj
@@ -488,4 +488,4 @@
 
 生成成功。
 
-已用时间 00:00:15.41
+已用时间 00:00:16.75
