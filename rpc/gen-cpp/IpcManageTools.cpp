@@ -18,9 +18,18 @@ namespace ipcTools
 		return instance;
 	}
 
-	long ConnectManager::connectDVR(const ConnectInfo &DVRInfo)
+	void* ConnectManager::connectDVR(const char *ipc)
 	{
-		map<ConnectInfo, long>::iterator iter = m_ConnectList.find(DVRInfo);
+		//通过描述ipc查找对应DVRInfo
+		ConnectInfo DVRInfo;
+#ifdef _DEBUG
+		strcpy_s(DVRInfo.ip, "14.23.115.10");
+		DVRInfo.userName = "admin";
+		DVRInfo.password = "12345";
+		DVRInfo.port = 8000;
+		DVRInfo.channel = 0;
+#endif
+		map<ConnectInfo, void*>::iterator iter = m_ConnectList.find(DVRInfo);
 		if(iter == m_ConnectList.end())
 			return iter->second;
 
@@ -31,7 +40,7 @@ namespace ipcTools
 		char password[100];
 		strcpy_s(password, DVRInfo.password.c_str());
 
-		long ret = NULL;
+		void* ret = NULL;
 		switch(DVRInfo.type)
 		{
 		case DeviceTypeDH:

@@ -10,11 +10,12 @@ namespace ipcTools
 {
 	enum DeviceType
 	{
+		DeviceTypeNone,
 		DeviceTypeHC,
 		DeviceTypeDH
 	};
 
-	class ConnectInfo
+	struct ConnectInfo
 	{
 	public:
 		char ip[16];
@@ -23,6 +24,16 @@ namespace ipcTools
 		string userName;
 		string password;
 		int channel;
+
+		ConnectInfo()
+			: port(-1)
+			, type(DeviceTypeNone)
+			, userName("")
+			, password("")
+			,channel(-1)
+		{
+			memset(ip, 0, 16);
+		}
 
 		friend bool operator == (const ConnectInfo &lhs, const ConnectInfo &rhs)
 		{
@@ -47,9 +58,9 @@ namespace ipcTools
 	class ConnectManager
 	{
 	public:
-		ConnectManager* Instance();
+		static ConnectManager* Instance();
 
-		long connectDVR(const ConnectInfo &info);
+		void* connectDVR(const char *ipc);
 
 	private:
 		ConnectManager() {};
@@ -58,7 +69,7 @@ namespace ipcTools
 		long connectDHDVR(const ConnectInfo &info);
 
 	private:
-		map<ConnectInfo, long> m_ConnectList;
+		map<ConnectInfo, void*> m_ConnectList;
 
 	};
 

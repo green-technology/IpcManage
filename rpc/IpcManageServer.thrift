@@ -4,7 +4,6 @@ include "ReturnStruct.thrift"
 include "OperateStruct.thrift"
 
 
-
 service IpcManageServer {
 
 	  //用户登录
@@ -19,6 +18,8 @@ service IpcManageServer {
 
   //申请云台控制
   ReturnStruct.ApplyPTZControlReturnStruct ApplyPTZControl(1: OperateStruct.UserVerificationDataPacket userVerify,2: OperateStruct.ApplyPTZControlDataPacket applyPtz);
+
+  ReturnStruct.RequestPTZControlReturnStruct RequestPTZControl(1: OperateStruct.UserVerificationDataPacket userVerify,2: OperateStruct.RequestPTZControlDataPacket requestPTZ);
 
 
 //登出

@@ -4,6 +4,10 @@
 *.o
 *.obj
 *.pdb
+*.sdf
+*.suo
+*/debug/*
+*/ipch/*
 
 # Precompiled Headers
 *.gch

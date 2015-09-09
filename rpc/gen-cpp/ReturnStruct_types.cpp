@@ -463,4 +463,134 @@ std::ostream& operator<<(std::ostream& out, const ApplyPTZControlReturnStruct& o
   return out;
 }
 
+
+RequestPTZControlReturnStruct::~RequestPTZControlReturnStruct() throw() {
+}
+
+
+void RequestPTZControlReturnStruct::__set_hPTZ(const int64_t val) {
+  this->hPTZ = val;
+}
+
+void RequestPTZControlReturnStruct::__set_result(const int64_t val) {
+  this->result = val;
+}
+
+void RequestPTZControlReturnStruct::__set_userName(const std::string& val) {
+  this->userName = val;
+}
+
+const char* RequestPTZControlReturnStruct::ascii_fingerprint = "6B0CD68886A371B59CE1B9EDCF067801";
+const uint8_t RequestPTZControlReturnStruct::binary_fingerprint[16] = {0x6B,0x0C,0xD6,0x88,0x86,0xA3,0x71,0xB5,0x9C,0xE1,0xB9,0xED,0xCF,0x06,0x78,0x01};
+
+uint32_t RequestPTZControlReturnStruct::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->hPTZ);
+          this->__isset.hPTZ = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->result);
+          this->__isset.result = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->userName);
+          this->__isset.userName = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t RequestPTZControlReturnStruct::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  oprot->incrementRecursionDepth();
+  xfer += oprot->writeStructBegin("RequestPTZControlReturnStruct");
+
+  xfer += oprot->writeFieldBegin("hPTZ", ::apache::thrift::protocol::T_I64, 1);
+  xfer += oprot->writeI64(this->hPTZ);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("result", ::apache::thrift::protocol::T_I64, 2);
+  xfer += oprot->writeI64(this->result);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("userName", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString(this->userName);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  oprot->decrementRecursionDepth();
+  return xfer;
+}
+
+void swap(RequestPTZControlReturnStruct &a, RequestPTZControlReturnStruct &b) {
+  using ::std::swap;
+  swap(a.hPTZ, b.hPTZ);
+  swap(a.result, b.result);
+  swap(a.userName, b.userName);
+  swap(a.__isset, b.__isset);
+}
+
+RequestPTZControlReturnStruct::RequestPTZControlReturnStruct(const RequestPTZControlReturnStruct& other6) {
+  hPTZ = other6.hPTZ;
+  result = other6.result;
+  userName = other6.userName;
+  __isset = other6.__isset;
+}
+RequestPTZControlReturnStruct& RequestPTZControlReturnStruct::operator=(const RequestPTZControlReturnStruct& other7) {
+  hPTZ = other7.hPTZ;
+  result = other7.result;
+  userName = other7.userName;
+  __isset = other7.__isset;
+  return *this;
+}
+std::ostream& operator<<(std::ostream& out, const RequestPTZControlReturnStruct& obj) {
+  using apache::thrift::to_string;
+  out << "RequestPTZControlReturnStruct(";
+  out << "hPTZ=" << to_string(obj.hPTZ);
+  out << ", " << "result=" << to_string(obj.result);
+  out << ", " << "userName=" << to_string(obj.userName);
+  out << ")";
+  return out;
+}
+
 } // namespace

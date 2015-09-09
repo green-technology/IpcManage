@@ -20,3 +20,8 @@ struct ApplyPTZControlDataPacket
     1:i64 hPLZ;
     2:i32 type;
 }
+
+struct RequestPTZControlDataPacket
+{
+	1:i64 hResource;
+}

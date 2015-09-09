@@ -3,6 +3,7 @@
 
 #include <map>
 #include "IpcManageServer.h"
+#include "MediaManagerStruct_types.h"
 
 using namespace std;
 using namespace  ::ipcms;
@@ -20,7 +21,7 @@ class IpcManageServerHandler : virtual public IpcManageServerIf {
   int8_t PlayVideo(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::PlayVideoDataPacket& playVideo);
 
   //申请云台控制权限
-  void requestPTZControl();
+  void RequestPTZControl( ::ipcms::RequestPTZControlReturnStruct& /* _return */, const  ::ipcms::UserVerificationDataPacket& /* userVerify */, const  ::ipcms::RequestPTZControlDataPacket& /* requestPTZ */);
 
   void ApplyPTZControl( ::ipcms::ApplyPTZControlReturnStruct& _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::ApplyPTZControlDataPacket& applyPtz);
 
@@ -32,13 +33,13 @@ private:
 	
 	void confirmPTZControl(HANDLE hUser, HANDLE hIPC);
 
-	HANDLE getPTZResource(const char *ipc, HANDLE &handle);
+	void getPTZResource(HANDLE hRes, HANDLE &hPTZ);
 	void releasePTZResource(HANDLE handle);
 	
 	map<string, HANDLE> m_userLoginList;
 	vector<HANDLE> m_userResource;
-	map<string, HANDLE> m_PTZResource;
-	map<HANDLE, HANDLE> m_PTZUserList;
+	map<HANDLE, string> m_PTZUserList;
+	map<HANDLE, IPCResourceDataPacket> m_mediaResource;
 
 };
 

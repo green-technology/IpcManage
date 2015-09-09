@@ -1,11 +1,11 @@
 #include "IpcManageServerHandler.h"
+#include "IpcManageTools.h"
+
 #include "assert.h"
 
 void IpcManageServerHandler::UserLogin( ::ipcms::UserLoginReturnStruct& _return, const std::string& userName) {
 	// Your implementation goes here
 	printf("UserLogin\n");
-	_return.SessionID = "11";
-	_return.UserID = "22";
 
 	//用户验证，以用户名作为KEY
 	map<string, HANDLE>::iterator iter = m_userLoginList.find(userName);
@@ -15,8 +15,16 @@ void IpcManageServerHandler::UserLogin( ::ipcms::UserLoginReturnStruct& _return,
 	//分配资源
 	HANDLE hLogin;
 	if (!getLoginResource(hLogin))
-		return;
-	m_userLoginList[userName] = hLogin;
+	{
+		_return.ErrorNum = FALSE;
+	}
+	else
+	{
+		m_userLoginList[userName] = hLogin;
+		_return.ErrorNum = TRUE;
+		//_return.UserID = hLogin;
+		//_return.SessionID = ;
+	}
 }
 
 void IpcManageServerHandler::GetResInfoList(std::vector< ::ipcms::ResourceInfoReturnStruct> & _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const int32_t resType) {
@@ -28,17 +36,29 @@ int8_t IpcManageServerHandler::PlayVideo(const  ::ipcms::UserVerificationDataPac
 	return 0;
 }
 
-void IpcManageServerHandler::requestPTZControl()
-{
-	char* cIPC = "";
-	HANDLE hIPC = NULL;
-	HANDLE currentUserID = getPTZResource(cIPC, hIPC);
-	if (hIPC == NULL)
+ void IpcManageServerHandler::RequestPTZControl( ::ipcms::RequestPTZControlReturnStruct&  _return, const  ::ipcms::UserVerificationDataPacket& /* userVerify */, const  ::ipcms::RequestPTZControlDataPacket&  requestPTZ) {
+	HANDLE hRes = (HANDLE)requestPTZ.hResource;
+	HANDLE hPTZ = NULL;
+	getPTZResource(hRes, hPTZ);
+	if (hPTZ == NULL)
 	{
+		_return.hPTZ = NULL;
+		_return.result = -1;
 	}
 	else
 	{
-
+		map<HANDLE, string>::iterator iterUser = m_PTZUserList.find(hPTZ);
+		if (iterUser == m_PTZUserList.end())
+		{
+			_return.hPTZ = NULL;
+			_return.result = FALSE;
+			_return.userName = iterUser->second;
+		}
+		else
+		{
+			_return.hPTZ = (int64_t)hPTZ;
+			_return.result = TRUE;
+		}
 	}
 }
 
@@ -77,24 +97,28 @@ void IpcManageServerHandler::confirmPTZControl(HANDLE hUser, HANDLE hIPC)
 
 }
 
-HANDLE IpcManageServerHandler::getPTZResource(const char *ipc, HANDLE &handle)
+void IpcManageServerHandler::getPTZResource(HANDLE hRes, HANDLE &hPTZ)
 {
-	map<string, HANDLE>::iterator iter = m_PTZResource.find(ipc);
-	if (iter == m_PTZResource.end())
+	HANDLE currentUser = NULL;
+
+	map<HANDLE, IPCResourceDataPacket>::iterator iter = m_mediaResource.find(hRes);
+	if (iter == m_mediaResource.end())
+	{
+		return;
+	}
+
+	if (iter->second.hPTZ == NULL)
 	{
 		//通过SDK建立连接
-		handle = 0;
-		m_PTZResource[ipc] = handle;
+		hPTZ = ipcTools::ConnectManager::Instance()->connectDVR("");
+		if(hPTZ != NULL)
+			iter->second.hPTZ = (int64_t)hPTZ;
 	}
 	else
 	{
-		HANDLE hIPC = iter->second;
-		map<HANDLE, HANDLE>::iterator iterUser = m_PTZUserList.find(hIPC);
-		assert(iterUser != m_PTZUserList.end());
-		HANDLE userID = iterUser->second;
-		confirmPTZControl(userID, hIPC);
+		hPTZ = (HANDLE)iter->second.hPTZ;
 	}
-	return false;
+	return;
 }
 
 void IpcManageServerHandler::releasePTZResource(HANDLE handle)

@@ -9,7 +9,6 @@
 
 #include <iosfwd>
 
-
 #include <thrift/Thrift.h>
 #include <thrift/TApplicationException.h>
 #include <thrift/protocol/TProtocol.h>
@@ -25,6 +24,8 @@ class UserLoginReturnStruct;
 class ResourceInfoReturnStruct;
 
 class ApplyPTZControlReturnStruct;
+
+class RequestPTZControlReturnStruct;
 
 typedef struct _UserLoginReturnStruct__isset {
   _UserLoginReturnStruct__isset() : ErrorNum(false), UserID(false), SessionID(false) {}
@@ -208,6 +209,61 @@ class ApplyPTZControlReturnStruct {
 };
 
 void swap(ApplyPTZControlReturnStruct &a, ApplyPTZControlReturnStruct &b);
+
+typedef struct _RequestPTZControlReturnStruct__isset {
+  _RequestPTZControlReturnStruct__isset() : hPTZ(false), result(false), userName(false) {}
+  bool hPTZ :1;
+  bool result :1;
+  bool userName :1;
+} _RequestPTZControlReturnStruct__isset;
+
+class RequestPTZControlReturnStruct {
+ public:
+
+  static const char* ascii_fingerprint; // = "6B0CD68886A371B59CE1B9EDCF067801";
+  static const uint8_t binary_fingerprint[16]; // = {0x6B,0x0C,0xD6,0x88,0x86,0xA3,0x71,0xB5,0x9C,0xE1,0xB9,0xED,0xCF,0x06,0x78,0x01};
+
+  RequestPTZControlReturnStruct(const RequestPTZControlReturnStruct&);
+  RequestPTZControlReturnStruct& operator=(const RequestPTZControlReturnStruct&);
+  RequestPTZControlReturnStruct() : hPTZ(0), result(0), userName() {
+  }
+
+  virtual ~RequestPTZControlReturnStruct() throw();
+  int64_t hPTZ;
+  int64_t result;
+  std::string userName;
+
+  _RequestPTZControlReturnStruct__isset __isset;
+
+  void __set_hPTZ(const int64_t val);
+
+  void __set_result(const int64_t val);
+
+  void __set_userName(const std::string& val);
+
+  bool operator == (const RequestPTZControlReturnStruct & rhs) const
+  {
+    if (!(hPTZ == rhs.hPTZ))
+      return false;
+    if (!(result == rhs.result))
+      return false;
+    if (!(userName == rhs.userName))
+      return false;
+    return true;
+  }
+  bool operator != (const RequestPTZControlReturnStruct &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const RequestPTZControlReturnStruct & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const RequestPTZControlReturnStruct& obj);
+};
+
+void swap(RequestPTZControlReturnStruct &a, RequestPTZControlReturnStruct &b);
 
 } // namespace
 

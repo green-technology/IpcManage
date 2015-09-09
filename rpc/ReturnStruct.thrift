@@ -26,3 +26,10 @@ struct ApplyPTZControlReturnStruct
     2:i64 result;
     3:string userName;//抢占用户
 }
+
+struct RequestPTZControlReturnStruct
+{
+    1:i64 hPTZ;
+    2:i64 result;
+    3:string userName;//失败时,返回正在使用用户的名字
+}

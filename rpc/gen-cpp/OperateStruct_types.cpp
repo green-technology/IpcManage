@@ -366,4 +366,94 @@ std::ostream& operator<<(std::ostream& out, const ApplyPTZControlDataPacket& obj
   return out;
 }
 
+
+RequestPTZControlDataPacket::~RequestPTZControlDataPacket() throw() {
+}
+
+
+void RequestPTZControlDataPacket::__set_hResource(const int64_t val) {
+  this->hResource = val;
+}
+
+const char* RequestPTZControlDataPacket::ascii_fingerprint = "56A59CE7FFAF82BCA8A19FAACDE4FB75";
+const uint8_t RequestPTZControlDataPacket::binary_fingerprint[16] = {0x56,0xA5,0x9C,0xE7,0xFF,0xAF,0x82,0xBC,0xA8,0xA1,0x9F,0xAA,0xCD,0xE4,0xFB,0x75};
+
+uint32_t RequestPTZControlDataPacket::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->hResource);
+          this->__isset.hResource = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t RequestPTZControlDataPacket::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  oprot->incrementRecursionDepth();
+  xfer += oprot->writeStructBegin("RequestPTZControlDataPacket");
+
+  xfer += oprot->writeFieldBegin("hResource", ::apache::thrift::protocol::T_I64, 1);
+  xfer += oprot->writeI64(this->hResource);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  oprot->decrementRecursionDepth();
+  return xfer;
+}
+
+void swap(RequestPTZControlDataPacket &a, RequestPTZControlDataPacket &b) {
+  using ::std::swap;
+  swap(a.hResource, b.hResource);
+  swap(a.__isset, b.__isset);
+}
+
+RequestPTZControlDataPacket::RequestPTZControlDataPacket(const RequestPTZControlDataPacket& other6) {
+  hResource = other6.hResource;
+  __isset = other6.__isset;
+}
+RequestPTZControlDataPacket& RequestPTZControlDataPacket::operator=(const RequestPTZControlDataPacket& other7) {
+  hResource = other7.hResource;
+  __isset = other7.__isset;
+  return *this;
+}
+std::ostream& operator<<(std::ostream& out, const RequestPTZControlDataPacket& obj) {
+  using apache::thrift::to_string;
+  out << "RequestPTZControlDataPacket(";
+  out << "hResource=" << to_string(obj.hResource);
+  out << ")";
+  return out;
+}
+
 } // namespace

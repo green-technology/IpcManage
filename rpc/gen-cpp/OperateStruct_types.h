@@ -25,6 +25,8 @@ class PlayVideoDataPacket;
 
 class ApplyPTZControlDataPacket;
 
+class RequestPTZControlDataPacket;
+
 
 class UserVerificationDataPacket {
  public:
@@ -170,6 +172,49 @@ class ApplyPTZControlDataPacket {
 };
 
 void swap(ApplyPTZControlDataPacket &a, ApplyPTZControlDataPacket &b);
+
+typedef struct _RequestPTZControlDataPacket__isset {
+  _RequestPTZControlDataPacket__isset() : hResource(false) {}
+  bool hResource :1;
+} _RequestPTZControlDataPacket__isset;
+
+class RequestPTZControlDataPacket {
+ public:
+
+  static const char* ascii_fingerprint; // = "56A59CE7FFAF82BCA8A19FAACDE4FB75";
+  static const uint8_t binary_fingerprint[16]; // = {0x56,0xA5,0x9C,0xE7,0xFF,0xAF,0x82,0xBC,0xA8,0xA1,0x9F,0xAA,0xCD,0xE4,0xFB,0x75};
+
+  RequestPTZControlDataPacket(const RequestPTZControlDataPacket&);
+  RequestPTZControlDataPacket& operator=(const RequestPTZControlDataPacket&);
+  RequestPTZControlDataPacket() : hResource(0) {
+  }
+
+  virtual ~RequestPTZControlDataPacket() throw();
+  int64_t hResource;
+
+  _RequestPTZControlDataPacket__isset __isset;
+
+  void __set_hResource(const int64_t val);
+
+  bool operator == (const RequestPTZControlDataPacket & rhs) const
+  {
+    if (!(hResource == rhs.hResource))
+      return false;
+    return true;
+  }
+  bool operator != (const RequestPTZControlDataPacket &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const RequestPTZControlDataPacket & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const RequestPTZControlDataPacket& obj);
+};
+
+void swap(RequestPTZControlDataPacket &a, RequestPTZControlDataPacket &b);
 
 } // namespace
 
