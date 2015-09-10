@@ -6,7 +6,8 @@
 *.pdb
 *.sdf
 *.suo
-*/debug/*
+*.opensdf
+*/Debug/*
 */ipch/*
 
 # Precompiled Headers
