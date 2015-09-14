@@ -66,8 +66,13 @@ namespace ipcTools
 		LONG connectDVR(const char *ipc);
 		BOOL	PTZControl(const PTZCommandDataPacket &commad);
 
+
 	private:
 		ConnectManager() {};
+
+		BOOL initClient();
+		BOOL initClientDH();
+		BOOL initClientHC();
 
 		LONG connectHCDVR(char *sDVRIP, WORD wDVRPort, char *sUserName, char *sPassword);
 		LONG connectDHDVR(char *sDVRIP, WORD wDVRPort, char *sUserName, char *sPassword);

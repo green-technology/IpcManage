@@ -93,7 +93,7 @@ void IpcManageServerHandler::RequestPTZControl( ::ipcms::RequestPTZControlReturn
 	else
 	{
 		map<LONG, string>::iterator iterUser = m_PTZUserList.find(hPTZ);
-		if (iterUser == m_PTZUserList.end())
+		if (iterUser != m_PTZUserList.end())
 		{
 			_return.hPTZ = NULL;
 			_return.result = FALSE;

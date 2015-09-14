@@ -8,8 +8,10 @@ namespace ipcTools
 	{
 		static ConnectManager* instance = NULL;
 		if(!instance)
+		{
 			instance = new ConnectManager();
-
+			instance->initClient();
+		}
 		assert(instance);
 
 		return instance;
@@ -20,11 +22,18 @@ namespace ipcTools
 		//通过描述ipc查找对应DVRInfo
 		ConnectInfo DVRInfo;
 #ifdef _DEBUG
-		DVRInfo.type = DeviceType::DeviceTypeHC;
-		strcpy_s(DVRInfo.ip, "14.23.115.10");
+		//DVRInfo.type = DeviceType::DeviceTypeHC;
+		//strcpy_s(DVRInfo.ip, "14.23.115.10");
+		//DVRInfo.userName = "admin";
+		//DVRInfo.password = "12345";
+		//DVRInfo.port = 8000;
+		//DVRInfo.channel = 0;
+		
+		DVRInfo.type = DeviceType::DeviceTypeDH;
+		strcpy_s(DVRInfo.ip, "183.234.10.62");
 		DVRInfo.userName = "admin";
-		DVRInfo.password = "12345";
-		DVRInfo.port = 8000;
+		DVRInfo.password = "admin";
+		DVRInfo.port = 37779;
 		DVRInfo.channel = 0;
 #endif
 		map<ConnectInfo, LONG>::iterator iter = m_ConnectList.find(DVRInfo);
@@ -87,6 +96,13 @@ namespace ipcTools
 				break;
 		}
 		return FALSE;
+	}
+
+	BOOL ConnectManager::initClient()
+	{
+		BOOL ret = initClientHC();
+		ret = initClientDH() && ret;
+		return ret;
 	}
 
 }

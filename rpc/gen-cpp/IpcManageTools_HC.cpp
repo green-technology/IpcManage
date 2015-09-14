@@ -1,8 +1,27 @@
 #include "IpcManageTools.h"
 #include "hc\HCNetSDK.h"
 
+void CALLBACK exceptionCallBack(DWORD dwType, LONG lUserID, LONG lHandle, void *pUser)
+{
+	LOG("\n########海康SDK连接中断########\n");
+	LOG("\n########SDK连接中断########\n");
+}
+
 namespace ipcTools
 {
+	BOOL ConnectManager::initClientHC()
+	{
+		if(!NET_DVR_Init())
+			return FALSE;
+		if(!NET_DVR_SetConnectTime(2000, 1))
+			return FALSE;
+		if(!NET_DVR_SetReconnect(10000, true))
+			return FALSE;
+		if(!NET_DVR_SetExceptionCallBack_V30( WM_NULL, NULL, exceptionCallBack, NULL ))
+			return FALSE;
+		return TRUE;
+	}
+
 	LONG ConnectManager::connectHCDVR(char *sDVRIP, WORD wDVRPort, char *sUserName, char *sPassword)
 	{
 		NET_DVR_DEVICEINFO_V30 info;

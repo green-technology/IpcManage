@@ -2,8 +2,21 @@
 #include <Windows.h>
 #include "dh\dhnetsdk.h"
 
+void CALLBACK DisConnectCallBack(LONG lLoginID, char *pchDVRIP, LONG nDVRPort, DWORD dwUser)
+{
+	LOG("\n########大华SDK连接中断########\n");
+	LOG(pchDVRIP);
+	LOG("\n########SDK连接中断########\n");
+}
+
 namespace ipcTools
 {
+	BOOL ConnectManager::initClientDH()
+	{
+		BOOL ret = CLIENT_Init(DisConnectCallBack, NULL);
+		return ret;
+	}
+
 	LONG ConnectManager::connectDHDVR(char *sDVRIP, WORD wDVRPort, char *sUserName, char *sPassword)
 	{
 		int err = 0;

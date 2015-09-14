@@ -51,8 +51,30 @@ int main() {
 			RequestPTZControlDataPacket rqPTZ;
 			rqPTZ.hResource = resList[0].hResource;
 			ipcClient.RequestPTZControl(ptz, data, rqPTZ);
-
 			std::cout<<ptz.result<< endl;
+
+			PTZControlDataPacket cmd;
+			cmd.hPTZ = ptz.hPTZ;
+			cmd.command = PTZCommand::PTZ_ZOOM_ADD;
+			cmd.param1 = 0;
+			cmd.param2 = 0;
+			cmd.param3 = 0;
+			cmd.dwStop = false;
+			PTZControlReturnStruct rtn_cmd;
+			ipcClient.PTZControl(rtn_cmd, data, cmd);
+
+			std::cout<<rtn_cmd.result<<"press to continue."<< endl;
+			char e;
+			std::cin>>e;
+
+			cmd.command = PTZCommand::PTZ_ZOOM_DEC;
+			cmd.param1 = 0;
+			cmd.param2 = 0;
+			cmd.param3 = 0;
+			cmd.dwStop = true;
+			PTZControlReturnStruct rtn_cmd1;
+			ipcClient.PTZControl(rtn_cmd1, data, cmd);
+			std::cout<<rtn_cmd1.result<< endl;
 		} catch (...) {
 			std::cout << "InvalidOperation: " << std::endl;
 			// or using generated operator<<: cout << io << endl;
