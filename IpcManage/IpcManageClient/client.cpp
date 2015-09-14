@@ -28,10 +28,31 @@ int main() {
 			UserLoginReturnStruct stulogin;
 			std::string name = "test";
 			ipcClient.UserLogin(stulogin,name);
-			std::cout << "Whoa? We can divide by zero!" << std::endl;
+			if (stulogin.ErrorNum != TRUE)
+			{
+				std::cout <<"LOGIN:" << name<<" return: " << stulogin.ErrorNum << endl;
+				goto finish;
+			} 
 			std::cout <<"SessionId:" << stulogin.SessionID <<" userid: " << stulogin.UserID << endl;
 
-			std::cout <<"hahahha"<< std::endl;
+			std::vector<ResourceInfoReturnStruct> resList;
+			UserVerificationDataPacket data;
+			data.UserID = stulogin.UserID;
+			data.SessionID = stulogin.SessionID;
+			ipcClient.GetResInfoList(resList, data, ResourceType::ResourceTypeIPC);
+			
+			std::cout<< resList.size()<<endl;
+			if (resList.size() == 0)
+			{
+				goto finish;
+			}
+
+			RequestPTZControlReturnStruct ptz;
+			RequestPTZControlDataPacket rqPTZ;
+			rqPTZ.hResource = resList[0].hResource;
+			ipcClient.RequestPTZControl(ptz, data, rqPTZ);
+
+			std::cout<<ptz.result<< endl;
 		} catch (...) {
 			std::cout << "InvalidOperation: " << std::endl;
 			// or using generated operator<<: cout << io << endl;
@@ -41,4 +62,9 @@ int main() {
 	} catch (TException& tx) {
 		std::cout << "ERROR: " << tx.what() << std::endl;
 	}
+
+finish:
+	std::cout<<"client login out"<< endl;
+	char e;
+	std::cin>>e;
 }

@@ -229,7 +229,9 @@ uint32_t IpcManageServer_GetResInfoList_args::read(::apache::thrift::protocol::T
         break;
       case 2:
         if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->resType);
+          int32_t ecast0;
+          xfer += iprot->readI32(ecast0);
+          this->resType = ( ::ipcms::ResourceType::type)ecast0;
           this->__isset.resType = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -257,7 +259,7 @@ uint32_t IpcManageServer_GetResInfoList_args::write(::apache::thrift::protocol::
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("resType", ::apache::thrift::protocol::T_I32, 2);
-  xfer += oprot->writeI32(this->resType);
+  xfer += oprot->writeI32((int32_t)this->resType);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -281,7 +283,7 @@ uint32_t IpcManageServer_GetResInfoList_pargs::write(::apache::thrift::protocol:
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("resType", ::apache::thrift::protocol::T_I32, 2);
-  xfer += oprot->writeI32((*(this->resType)));
+  xfer += oprot->writeI32((int32_t)(*(this->resType)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -319,14 +321,14 @@ uint32_t IpcManageServer_GetResInfoList_result::read(::apache::thrift::protocol:
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->success.clear();
-            uint32_t _size0;
-            ::apache::thrift::protocol::TType _etype3;
-            xfer += iprot->readListBegin(_etype3, _size0);
-            this->success.resize(_size0);
-            uint32_t _i4;
-            for (_i4 = 0; _i4 < _size0; ++_i4)
+            uint32_t _size1;
+            ::apache::thrift::protocol::TType _etype4;
+            xfer += iprot->readListBegin(_etype4, _size1);
+            this->success.resize(_size1);
+            uint32_t _i5;
+            for (_i5 = 0; _i5 < _size1; ++_i5)
             {
-              xfer += this->success[_i4].read(iprot);
+              xfer += this->success[_i5].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -357,10 +359,10 @@ uint32_t IpcManageServer_GetResInfoList_result::write(::apache::thrift::protocol
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_LIST, 0);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->success.size()));
-      std::vector< ::ipcms::ResourceInfoReturnStruct> ::const_iterator _iter5;
-      for (_iter5 = this->success.begin(); _iter5 != this->success.end(); ++_iter5)
+      std::vector< ::ipcms::ResourceInfoReturnStruct> ::const_iterator _iter6;
+      for (_iter6 = this->success.begin(); _iter6 != this->success.end(); ++_iter6)
       {
-        xfer += (*_iter5).write(oprot);
+        xfer += (*_iter6).write(oprot);
       }
       xfer += oprot->writeListEnd();
     }
@@ -400,14 +402,14 @@ uint32_t IpcManageServer_GetResInfoList_presult::read(::apache::thrift::protocol
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             (*(this->success)).clear();
-            uint32_t _size6;
-            ::apache::thrift::protocol::TType _etype9;
-            xfer += iprot->readListBegin(_etype9, _size6);
-            (*(this->success)).resize(_size6);
-            uint32_t _i10;
-            for (_i10 = 0; _i10 < _size6; ++_i10)
+            uint32_t _size7;
+            ::apache::thrift::protocol::TType _etype10;
+            xfer += iprot->readListBegin(_etype10, _size7);
+            (*(this->success)).resize(_size7);
+            uint32_t _i11;
+            for (_i11 = 0; _i11 < _size7; ++_i11)
             {
-              xfer += (*(this->success))[_i10].read(iprot);
+              xfer += (*(this->success))[_i11].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -631,208 +633,6 @@ uint32_t IpcManageServer_PlayVideo_presult::read(::apache::thrift::protocol::TPr
 }
 
 
-IpcManageServer_ApplyPTZControl_args::~IpcManageServer_ApplyPTZControl_args() throw() {
-}
-
-
-uint32_t IpcManageServer_ApplyPTZControl_args::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
-          xfer += this->userVerify.read(iprot);
-          this->__isset.userVerify = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 2:
-        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
-          xfer += this->applyPtz.read(iprot);
-          this->__isset.applyPtz = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t IpcManageServer_ApplyPTZControl_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  oprot->incrementRecursionDepth();
-  xfer += oprot->writeStructBegin("IpcManageServer_ApplyPTZControl_args");
-
-  xfer += oprot->writeFieldBegin("userVerify", ::apache::thrift::protocol::T_STRUCT, 1);
-  xfer += this->userVerify.write(oprot);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("applyPtz", ::apache::thrift::protocol::T_STRUCT, 2);
-  xfer += this->applyPtz.write(oprot);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  oprot->decrementRecursionDepth();
-  return xfer;
-}
-
-
-IpcManageServer_ApplyPTZControl_pargs::~IpcManageServer_ApplyPTZControl_pargs() throw() {
-}
-
-
-uint32_t IpcManageServer_ApplyPTZControl_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  oprot->incrementRecursionDepth();
-  xfer += oprot->writeStructBegin("IpcManageServer_ApplyPTZControl_pargs");
-
-  xfer += oprot->writeFieldBegin("userVerify", ::apache::thrift::protocol::T_STRUCT, 1);
-  xfer += (*(this->userVerify)).write(oprot);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("applyPtz", ::apache::thrift::protocol::T_STRUCT, 2);
-  xfer += (*(this->applyPtz)).write(oprot);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  oprot->decrementRecursionDepth();
-  return xfer;
-}
-
-
-IpcManageServer_ApplyPTZControl_result::~IpcManageServer_ApplyPTZControl_result() throw() {
-}
-
-
-uint32_t IpcManageServer_ApplyPTZControl_result::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 0:
-        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
-          xfer += this->success.read(iprot);
-          this->__isset.success = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t IpcManageServer_ApplyPTZControl_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
-
-  uint32_t xfer = 0;
-
-  xfer += oprot->writeStructBegin("IpcManageServer_ApplyPTZControl_result");
-
-  if (this->__isset.success) {
-    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRUCT, 0);
-    xfer += this->success.write(oprot);
-    xfer += oprot->writeFieldEnd();
-  }
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-
-IpcManageServer_ApplyPTZControl_presult::~IpcManageServer_ApplyPTZControl_presult() throw() {
-}
-
-
-uint32_t IpcManageServer_ApplyPTZControl_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 0:
-        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
-          xfer += (*(this->success)).read(iprot);
-          this->__isset.success = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-
 IpcManageServer_RequestPTZControl_args::~IpcManageServer_RequestPTZControl_args() throw() {
 }
 
@@ -995,6 +795,208 @@ IpcManageServer_RequestPTZControl_presult::~IpcManageServer_RequestPTZControl_pr
 
 
 uint32_t IpcManageServer_RequestPTZControl_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += (*(this->success)).read(iprot);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+IpcManageServer_PTZControl_args::~IpcManageServer_PTZControl_args() throw() {
+}
+
+
+uint32_t IpcManageServer_PTZControl_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->userVerify.read(iprot);
+          this->__isset.userVerify = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->command.read(iprot);
+          this->__isset.command = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t IpcManageServer_PTZControl_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  oprot->incrementRecursionDepth();
+  xfer += oprot->writeStructBegin("IpcManageServer_PTZControl_args");
+
+  xfer += oprot->writeFieldBegin("userVerify", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += this->userVerify.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("command", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += this->command.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  oprot->decrementRecursionDepth();
+  return xfer;
+}
+
+
+IpcManageServer_PTZControl_pargs::~IpcManageServer_PTZControl_pargs() throw() {
+}
+
+
+uint32_t IpcManageServer_PTZControl_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  oprot->incrementRecursionDepth();
+  xfer += oprot->writeStructBegin("IpcManageServer_PTZControl_pargs");
+
+  xfer += oprot->writeFieldBegin("userVerify", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += (*(this->userVerify)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("command", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += (*(this->command)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  oprot->decrementRecursionDepth();
+  return xfer;
+}
+
+
+IpcManageServer_PTZControl_result::~IpcManageServer_PTZControl_result() throw() {
+}
+
+
+uint32_t IpcManageServer_PTZControl_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->success.read(iprot);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t IpcManageServer_PTZControl_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("IpcManageServer_PTZControl_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRUCT, 0);
+    xfer += this->success.write(oprot);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+IpcManageServer_PTZControl_presult::~IpcManageServer_PTZControl_presult() throw() {
+}
+
+
+uint32_t IpcManageServer_PTZControl_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
   std::string fname;
@@ -1278,13 +1280,13 @@ void IpcManageServerClient::recv_UserLogin( ::ipcms::UserLoginReturnStruct& _ret
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "UserLogin failed: unknown result");
 }
 
-void IpcManageServerClient::GetResInfoList(std::vector< ::ipcms::ResourceInfoReturnStruct> & _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const int32_t resType)
+void IpcManageServerClient::GetResInfoList(std::vector< ::ipcms::ResourceInfoReturnStruct> & _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::ResourceType::type resType)
 {
   send_GetResInfoList(userVerify, resType);
   recv_GetResInfoList(_return);
 }
 
-void IpcManageServerClient::send_GetResInfoList(const  ::ipcms::UserVerificationDataPacket& userVerify, const int32_t resType)
+void IpcManageServerClient::send_GetResInfoList(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::ResourceType::type resType)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("GetResInfoList", ::apache::thrift::protocol::T_CALL, cseqid);
@@ -1396,65 +1398,6 @@ int8_t IpcManageServerClient::recv_PlayVideo()
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "PlayVideo failed: unknown result");
 }
 
-void IpcManageServerClient::ApplyPTZControl( ::ipcms::ApplyPTZControlReturnStruct& _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::ApplyPTZControlDataPacket& applyPtz)
-{
-  send_ApplyPTZControl(userVerify, applyPtz);
-  recv_ApplyPTZControl(_return);
-}
-
-void IpcManageServerClient::send_ApplyPTZControl(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::ApplyPTZControlDataPacket& applyPtz)
-{
-  int32_t cseqid = 0;
-  oprot_->writeMessageBegin("ApplyPTZControl", ::apache::thrift::protocol::T_CALL, cseqid);
-
-  IpcManageServer_ApplyPTZControl_pargs args;
-  args.userVerify = &userVerify;
-  args.applyPtz = &applyPtz;
-  args.write(oprot_);
-
-  oprot_->writeMessageEnd();
-  oprot_->getTransport()->writeEnd();
-  oprot_->getTransport()->flush();
-}
-
-void IpcManageServerClient::recv_ApplyPTZControl( ::ipcms::ApplyPTZControlReturnStruct& _return)
-{
-
-  int32_t rseqid = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TMessageType mtype;
-
-  iprot_->readMessageBegin(fname, mtype, rseqid);
-  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-    ::apache::thrift::TApplicationException x;
-    x.read(iprot_);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-    throw x;
-  }
-  if (mtype != ::apache::thrift::protocol::T_REPLY) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  if (fname.compare("ApplyPTZControl") != 0) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  IpcManageServer_ApplyPTZControl_presult result;
-  result.success = &_return;
-  result.read(iprot_);
-  iprot_->readMessageEnd();
-  iprot_->getTransport()->readEnd();
-
-  if (result.__isset.success) {
-    // _return pointer has now been filled
-    return;
-  }
-  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "ApplyPTZControl failed: unknown result");
-}
-
 void IpcManageServerClient::RequestPTZControl( ::ipcms::RequestPTZControlReturnStruct& _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::RequestPTZControlDataPacket& requestPTZ)
 {
   send_RequestPTZControl(userVerify, requestPTZ);
@@ -1512,6 +1455,65 @@ void IpcManageServerClient::recv_RequestPTZControl( ::ipcms::RequestPTZControlRe
     return;
   }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "RequestPTZControl failed: unknown result");
+}
+
+void IpcManageServerClient::PTZControl( ::ipcms::PTZControlReturnStruct& _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::PTZControlDataPacket& command)
+{
+  send_PTZControl(userVerify, command);
+  recv_PTZControl(_return);
+}
+
+void IpcManageServerClient::send_PTZControl(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::PTZControlDataPacket& command)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("PTZControl", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  IpcManageServer_PTZControl_pargs args;
+  args.userVerify = &userVerify;
+  args.command = &command;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void IpcManageServerClient::recv_PTZControl( ::ipcms::PTZControlReturnStruct& _return)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("PTZControl") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  IpcManageServer_PTZControl_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    // _return pointer has now been filled
+    return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "PTZControl failed: unknown result");
 }
 
 bool IpcManageServerClient::UserLogout(const  ::ipcms::UserVerificationDataPacket& userVerify)
@@ -1753,60 +1755,6 @@ void IpcManageServerProcessor::process_PlayVideo(int32_t seqid, ::apache::thrift
   }
 }
 
-void IpcManageServerProcessor::process_ApplyPTZControl(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
-{
-  void* ctx = NULL;
-  if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("IpcManageServer.ApplyPTZControl", callContext);
-  }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "IpcManageServer.ApplyPTZControl");
-
-  if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "IpcManageServer.ApplyPTZControl");
-  }
-
-  IpcManageServer_ApplyPTZControl_args args;
-  args.read(iprot);
-  iprot->readMessageEnd();
-  uint32_t bytes = iprot->getTransport()->readEnd();
-
-  if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "IpcManageServer.ApplyPTZControl", bytes);
-  }
-
-  IpcManageServer_ApplyPTZControl_result result;
-  try {
-    iface_->ApplyPTZControl(result.success, args.userVerify, args.applyPtz);
-    result.__isset.success = true;
-  } catch (const std::exception& e) {
-    if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "IpcManageServer.ApplyPTZControl");
-    }
-
-    ::apache::thrift::TApplicationException x(e.what());
-    oprot->writeMessageBegin("ApplyPTZControl", ::apache::thrift::protocol::T_EXCEPTION, seqid);
-    x.write(oprot);
-    oprot->writeMessageEnd();
-    oprot->getTransport()->writeEnd();
-    oprot->getTransport()->flush();
-    return;
-  }
-
-  if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "IpcManageServer.ApplyPTZControl");
-  }
-
-  oprot->writeMessageBegin("ApplyPTZControl", ::apache::thrift::protocol::T_REPLY, seqid);
-  result.write(oprot);
-  oprot->writeMessageEnd();
-  bytes = oprot->getTransport()->writeEnd();
-  oprot->getTransport()->flush();
-
-  if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "IpcManageServer.ApplyPTZControl", bytes);
-  }
-}
-
 void IpcManageServerProcessor::process_RequestPTZControl(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
@@ -1858,6 +1806,60 @@ void IpcManageServerProcessor::process_RequestPTZControl(int32_t seqid, ::apache
 
   if (this->eventHandler_.get() != NULL) {
     this->eventHandler_->postWrite(ctx, "IpcManageServer.RequestPTZControl", bytes);
+  }
+}
+
+void IpcManageServerProcessor::process_PTZControl(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (this->eventHandler_.get() != NULL) {
+    ctx = this->eventHandler_->getContext("IpcManageServer.PTZControl", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "IpcManageServer.PTZControl");
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->preRead(ctx, "IpcManageServer.PTZControl");
+  }
+
+  IpcManageServer_PTZControl_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->postRead(ctx, "IpcManageServer.PTZControl", bytes);
+  }
+
+  IpcManageServer_PTZControl_result result;
+  try {
+    iface_->PTZControl(result.success, args.userVerify, args.command);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != NULL) {
+      this->eventHandler_->handlerError(ctx, "IpcManageServer.PTZControl");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("PTZControl", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->preWrite(ctx, "IpcManageServer.PTZControl");
+  }
+
+  oprot->writeMessageBegin("PTZControl", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->postWrite(ctx, "IpcManageServer.PTZControl", bytes);
   }
 }
 

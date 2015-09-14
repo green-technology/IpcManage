@@ -19,13 +19,45 @@
 
 namespace ipcms {
 
+struct PTZCommand {
+  enum type {
+    PTZ_UP = 0,
+    PTZ_DOWN = 1,
+    PTZ_LEFT = 2,
+    PTZ_RIGHT = 3,
+    PTZ_ZOOM_ADD = 4,
+    PTZ_ZOOM_DEC = 5,
+    PTZ_FOCUS_ADD = 6,
+    PTZ_FOCUS_DEC = 7,
+    PTZ_APERTURE_ADD = 8,
+    PTZ_APERTURE_DEC = 9,
+    PTZ_POINT_MOVE = 10,
+    PTZ_POINT_SET = 11,
+    PTZ_LAMP_OPEN = 12,
+    PTZ_LAMP_CLOSE = 13,
+    PTZ_WIPER_OPEN = 14,
+    PTZ_WIPER_CLOSE = 15,
+    PTZ_THROUGHFOG_OPEN = 16,
+    PTZ_THROUGHFOG_CLOSE = 17,
+    PTZ_DEV_OPEN = 18,
+    PTZ_DEV_CLOSE = 19,
+    PTZ_LEFTUP = 20,
+    PTZ_RIGHTUP = 21,
+    PTZ_LEFTDOWN = 22,
+    PTZ_RIGHTDOWN = 23,
+    PTZ_MAX_COMMAND = 24
+  };
+};
+
+extern const std::map<int, const char*> _PTZCommand_VALUES_TO_NAMES;
+
 class UserVerificationDataPacket;
 
 class PlayVideoDataPacket;
 
-class ApplyPTZControlDataPacket;
-
 class RequestPTZControlDataPacket;
+
+class PTZControlDataPacket;
 
 
 class UserVerificationDataPacket {
@@ -124,55 +156,6 @@ class PlayVideoDataPacket {
 
 void swap(PlayVideoDataPacket &a, PlayVideoDataPacket &b);
 
-typedef struct _ApplyPTZControlDataPacket__isset {
-  _ApplyPTZControlDataPacket__isset() : hPLZ(false), type(false) {}
-  bool hPLZ :1;
-  bool type :1;
-} _ApplyPTZControlDataPacket__isset;
-
-class ApplyPTZControlDataPacket {
- public:
-
-  static const char* ascii_fingerprint; // = "AFAFBCDB9822F9D1AA4E44188E720B47";
-  static const uint8_t binary_fingerprint[16]; // = {0xAF,0xAF,0xBC,0xDB,0x98,0x22,0xF9,0xD1,0xAA,0x4E,0x44,0x18,0x8E,0x72,0x0B,0x47};
-
-  ApplyPTZControlDataPacket(const ApplyPTZControlDataPacket&);
-  ApplyPTZControlDataPacket& operator=(const ApplyPTZControlDataPacket&);
-  ApplyPTZControlDataPacket() : hPLZ(0), type(0) {
-  }
-
-  virtual ~ApplyPTZControlDataPacket() throw();
-  int64_t hPLZ;
-  int32_t type;
-
-  _ApplyPTZControlDataPacket__isset __isset;
-
-  void __set_hPLZ(const int64_t val);
-
-  void __set_type(const int32_t val);
-
-  bool operator == (const ApplyPTZControlDataPacket & rhs) const
-  {
-    if (!(hPLZ == rhs.hPLZ))
-      return false;
-    if (!(type == rhs.type))
-      return false;
-    return true;
-  }
-  bool operator != (const ApplyPTZControlDataPacket &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const ApplyPTZControlDataPacket & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-  friend std::ostream& operator<<(std::ostream& out, const ApplyPTZControlDataPacket& obj);
-};
-
-void swap(ApplyPTZControlDataPacket &a, ApplyPTZControlDataPacket &b);
-
 typedef struct _RequestPTZControlDataPacket__isset {
   _RequestPTZControlDataPacket__isset() : hResource(false) {}
   bool hResource :1;
@@ -215,6 +198,81 @@ class RequestPTZControlDataPacket {
 };
 
 void swap(RequestPTZControlDataPacket &a, RequestPTZControlDataPacket &b);
+
+typedef struct _PTZControlDataPacket__isset {
+  _PTZControlDataPacket__isset() : hPTZ(false), command(false), param1(false), param2(false), param3(false), dwStop(false) {}
+  bool hPTZ :1;
+  bool command :1;
+  bool param1 :1;
+  bool param2 :1;
+  bool param3 :1;
+  bool dwStop :1;
+} _PTZControlDataPacket__isset;
+
+class PTZControlDataPacket {
+ public:
+
+  static const char* ascii_fingerprint; // = "DD286DAE592A0D22FD0D778DC127B125";
+  static const uint8_t binary_fingerprint[16]; // = {0xDD,0x28,0x6D,0xAE,0x59,0x2A,0x0D,0x22,0xFD,0x0D,0x77,0x8D,0xC1,0x27,0xB1,0x25};
+
+  PTZControlDataPacket(const PTZControlDataPacket&);
+  PTZControlDataPacket& operator=(const PTZControlDataPacket&);
+  PTZControlDataPacket() : hPTZ(0), command((PTZCommand::type)0), param1(0), param2(0), param3(0), dwStop(0) {
+  }
+
+  virtual ~PTZControlDataPacket() throw();
+  int64_t hPTZ;
+  PTZCommand::type command;
+  int64_t param1;
+  int64_t param2;
+  int64_t param3;
+  bool dwStop;
+
+  _PTZControlDataPacket__isset __isset;
+
+  void __set_hPTZ(const int64_t val);
+
+  void __set_command(const PTZCommand::type val);
+
+  void __set_param1(const int64_t val);
+
+  void __set_param2(const int64_t val);
+
+  void __set_param3(const int64_t val);
+
+  void __set_dwStop(const bool val);
+
+  bool operator == (const PTZControlDataPacket & rhs) const
+  {
+    if (!(hPTZ == rhs.hPTZ))
+      return false;
+    if (__isset.command != rhs.__isset.command)
+      return false;
+    else if (__isset.command && !(command == rhs.command))
+      return false;
+    if (!(param1 == rhs.param1))
+      return false;
+    if (!(param2 == rhs.param2))
+      return false;
+    if (!(param3 == rhs.param3))
+      return false;
+    if (!(dwStop == rhs.dwStop))
+      return false;
+    return true;
+  }
+  bool operator != (const PTZControlDataPacket &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const PTZControlDataPacket & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const PTZControlDataPacket& obj);
+};
+
+void swap(PTZControlDataPacket &a, PTZControlDataPacket &b);
 
 } // namespace
 

@@ -13,6 +13,30 @@
 
 namespace ipcms {
 
+int _kResourceTypeValues[] = {
+  ResourceType::ResourceTypeALL,
+  ResourceType::ResourceTypeReplay,
+  ResourceType::ResourceTypeIPC
+};
+const char* _kResourceTypeNames[] = {
+  "ResourceTypeALL",
+  "ResourceTypeReplay",
+  "ResourceTypeIPC"
+};
+const std::map<int, const char*> _ResourceType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(3, _kResourceTypeValues, _kResourceTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
+
+int _kPTZControlReturnTypeValues[] = {
+  PTZControlReturnType::PTZControlReturnTypeInvalidHandle,
+  PTZControlReturnType::PTZControlReturnTypeSuccess,
+  PTZControlReturnType::PTZControlReturnTypeError
+};
+const char* _kPTZControlReturnTypeNames[] = {
+  "PTZControlReturnTypeInvalidHandle",
+  "PTZControlReturnTypeSuccess",
+  "PTZControlReturnTypeError"
+};
+const std::map<int, const char*> _PTZControlReturnType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(3, _kPTZControlReturnTypeValues, _kPTZControlReturnTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
+
 
 UserLoginReturnStruct::~UserLoginReturnStruct() throw() {
 }
@@ -148,8 +172,9 @@ ResourceInfoReturnStruct::~ResourceInfoReturnStruct() throw() {
 }
 
 
-void ResourceInfoReturnStruct::__set_length(const int64_t val) {
-  this->length = val;
+void ResourceInfoReturnStruct::__set_resourceType(const ResourceType::type val) {
+  this->resourceType = val;
+__isset.resourceType = true;
 }
 
 void ResourceInfoReturnStruct::__set_hResource(const int64_t val) {
@@ -172,8 +197,8 @@ void ResourceInfoReturnStruct::__set_nameLength(const int64_t val) {
   this->nameLength = val;
 }
 
-const char* ResourceInfoReturnStruct::ascii_fingerprint = "DC7B5F9F55550684275623CB722904E8";
-const uint8_t ResourceInfoReturnStruct::binary_fingerprint[16] = {0xDC,0x7B,0x5F,0x9F,0x55,0x55,0x06,0x84,0x27,0x56,0x23,0xCB,0x72,0x29,0x04,0xE8};
+const char* ResourceInfoReturnStruct::ascii_fingerprint = "AC9C4895E6FDB4C04F2C42875F33A426";
+const uint8_t ResourceInfoReturnStruct::binary_fingerprint[16] = {0xAC,0x9C,0x48,0x95,0xE6,0xFD,0xB4,0xC0,0x4F,0x2C,0x42,0x87,0x5F,0x33,0xA4,0x26};
 
 uint32_t ResourceInfoReturnStruct::read(::apache::thrift::protocol::TProtocol* iprot) {
 
@@ -196,9 +221,11 @@ uint32_t ResourceInfoReturnStruct::read(::apache::thrift::protocol::TProtocol* i
     switch (fid)
     {
       case 1:
-        if (ftype == ::apache::thrift::protocol::T_I64) {
-          xfer += iprot->readI64(this->length);
-          this->__isset.length = true;
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          int32_t ecast2;
+          xfer += iprot->readI32(ecast2);
+          this->resourceType = (ResourceType::type)ecast2;
+          this->__isset.resourceType = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -260,10 +287,11 @@ uint32_t ResourceInfoReturnStruct::write(::apache::thrift::protocol::TProtocol* 
   oprot->incrementRecursionDepth();
   xfer += oprot->writeStructBegin("ResourceInfoReturnStruct");
 
-  xfer += oprot->writeFieldBegin("length", ::apache::thrift::protocol::T_I64, 1);
-  xfer += oprot->writeI64(this->length);
-  xfer += oprot->writeFieldEnd();
-
+  if (this->__isset.resourceType) {
+    xfer += oprot->writeFieldBegin("resourceType", ::apache::thrift::protocol::T_I32, 1);
+    xfer += oprot->writeI32((int32_t)this->resourceType);
+    xfer += oprot->writeFieldEnd();
+  }
   xfer += oprot->writeFieldBegin("hResource", ::apache::thrift::protocol::T_I64, 2);
   xfer += oprot->writeI64(this->hResource);
   xfer += oprot->writeFieldEnd();
@@ -292,7 +320,7 @@ uint32_t ResourceInfoReturnStruct::write(::apache::thrift::protocol::TProtocol* 
 
 void swap(ResourceInfoReturnStruct &a, ResourceInfoReturnStruct &b) {
   using ::std::swap;
-  swap(a.length, b.length);
+  swap(a.resourceType, b.resourceType);
   swap(a.hResource, b.hResource);
   swap(a.hasPLZ, b.hasPLZ);
   swap(a.timeStart, b.timeStart);
@@ -301,164 +329,34 @@ void swap(ResourceInfoReturnStruct &a, ResourceInfoReturnStruct &b) {
   swap(a.__isset, b.__isset);
 }
 
-ResourceInfoReturnStruct::ResourceInfoReturnStruct(const ResourceInfoReturnStruct& other2) {
-  length = other2.length;
-  hResource = other2.hResource;
-  hasPLZ = other2.hasPLZ;
-  timeStart = other2.timeStart;
-  timeEnd = other2.timeEnd;
-  nameLength = other2.nameLength;
-  __isset = other2.__isset;
-}
-ResourceInfoReturnStruct& ResourceInfoReturnStruct::operator=(const ResourceInfoReturnStruct& other3) {
-  length = other3.length;
+ResourceInfoReturnStruct::ResourceInfoReturnStruct(const ResourceInfoReturnStruct& other3) {
+  resourceType = other3.resourceType;
   hResource = other3.hResource;
   hasPLZ = other3.hasPLZ;
   timeStart = other3.timeStart;
   timeEnd = other3.timeEnd;
   nameLength = other3.nameLength;
   __isset = other3.__isset;
+}
+ResourceInfoReturnStruct& ResourceInfoReturnStruct::operator=(const ResourceInfoReturnStruct& other4) {
+  resourceType = other4.resourceType;
+  hResource = other4.hResource;
+  hasPLZ = other4.hasPLZ;
+  timeStart = other4.timeStart;
+  timeEnd = other4.timeEnd;
+  nameLength = other4.nameLength;
+  __isset = other4.__isset;
   return *this;
 }
 std::ostream& operator<<(std::ostream& out, const ResourceInfoReturnStruct& obj) {
   using apache::thrift::to_string;
   out << "ResourceInfoReturnStruct(";
-  out << "length=" << to_string(obj.length);
+  out << "resourceType="; (obj.__isset.resourceType ? (out << to_string(obj.resourceType)) : (out << "<null>"));
   out << ", " << "hResource=" << to_string(obj.hResource);
   out << ", " << "hasPLZ=" << to_string(obj.hasPLZ);
   out << ", " << "timeStart=" << to_string(obj.timeStart);
   out << ", " << "timeEnd=" << to_string(obj.timeEnd);
   out << ", " << "nameLength=" << to_string(obj.nameLength);
-  out << ")";
-  return out;
-}
-
-
-ApplyPTZControlReturnStruct::~ApplyPTZControlReturnStruct() throw() {
-}
-
-
-void ApplyPTZControlReturnStruct::__set_hPLZ(const int64_t val) {
-  this->hPLZ = val;
-}
-
-void ApplyPTZControlReturnStruct::__set_result(const int64_t val) {
-  this->result = val;
-}
-
-void ApplyPTZControlReturnStruct::__set_userName(const std::string& val) {
-  this->userName = val;
-}
-
-const char* ApplyPTZControlReturnStruct::ascii_fingerprint = "6B0CD68886A371B59CE1B9EDCF067801";
-const uint8_t ApplyPTZControlReturnStruct::binary_fingerprint[16] = {0x6B,0x0C,0xD6,0x88,0x86,0xA3,0x71,0xB5,0x9C,0xE1,0xB9,0xED,0xCF,0x06,0x78,0x01};
-
-uint32_t ApplyPTZControlReturnStruct::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_I64) {
-          xfer += iprot->readI64(this->hPLZ);
-          this->__isset.hPLZ = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 2:
-        if (ftype == ::apache::thrift::protocol::T_I64) {
-          xfer += iprot->readI64(this->result);
-          this->__isset.result = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 3:
-        if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->userName);
-          this->__isset.userName = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t ApplyPTZControlReturnStruct::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  oprot->incrementRecursionDepth();
-  xfer += oprot->writeStructBegin("ApplyPTZControlReturnStruct");
-
-  xfer += oprot->writeFieldBegin("hPLZ", ::apache::thrift::protocol::T_I64, 1);
-  xfer += oprot->writeI64(this->hPLZ);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("result", ::apache::thrift::protocol::T_I64, 2);
-  xfer += oprot->writeI64(this->result);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("userName", ::apache::thrift::protocol::T_STRING, 3);
-  xfer += oprot->writeString(this->userName);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  oprot->decrementRecursionDepth();
-  return xfer;
-}
-
-void swap(ApplyPTZControlReturnStruct &a, ApplyPTZControlReturnStruct &b) {
-  using ::std::swap;
-  swap(a.hPLZ, b.hPLZ);
-  swap(a.result, b.result);
-  swap(a.userName, b.userName);
-  swap(a.__isset, b.__isset);
-}
-
-ApplyPTZControlReturnStruct::ApplyPTZControlReturnStruct(const ApplyPTZControlReturnStruct& other4) {
-  hPLZ = other4.hPLZ;
-  result = other4.result;
-  userName = other4.userName;
-  __isset = other4.__isset;
-}
-ApplyPTZControlReturnStruct& ApplyPTZControlReturnStruct::operator=(const ApplyPTZControlReturnStruct& other5) {
-  hPLZ = other5.hPLZ;
-  result = other5.result;
-  userName = other5.userName;
-  __isset = other5.__isset;
-  return *this;
-}
-std::ostream& operator<<(std::ostream& out, const ApplyPTZControlReturnStruct& obj) {
-  using apache::thrift::to_string;
-  out << "ApplyPTZControlReturnStruct(";
-  out << "hPLZ=" << to_string(obj.hPLZ);
-  out << ", " << "result=" << to_string(obj.result);
-  out << ", " << "userName=" << to_string(obj.userName);
   out << ")";
   return out;
 }
@@ -570,17 +468,17 @@ void swap(RequestPTZControlReturnStruct &a, RequestPTZControlReturnStruct &b) {
   swap(a.__isset, b.__isset);
 }
 
-RequestPTZControlReturnStruct::RequestPTZControlReturnStruct(const RequestPTZControlReturnStruct& other6) {
+RequestPTZControlReturnStruct::RequestPTZControlReturnStruct(const RequestPTZControlReturnStruct& other5) {
+  hPTZ = other5.hPTZ;
+  result = other5.result;
+  userName = other5.userName;
+  __isset = other5.__isset;
+}
+RequestPTZControlReturnStruct& RequestPTZControlReturnStruct::operator=(const RequestPTZControlReturnStruct& other6) {
   hPTZ = other6.hPTZ;
   result = other6.result;
   userName = other6.userName;
   __isset = other6.__isset;
-}
-RequestPTZControlReturnStruct& RequestPTZControlReturnStruct::operator=(const RequestPTZControlReturnStruct& other7) {
-  hPTZ = other7.hPTZ;
-  result = other7.result;
-  userName = other7.userName;
-  __isset = other7.__isset;
   return *this;
 }
 std::ostream& operator<<(std::ostream& out, const RequestPTZControlReturnStruct& obj) {
@@ -589,6 +487,100 @@ std::ostream& operator<<(std::ostream& out, const RequestPTZControlReturnStruct&
   out << "hPTZ=" << to_string(obj.hPTZ);
   out << ", " << "result=" << to_string(obj.result);
   out << ", " << "userName=" << to_string(obj.userName);
+  out << ")";
+  return out;
+}
+
+
+PTZControlReturnStruct::~PTZControlReturnStruct() throw() {
+}
+
+
+void PTZControlReturnStruct::__set_result(const PTZControlReturnType::type val) {
+  this->result = val;
+__isset.result = true;
+}
+
+const char* PTZControlReturnStruct::ascii_fingerprint = "8C1740BBF54FD399631A4549952454DB";
+const uint8_t PTZControlReturnStruct::binary_fingerprint[16] = {0x8C,0x17,0x40,0xBB,0xF5,0x4F,0xD3,0x99,0x63,0x1A,0x45,0x49,0x95,0x24,0x54,0xDB};
+
+uint32_t PTZControlReturnStruct::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          int32_t ecast7;
+          xfer += iprot->readI32(ecast7);
+          this->result = (PTZControlReturnType::type)ecast7;
+          this->__isset.result = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t PTZControlReturnStruct::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  oprot->incrementRecursionDepth();
+  xfer += oprot->writeStructBegin("PTZControlReturnStruct");
+
+  if (this->__isset.result) {
+    xfer += oprot->writeFieldBegin("result", ::apache::thrift::protocol::T_I32, 1);
+    xfer += oprot->writeI32((int32_t)this->result);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  oprot->decrementRecursionDepth();
+  return xfer;
+}
+
+void swap(PTZControlReturnStruct &a, PTZControlReturnStruct &b) {
+  using ::std::swap;
+  swap(a.result, b.result);
+  swap(a.__isset, b.__isset);
+}
+
+PTZControlReturnStruct::PTZControlReturnStruct(const PTZControlReturnStruct& other8) {
+  result = other8.result;
+  __isset = other8.__isset;
+}
+PTZControlReturnStruct& PTZControlReturnStruct::operator=(const PTZControlReturnStruct& other9) {
+  result = other9.result;
+  __isset = other9.__isset;
+  return *this;
+}
+std::ostream& operator<<(std::ostream& out, const PTZControlReturnStruct& obj) {
+  using apache::thrift::to_string;
+  out << "PTZControlReturnStruct(";
+  out << "result="; (obj.__isset.result ? (out << to_string(obj.result)) : (out << "<null>"));
   out << ")";
   return out;
 }

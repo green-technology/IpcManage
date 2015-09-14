@@ -86,5 +86,11 @@
     <ClCompile Include="..\..\rpc\gen-cpp\MediaManagerStruct_types.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\rpc\gen-cpp\IpcManageTools_DH.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\rpc\gen-cpp\IpcManageTools_HC.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

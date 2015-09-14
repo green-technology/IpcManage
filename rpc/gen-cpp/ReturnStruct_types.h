@@ -19,13 +19,33 @@
 
 namespace ipcms {
 
+struct ResourceType {
+  enum type {
+    ResourceTypeALL = 0,
+    ResourceTypeReplay = 1,
+    ResourceTypeIPC = 2
+  };
+};
+
+extern const std::map<int, const char*> _ResourceType_VALUES_TO_NAMES;
+
+struct PTZControlReturnType {
+  enum type {
+    PTZControlReturnTypeInvalidHandle = 0,
+    PTZControlReturnTypeSuccess = 1,
+    PTZControlReturnTypeError = 2
+  };
+};
+
+extern const std::map<int, const char*> _PTZControlReturnType_VALUES_TO_NAMES;
+
 class UserLoginReturnStruct;
 
 class ResourceInfoReturnStruct;
 
-class ApplyPTZControlReturnStruct;
-
 class RequestPTZControlReturnStruct;
+
+class PTZControlReturnStruct;
 
 typedef struct _UserLoginReturnStruct__isset {
   _UserLoginReturnStruct__isset() : ErrorNum(false), UserID(false), SessionID(false) {}
@@ -83,8 +103,8 @@ class UserLoginReturnStruct {
 void swap(UserLoginReturnStruct &a, UserLoginReturnStruct &b);
 
 typedef struct _ResourceInfoReturnStruct__isset {
-  _ResourceInfoReturnStruct__isset() : length(false), hResource(false), hasPLZ(false), timeStart(false), timeEnd(false), nameLength(false) {}
-  bool length :1;
+  _ResourceInfoReturnStruct__isset() : resourceType(false), hResource(false), hasPLZ(false), timeStart(false), timeEnd(false), nameLength(false) {}
+  bool resourceType :1;
   bool hResource :1;
   bool hasPLZ :1;
   bool timeStart :1;
@@ -95,16 +115,16 @@ typedef struct _ResourceInfoReturnStruct__isset {
 class ResourceInfoReturnStruct {
  public:
 
-  static const char* ascii_fingerprint; // = "DC7B5F9F55550684275623CB722904E8";
-  static const uint8_t binary_fingerprint[16]; // = {0xDC,0x7B,0x5F,0x9F,0x55,0x55,0x06,0x84,0x27,0x56,0x23,0xCB,0x72,0x29,0x04,0xE8};
+  static const char* ascii_fingerprint; // = "AC9C4895E6FDB4C04F2C42875F33A426";
+  static const uint8_t binary_fingerprint[16]; // = {0xAC,0x9C,0x48,0x95,0xE6,0xFD,0xB4,0xC0,0x4F,0x2C,0x42,0x87,0x5F,0x33,0xA4,0x26};
 
   ResourceInfoReturnStruct(const ResourceInfoReturnStruct&);
   ResourceInfoReturnStruct& operator=(const ResourceInfoReturnStruct&);
-  ResourceInfoReturnStruct() : length(0), hResource(0), hasPLZ(0), timeStart(0), timeEnd(0), nameLength(0) {
+  ResourceInfoReturnStruct() : resourceType((ResourceType::type)0), hResource(0), hasPLZ(0), timeStart(0), timeEnd(0), nameLength(0) {
   }
 
   virtual ~ResourceInfoReturnStruct() throw();
-  int64_t length;
+  ResourceType::type resourceType;
   int64_t hResource;
   bool hasPLZ;
   int64_t timeStart;
@@ -113,7 +133,7 @@ class ResourceInfoReturnStruct {
 
   _ResourceInfoReturnStruct__isset __isset;
 
-  void __set_length(const int64_t val);
+  void __set_resourceType(const ResourceType::type val);
 
   void __set_hResource(const int64_t val);
 
@@ -127,7 +147,9 @@ class ResourceInfoReturnStruct {
 
   bool operator == (const ResourceInfoReturnStruct & rhs) const
   {
-    if (!(length == rhs.length))
+    if (__isset.resourceType != rhs.__isset.resourceType)
+      return false;
+    else if (__isset.resourceType && !(resourceType == rhs.resourceType))
       return false;
     if (!(hResource == rhs.hResource))
       return false;
@@ -154,61 +176,6 @@ class ResourceInfoReturnStruct {
 };
 
 void swap(ResourceInfoReturnStruct &a, ResourceInfoReturnStruct &b);
-
-typedef struct _ApplyPTZControlReturnStruct__isset {
-  _ApplyPTZControlReturnStruct__isset() : hPLZ(false), result(false), userName(false) {}
-  bool hPLZ :1;
-  bool result :1;
-  bool userName :1;
-} _ApplyPTZControlReturnStruct__isset;
-
-class ApplyPTZControlReturnStruct {
- public:
-
-  static const char* ascii_fingerprint; // = "6B0CD68886A371B59CE1B9EDCF067801";
-  static const uint8_t binary_fingerprint[16]; // = {0x6B,0x0C,0xD6,0x88,0x86,0xA3,0x71,0xB5,0x9C,0xE1,0xB9,0xED,0xCF,0x06,0x78,0x01};
-
-  ApplyPTZControlReturnStruct(const ApplyPTZControlReturnStruct&);
-  ApplyPTZControlReturnStruct& operator=(const ApplyPTZControlReturnStruct&);
-  ApplyPTZControlReturnStruct() : hPLZ(0), result(0), userName() {
-  }
-
-  virtual ~ApplyPTZControlReturnStruct() throw();
-  int64_t hPLZ;
-  int64_t result;
-  std::string userName;
-
-  _ApplyPTZControlReturnStruct__isset __isset;
-
-  void __set_hPLZ(const int64_t val);
-
-  void __set_result(const int64_t val);
-
-  void __set_userName(const std::string& val);
-
-  bool operator == (const ApplyPTZControlReturnStruct & rhs) const
-  {
-    if (!(hPLZ == rhs.hPLZ))
-      return false;
-    if (!(result == rhs.result))
-      return false;
-    if (!(userName == rhs.userName))
-      return false;
-    return true;
-  }
-  bool operator != (const ApplyPTZControlReturnStruct &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const ApplyPTZControlReturnStruct & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-  friend std::ostream& operator<<(std::ostream& out, const ApplyPTZControlReturnStruct& obj);
-};
-
-void swap(ApplyPTZControlReturnStruct &a, ApplyPTZControlReturnStruct &b);
 
 typedef struct _RequestPTZControlReturnStruct__isset {
   _RequestPTZControlReturnStruct__isset() : hPTZ(false), result(false), userName(false) {}
@@ -264,6 +231,51 @@ class RequestPTZControlReturnStruct {
 };
 
 void swap(RequestPTZControlReturnStruct &a, RequestPTZControlReturnStruct &b);
+
+typedef struct _PTZControlReturnStruct__isset {
+  _PTZControlReturnStruct__isset() : result(false) {}
+  bool result :1;
+} _PTZControlReturnStruct__isset;
+
+class PTZControlReturnStruct {
+ public:
+
+  static const char* ascii_fingerprint; // = "8C1740BBF54FD399631A4549952454DB";
+  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x17,0x40,0xBB,0xF5,0x4F,0xD3,0x99,0x63,0x1A,0x45,0x49,0x95,0x24,0x54,0xDB};
+
+  PTZControlReturnStruct(const PTZControlReturnStruct&);
+  PTZControlReturnStruct& operator=(const PTZControlReturnStruct&);
+  PTZControlReturnStruct() : result((PTZControlReturnType::type)0) {
+  }
+
+  virtual ~PTZControlReturnStruct() throw();
+  PTZControlReturnType::type result;
+
+  _PTZControlReturnStruct__isset __isset;
+
+  void __set_result(const PTZControlReturnType::type val);
+
+  bool operator == (const PTZControlReturnStruct & rhs) const
+  {
+    if (__isset.result != rhs.__isset.result)
+      return false;
+    else if (__isset.result && !(result == rhs.result))
+      return false;
+    return true;
+  }
+  bool operator != (const PTZControlReturnStruct &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const PTZControlReturnStruct & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const PTZControlReturnStruct& obj);
+};
+
+void swap(PTZControlReturnStruct &a, PTZControlReturnStruct &b);
 
 } // namespace
 

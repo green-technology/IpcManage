@@ -16,10 +16,10 @@ class IpcManageServerIf {
  public:
   virtual ~IpcManageServerIf() {}
   virtual void UserLogin( ::ipcms::UserLoginReturnStruct& _return, const std::string& userName) = 0;
-  virtual void GetResInfoList(std::vector< ::ipcms::ResourceInfoReturnStruct> & _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const int32_t resType) = 0;
+  virtual void GetResInfoList(std::vector< ::ipcms::ResourceInfoReturnStruct> & _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::ResourceType::type resType) = 0;
   virtual int8_t PlayVideo(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::PlayVideoDataPacket& playVideo) = 0;
-  virtual void ApplyPTZControl( ::ipcms::ApplyPTZControlReturnStruct& _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::ApplyPTZControlDataPacket& applyPtz) = 0;
   virtual void RequestPTZControl( ::ipcms::RequestPTZControlReturnStruct& _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::RequestPTZControlDataPacket& requestPTZ) = 0;
+  virtual void PTZControl( ::ipcms::PTZControlReturnStruct& _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::PTZControlDataPacket& command) = 0;
   virtual bool UserLogout(const  ::ipcms::UserVerificationDataPacket& userVerify) = 0;
 };
 
@@ -53,17 +53,17 @@ class IpcManageServerNull : virtual public IpcManageServerIf {
   void UserLogin( ::ipcms::UserLoginReturnStruct& /* _return */, const std::string& /* userName */) {
     return;
   }
-  void GetResInfoList(std::vector< ::ipcms::ResourceInfoReturnStruct> & /* _return */, const  ::ipcms::UserVerificationDataPacket& /* userVerify */, const int32_t /* resType */) {
+  void GetResInfoList(std::vector< ::ipcms::ResourceInfoReturnStruct> & /* _return */, const  ::ipcms::UserVerificationDataPacket& /* userVerify */, const  ::ipcms::ResourceType::type /* resType */) {
     return;
   }
   int8_t PlayVideo(const  ::ipcms::UserVerificationDataPacket& /* userVerify */, const  ::ipcms::PlayVideoDataPacket& /* playVideo */) {
     int8_t _return = 0;
     return _return;
   }
-  void ApplyPTZControl( ::ipcms::ApplyPTZControlReturnStruct& /* _return */, const  ::ipcms::UserVerificationDataPacket& /* userVerify */, const  ::ipcms::ApplyPTZControlDataPacket& /* applyPtz */) {
+  void RequestPTZControl( ::ipcms::RequestPTZControlReturnStruct& /* _return */, const  ::ipcms::UserVerificationDataPacket& /* userVerify */, const  ::ipcms::RequestPTZControlDataPacket& /* requestPTZ */) {
     return;
   }
-  void RequestPTZControl( ::ipcms::RequestPTZControlReturnStruct& /* _return */, const  ::ipcms::UserVerificationDataPacket& /* userVerify */, const  ::ipcms::RequestPTZControlDataPacket& /* requestPTZ */) {
+  void PTZControl( ::ipcms::PTZControlReturnStruct& /* _return */, const  ::ipcms::UserVerificationDataPacket& /* userVerify */, const  ::ipcms::PTZControlDataPacket& /* command */) {
     return;
   }
   bool UserLogout(const  ::ipcms::UserVerificationDataPacket& /* userVerify */) {
@@ -201,23 +201,23 @@ typedef struct _IpcManageServer_GetResInfoList_args__isset {
 class IpcManageServer_GetResInfoList_args {
  public:
 
-  static const char* ascii_fingerprint; // = "535F5EE6FF351D60FEB2716D13BF35BF";
-  static const uint8_t binary_fingerprint[16]; // = {0x53,0x5F,0x5E,0xE6,0xFF,0x35,0x1D,0x60,0xFE,0xB2,0x71,0x6D,0x13,0xBF,0x35,0xBF};
+  static const char* ascii_fingerprint; // = "96624C6E05E36D9504ECD1592045D03B";
+  static const uint8_t binary_fingerprint[16]; // = {0x96,0x62,0x4C,0x6E,0x05,0xE3,0x6D,0x95,0x04,0xEC,0xD1,0x59,0x20,0x45,0xD0,0x3B};
 
   IpcManageServer_GetResInfoList_args(const IpcManageServer_GetResInfoList_args&);
   IpcManageServer_GetResInfoList_args& operator=(const IpcManageServer_GetResInfoList_args&);
-  IpcManageServer_GetResInfoList_args() : resType(0) {
+  IpcManageServer_GetResInfoList_args() : resType(( ::ipcms::ResourceType::type)0) {
   }
 
   virtual ~IpcManageServer_GetResInfoList_args() throw();
    ::ipcms::UserVerificationDataPacket userVerify;
-  int32_t resType;
+   ::ipcms::ResourceType::type resType;
 
   _IpcManageServer_GetResInfoList_args__isset __isset;
 
   void __set_userVerify(const  ::ipcms::UserVerificationDataPacket& val);
 
-  void __set_resType(const int32_t val);
+  void __set_resType(const  ::ipcms::ResourceType::type val);
 
   bool operator == (const IpcManageServer_GetResInfoList_args & rhs) const
   {
@@ -243,13 +243,13 @@ class IpcManageServer_GetResInfoList_args {
 class IpcManageServer_GetResInfoList_pargs {
  public:
 
-  static const char* ascii_fingerprint; // = "535F5EE6FF351D60FEB2716D13BF35BF";
-  static const uint8_t binary_fingerprint[16]; // = {0x53,0x5F,0x5E,0xE6,0xFF,0x35,0x1D,0x60,0xFE,0xB2,0x71,0x6D,0x13,0xBF,0x35,0xBF};
+  static const char* ascii_fingerprint; // = "96624C6E05E36D9504ECD1592045D03B";
+  static const uint8_t binary_fingerprint[16]; // = {0x96,0x62,0x4C,0x6E,0x05,0xE3,0x6D,0x95,0x04,0xEC,0xD1,0x59,0x20,0x45,0xD0,0x3B};
 
 
   virtual ~IpcManageServer_GetResInfoList_pargs() throw();
   const  ::ipcms::UserVerificationDataPacket* userVerify;
-  const int32_t* resType;
+  const  ::ipcms::ResourceType::type* resType;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -264,8 +264,8 @@ typedef struct _IpcManageServer_GetResInfoList_result__isset {
 class IpcManageServer_GetResInfoList_result {
  public:
 
-  static const char* ascii_fingerprint; // = "CDD68E83C3DB562E88001D2B50572D76";
-  static const uint8_t binary_fingerprint[16]; // = {0xCD,0xD6,0x8E,0x83,0xC3,0xDB,0x56,0x2E,0x88,0x00,0x1D,0x2B,0x50,0x57,0x2D,0x76};
+  static const char* ascii_fingerprint; // = "A01D7ABFC58F43366D4B1E0C1009B5F3";
+  static const uint8_t binary_fingerprint[16]; // = {0xA0,0x1D,0x7A,0xBF,0xC5,0x8F,0x43,0x36,0x6D,0x4B,0x1E,0x0C,0x10,0x09,0xB5,0xF3};
 
   IpcManageServer_GetResInfoList_result(const IpcManageServer_GetResInfoList_result&);
   IpcManageServer_GetResInfoList_result& operator=(const IpcManageServer_GetResInfoList_result&);
@@ -305,8 +305,8 @@ typedef struct _IpcManageServer_GetResInfoList_presult__isset {
 class IpcManageServer_GetResInfoList_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "CDD68E83C3DB562E88001D2B50572D76";
-  static const uint8_t binary_fingerprint[16]; // = {0xCD,0xD6,0x8E,0x83,0xC3,0xDB,0x56,0x2E,0x88,0x00,0x1D,0x2B,0x50,0x57,0x2D,0x76};
+  static const char* ascii_fingerprint; // = "A01D7ABFC58F43366D4B1E0C1009B5F3";
+  static const uint8_t binary_fingerprint[16]; // = {0xA0,0x1D,0x7A,0xBF,0xC5,0x8F,0x43,0x36,0x6D,0x4B,0x1E,0x0C,0x10,0x09,0xB5,0xF3};
 
 
   virtual ~IpcManageServer_GetResInfoList_presult() throw();
@@ -446,133 +446,6 @@ class IpcManageServer_PlayVideo_presult {
   friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_PlayVideo_presult& obj);
 };
 
-typedef struct _IpcManageServer_ApplyPTZControl_args__isset {
-  _IpcManageServer_ApplyPTZControl_args__isset() : userVerify(false), applyPtz(false) {}
-  bool userVerify :1;
-  bool applyPtz :1;
-} _IpcManageServer_ApplyPTZControl_args__isset;
-
-class IpcManageServer_ApplyPTZControl_args {
- public:
-
-  static const char* ascii_fingerprint; // = "8AD3D81360F1F5F8BCA4F5E3A275F44E";
-  static const uint8_t binary_fingerprint[16]; // = {0x8A,0xD3,0xD8,0x13,0x60,0xF1,0xF5,0xF8,0xBC,0xA4,0xF5,0xE3,0xA2,0x75,0xF4,0x4E};
-
-  IpcManageServer_ApplyPTZControl_args(const IpcManageServer_ApplyPTZControl_args&);
-  IpcManageServer_ApplyPTZControl_args& operator=(const IpcManageServer_ApplyPTZControl_args&);
-  IpcManageServer_ApplyPTZControl_args() {
-  }
-
-  virtual ~IpcManageServer_ApplyPTZControl_args() throw();
-   ::ipcms::UserVerificationDataPacket userVerify;
-   ::ipcms::ApplyPTZControlDataPacket applyPtz;
-
-  _IpcManageServer_ApplyPTZControl_args__isset __isset;
-
-  void __set_userVerify(const  ::ipcms::UserVerificationDataPacket& val);
-
-  void __set_applyPtz(const  ::ipcms::ApplyPTZControlDataPacket& val);
-
-  bool operator == (const IpcManageServer_ApplyPTZControl_args & rhs) const
-  {
-    if (!(userVerify == rhs.userVerify))
-      return false;
-    if (!(applyPtz == rhs.applyPtz))
-      return false;
-    return true;
-  }
-  bool operator != (const IpcManageServer_ApplyPTZControl_args &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const IpcManageServer_ApplyPTZControl_args & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_ApplyPTZControl_args& obj);
-};
-
-
-class IpcManageServer_ApplyPTZControl_pargs {
- public:
-
-  static const char* ascii_fingerprint; // = "8AD3D81360F1F5F8BCA4F5E3A275F44E";
-  static const uint8_t binary_fingerprint[16]; // = {0x8A,0xD3,0xD8,0x13,0x60,0xF1,0xF5,0xF8,0xBC,0xA4,0xF5,0xE3,0xA2,0x75,0xF4,0x4E};
-
-
-  virtual ~IpcManageServer_ApplyPTZControl_pargs() throw();
-  const  ::ipcms::UserVerificationDataPacket* userVerify;
-  const  ::ipcms::ApplyPTZControlDataPacket* applyPtz;
-
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_ApplyPTZControl_pargs& obj);
-};
-
-typedef struct _IpcManageServer_ApplyPTZControl_result__isset {
-  _IpcManageServer_ApplyPTZControl_result__isset() : success(false) {}
-  bool success :1;
-} _IpcManageServer_ApplyPTZControl_result__isset;
-
-class IpcManageServer_ApplyPTZControl_result {
- public:
-
-  static const char* ascii_fingerprint; // = "930EDC5F32BFCF7D1564DDC00CA79A91";
-  static const uint8_t binary_fingerprint[16]; // = {0x93,0x0E,0xDC,0x5F,0x32,0xBF,0xCF,0x7D,0x15,0x64,0xDD,0xC0,0x0C,0xA7,0x9A,0x91};
-
-  IpcManageServer_ApplyPTZControl_result(const IpcManageServer_ApplyPTZControl_result&);
-  IpcManageServer_ApplyPTZControl_result& operator=(const IpcManageServer_ApplyPTZControl_result&);
-  IpcManageServer_ApplyPTZControl_result() {
-  }
-
-  virtual ~IpcManageServer_ApplyPTZControl_result() throw();
-   ::ipcms::ApplyPTZControlReturnStruct success;
-
-  _IpcManageServer_ApplyPTZControl_result__isset __isset;
-
-  void __set_success(const  ::ipcms::ApplyPTZControlReturnStruct& val);
-
-  bool operator == (const IpcManageServer_ApplyPTZControl_result & rhs) const
-  {
-    if (!(success == rhs.success))
-      return false;
-    return true;
-  }
-  bool operator != (const IpcManageServer_ApplyPTZControl_result &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const IpcManageServer_ApplyPTZControl_result & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_ApplyPTZControl_result& obj);
-};
-
-typedef struct _IpcManageServer_ApplyPTZControl_presult__isset {
-  _IpcManageServer_ApplyPTZControl_presult__isset() : success(false) {}
-  bool success :1;
-} _IpcManageServer_ApplyPTZControl_presult__isset;
-
-class IpcManageServer_ApplyPTZControl_presult {
- public:
-
-  static const char* ascii_fingerprint; // = "930EDC5F32BFCF7D1564DDC00CA79A91";
-  static const uint8_t binary_fingerprint[16]; // = {0x93,0x0E,0xDC,0x5F,0x32,0xBF,0xCF,0x7D,0x15,0x64,0xDD,0xC0,0x0C,0xA7,0x9A,0x91};
-
-
-  virtual ~IpcManageServer_ApplyPTZControl_presult() throw();
-   ::ipcms::ApplyPTZControlReturnStruct* success;
-
-  _IpcManageServer_ApplyPTZControl_presult__isset __isset;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-
-  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_ApplyPTZControl_presult& obj);
-};
-
 typedef struct _IpcManageServer_RequestPTZControl_args__isset {
   _IpcManageServer_RequestPTZControl_args__isset() : userVerify(false), requestPTZ(false) {}
   bool userVerify :1;
@@ -698,6 +571,133 @@ class IpcManageServer_RequestPTZControl_presult {
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
   friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_RequestPTZControl_presult& obj);
+};
+
+typedef struct _IpcManageServer_PTZControl_args__isset {
+  _IpcManageServer_PTZControl_args__isset() : userVerify(false), command(false) {}
+  bool userVerify :1;
+  bool command :1;
+} _IpcManageServer_PTZControl_args__isset;
+
+class IpcManageServer_PTZControl_args {
+ public:
+
+  static const char* ascii_fingerprint; // = "03F28EC4B3362A6B8374A4FDC67D9E33";
+  static const uint8_t binary_fingerprint[16]; // = {0x03,0xF2,0x8E,0xC4,0xB3,0x36,0x2A,0x6B,0x83,0x74,0xA4,0xFD,0xC6,0x7D,0x9E,0x33};
+
+  IpcManageServer_PTZControl_args(const IpcManageServer_PTZControl_args&);
+  IpcManageServer_PTZControl_args& operator=(const IpcManageServer_PTZControl_args&);
+  IpcManageServer_PTZControl_args() {
+  }
+
+  virtual ~IpcManageServer_PTZControl_args() throw();
+   ::ipcms::UserVerificationDataPacket userVerify;
+   ::ipcms::PTZControlDataPacket command;
+
+  _IpcManageServer_PTZControl_args__isset __isset;
+
+  void __set_userVerify(const  ::ipcms::UserVerificationDataPacket& val);
+
+  void __set_command(const  ::ipcms::PTZControlDataPacket& val);
+
+  bool operator == (const IpcManageServer_PTZControl_args & rhs) const
+  {
+    if (!(userVerify == rhs.userVerify))
+      return false;
+    if (!(command == rhs.command))
+      return false;
+    return true;
+  }
+  bool operator != (const IpcManageServer_PTZControl_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const IpcManageServer_PTZControl_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_PTZControl_args& obj);
+};
+
+
+class IpcManageServer_PTZControl_pargs {
+ public:
+
+  static const char* ascii_fingerprint; // = "03F28EC4B3362A6B8374A4FDC67D9E33";
+  static const uint8_t binary_fingerprint[16]; // = {0x03,0xF2,0x8E,0xC4,0xB3,0x36,0x2A,0x6B,0x83,0x74,0xA4,0xFD,0xC6,0x7D,0x9E,0x33};
+
+
+  virtual ~IpcManageServer_PTZControl_pargs() throw();
+  const  ::ipcms::UserVerificationDataPacket* userVerify;
+  const  ::ipcms::PTZControlDataPacket* command;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_PTZControl_pargs& obj);
+};
+
+typedef struct _IpcManageServer_PTZControl_result__isset {
+  _IpcManageServer_PTZControl_result__isset() : success(false) {}
+  bool success :1;
+} _IpcManageServer_PTZControl_result__isset;
+
+class IpcManageServer_PTZControl_result {
+ public:
+
+  static const char* ascii_fingerprint; // = "8A8C184627B0E39FCFFA975E8A67D115";
+  static const uint8_t binary_fingerprint[16]; // = {0x8A,0x8C,0x18,0x46,0x27,0xB0,0xE3,0x9F,0xCF,0xFA,0x97,0x5E,0x8A,0x67,0xD1,0x15};
+
+  IpcManageServer_PTZControl_result(const IpcManageServer_PTZControl_result&);
+  IpcManageServer_PTZControl_result& operator=(const IpcManageServer_PTZControl_result&);
+  IpcManageServer_PTZControl_result() {
+  }
+
+  virtual ~IpcManageServer_PTZControl_result() throw();
+   ::ipcms::PTZControlReturnStruct success;
+
+  _IpcManageServer_PTZControl_result__isset __isset;
+
+  void __set_success(const  ::ipcms::PTZControlReturnStruct& val);
+
+  bool operator == (const IpcManageServer_PTZControl_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const IpcManageServer_PTZControl_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const IpcManageServer_PTZControl_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_PTZControl_result& obj);
+};
+
+typedef struct _IpcManageServer_PTZControl_presult__isset {
+  _IpcManageServer_PTZControl_presult__isset() : success(false) {}
+  bool success :1;
+} _IpcManageServer_PTZControl_presult__isset;
+
+class IpcManageServer_PTZControl_presult {
+ public:
+
+  static const char* ascii_fingerprint; // = "8A8C184627B0E39FCFFA975E8A67D115";
+  static const uint8_t binary_fingerprint[16]; // = {0x8A,0x8C,0x18,0x46,0x27,0xB0,0xE3,0x9F,0xCF,0xFA,0x97,0x5E,0x8A,0x67,0xD1,0x15};
+
+
+  virtual ~IpcManageServer_PTZControl_presult() throw();
+   ::ipcms::PTZControlReturnStruct* success;
+
+  _IpcManageServer_PTZControl_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_PTZControl_presult& obj);
 };
 
 typedef struct _IpcManageServer_UserLogout_args__isset {
@@ -848,18 +848,18 @@ class IpcManageServerClient : virtual public IpcManageServerIf {
   void UserLogin( ::ipcms::UserLoginReturnStruct& _return, const std::string& userName);
   void send_UserLogin(const std::string& userName);
   void recv_UserLogin( ::ipcms::UserLoginReturnStruct& _return);
-  void GetResInfoList(std::vector< ::ipcms::ResourceInfoReturnStruct> & _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const int32_t resType);
-  void send_GetResInfoList(const  ::ipcms::UserVerificationDataPacket& userVerify, const int32_t resType);
+  void GetResInfoList(std::vector< ::ipcms::ResourceInfoReturnStruct> & _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::ResourceType::type resType);
+  void send_GetResInfoList(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::ResourceType::type resType);
   void recv_GetResInfoList(std::vector< ::ipcms::ResourceInfoReturnStruct> & _return);
   int8_t PlayVideo(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::PlayVideoDataPacket& playVideo);
   void send_PlayVideo(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::PlayVideoDataPacket& playVideo);
   int8_t recv_PlayVideo();
-  void ApplyPTZControl( ::ipcms::ApplyPTZControlReturnStruct& _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::ApplyPTZControlDataPacket& applyPtz);
-  void send_ApplyPTZControl(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::ApplyPTZControlDataPacket& applyPtz);
-  void recv_ApplyPTZControl( ::ipcms::ApplyPTZControlReturnStruct& _return);
   void RequestPTZControl( ::ipcms::RequestPTZControlReturnStruct& _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::RequestPTZControlDataPacket& requestPTZ);
   void send_RequestPTZControl(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::RequestPTZControlDataPacket& requestPTZ);
   void recv_RequestPTZControl( ::ipcms::RequestPTZControlReturnStruct& _return);
+  void PTZControl( ::ipcms::PTZControlReturnStruct& _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::PTZControlDataPacket& command);
+  void send_PTZControl(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::PTZControlDataPacket& command);
+  void recv_PTZControl( ::ipcms::PTZControlReturnStruct& _return);
   bool UserLogout(const  ::ipcms::UserVerificationDataPacket& userVerify);
   void send_UserLogout(const  ::ipcms::UserVerificationDataPacket& userVerify);
   bool recv_UserLogout();
@@ -881,8 +881,8 @@ class IpcManageServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_UserLogin(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_GetResInfoList(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_PlayVideo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_ApplyPTZControl(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RequestPTZControl(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_PTZControl(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_UserLogout(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   IpcManageServerProcessor(boost::shared_ptr<IpcManageServerIf> iface) :
@@ -890,8 +890,8 @@ class IpcManageServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["UserLogin"] = &IpcManageServerProcessor::process_UserLogin;
     processMap_["GetResInfoList"] = &IpcManageServerProcessor::process_GetResInfoList;
     processMap_["PlayVideo"] = &IpcManageServerProcessor::process_PlayVideo;
-    processMap_["ApplyPTZControl"] = &IpcManageServerProcessor::process_ApplyPTZControl;
     processMap_["RequestPTZControl"] = &IpcManageServerProcessor::process_RequestPTZControl;
+    processMap_["PTZControl"] = &IpcManageServerProcessor::process_PTZControl;
     processMap_["UserLogout"] = &IpcManageServerProcessor::process_UserLogout;
   }
 
@@ -931,7 +931,7 @@ class IpcManageServerMultiface : virtual public IpcManageServerIf {
     return;
   }
 
-  void GetResInfoList(std::vector< ::ipcms::ResourceInfoReturnStruct> & _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const int32_t resType) {
+  void GetResInfoList(std::vector< ::ipcms::ResourceInfoReturnStruct> & _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::ResourceType::type resType) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
@@ -950,16 +950,6 @@ class IpcManageServerMultiface : virtual public IpcManageServerIf {
     return ifaces_[i]->PlayVideo(userVerify, playVideo);
   }
 
-  void ApplyPTZControl( ::ipcms::ApplyPTZControlReturnStruct& _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::ApplyPTZControlDataPacket& applyPtz) {
-    size_t sz = ifaces_.size();
-    size_t i = 0;
-    for (; i < (sz - 1); ++i) {
-      ifaces_[i]->ApplyPTZControl(_return, userVerify, applyPtz);
-    }
-    ifaces_[i]->ApplyPTZControl(_return, userVerify, applyPtz);
-    return;
-  }
-
   void RequestPTZControl( ::ipcms::RequestPTZControlReturnStruct& _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::RequestPTZControlDataPacket& requestPTZ) {
     size_t sz = ifaces_.size();
     size_t i = 0;
@@ -967,6 +957,16 @@ class IpcManageServerMultiface : virtual public IpcManageServerIf {
       ifaces_[i]->RequestPTZControl(_return, userVerify, requestPTZ);
     }
     ifaces_[i]->RequestPTZControl(_return, userVerify, requestPTZ);
+    return;
+  }
+
+  void PTZControl( ::ipcms::PTZControlReturnStruct& _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::PTZControlDataPacket& command) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->PTZControl(_return, userVerify, command);
+    }
+    ifaces_[i]->PTZControl(_return, userVerify, command);
     return;
   }
 

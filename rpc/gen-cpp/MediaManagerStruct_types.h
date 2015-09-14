@@ -19,13 +19,58 @@
 
 namespace ipcms {
 
+struct DeviceType {
+  enum type {
+    DeviceTypeNone = 0,
+    DeviceTypeHC = 1,
+    DeviceTypeDH = 2
+  };
+};
+
+extern const std::map<int, const char*> _DeviceType_VALUES_TO_NAMES;
+
+struct HIK_PTZ_CommandType {
+  enum type {
+    HIK_LIGHT_PWRON = 2,
+    HIK_WIPER_PWRON = 3,
+    HIK_FAN_PWRON = 4,
+    HIK_HEATER_PWRON = 5,
+    HIK_AUX_PWRON1 = 6,
+    HIK_AUX_PWRON2 = 7,
+    HIK_ZOOM_IN = 11,
+    HIK_ZOOM_OUT = 12,
+    HIK_FOCUS_NEAR = 13,
+    HIK_FOCUS_FAR = 14,
+    HIK_IRIS_OPEN = 15,
+    HIK_IRIS_CLOSE = 16,
+    HIK_TILT_UP = 21,
+    HIK_TILT_DOWN = 22,
+    HIK_PAN_LEFT = 23,
+    HIK_PAN_RIGHT = 24,
+    HIK_UP_LEFT = 25,
+    HIK_UP_RIGHT = 26,
+    HIK_DOWN_LEFT = 27,
+    HIK_DOWN_RIGHT = 28,
+    HIK_PAN_AUTO = 29,
+    HIK_SET_PRESET = 8,
+    HIK_CLE_PRESET = 9,
+    HIK_GOTO_PRESET = 39
+  };
+};
+
+extern const std::map<int, const char*> _HIK_PTZ_CommandType_VALUES_TO_NAMES;
+
 class IPCResourceDataPacket;
 
+class UserLoginInfoDataPacket;
+
+class PTZCommandDataPacket;
+
 typedef struct _IPCResourceDataPacket__isset {
-  _IPCResourceDataPacket__isset() : IP(false), port(false), DeviceType(false), userName(false), password(false), channel(false), hPTZ(false) {}
+  _IPCResourceDataPacket__isset() : IP(false), port(false), deviceType(false), userName(false), password(false), channel(false), hPTZ(false) {}
   bool IP :1;
   bool port :1;
-  bool DeviceType :1;
+  bool deviceType :1;
   bool userName :1;
   bool password :1;
   bool channel :1;
@@ -35,18 +80,18 @@ typedef struct _IPCResourceDataPacket__isset {
 class IPCResourceDataPacket {
  public:
 
-  static const char* ascii_fingerprint; // = "DBBAE5A11D7F952B2D5DB9AC397B711D";
-  static const uint8_t binary_fingerprint[16]; // = {0xDB,0xBA,0xE5,0xA1,0x1D,0x7F,0x95,0x2B,0x2D,0x5D,0xB9,0xAC,0x39,0x7B,0x71,0x1D};
+  static const char* ascii_fingerprint; // = "715B761CDB751E86FA634C369BA79F71";
+  static const uint8_t binary_fingerprint[16]; // = {0x71,0x5B,0x76,0x1C,0xDB,0x75,0x1E,0x86,0xFA,0x63,0x4C,0x36,0x9B,0xA7,0x9F,0x71};
 
   IPCResourceDataPacket(const IPCResourceDataPacket&);
   IPCResourceDataPacket& operator=(const IPCResourceDataPacket&);
-  IPCResourceDataPacket() : IP(), port(0), DeviceType(0), userName(), password(), channel(0), hPTZ(0) {
+  IPCResourceDataPacket() : IP(), port(0), deviceType((DeviceType::type)0), userName(), password(), channel(0), hPTZ(0) {
   }
 
   virtual ~IPCResourceDataPacket() throw();
   std::string IP;
   int64_t port;
-  int64_t DeviceType;
+  DeviceType::type deviceType;
   std::string userName;
   std::string password;
   int64_t channel;
@@ -58,7 +103,7 @@ class IPCResourceDataPacket {
 
   void __set_port(const int64_t val);
 
-  void __set_DeviceType(const int64_t val);
+  void __set_deviceType(const DeviceType::type val);
 
   void __set_userName(const std::string& val);
 
@@ -74,7 +119,9 @@ class IPCResourceDataPacket {
       return false;
     if (!(port == rhs.port))
       return false;
-    if (!(DeviceType == rhs.DeviceType))
+    if (__isset.deviceType != rhs.__isset.deviceType)
+      return false;
+    else if (__isset.deviceType && !(deviceType == rhs.deviceType))
       return false;
     if (!(userName == rhs.userName))
       return false;
@@ -99,6 +146,146 @@ class IPCResourceDataPacket {
 };
 
 void swap(IPCResourceDataPacket &a, IPCResourceDataPacket &b);
+
+typedef struct _UserLoginInfoDataPacket__isset {
+  _UserLoginInfoDataPacket__isset() : hLogin(false), userName(false), UserID(false), SessionID(false) {}
+  bool hLogin :1;
+  bool userName :1;
+  bool UserID :1;
+  bool SessionID :1;
+} _UserLoginInfoDataPacket__isset;
+
+class UserLoginInfoDataPacket {
+ public:
+
+  static const char* ascii_fingerprint; // = "8FE3619AA429E25B23663D48541BA661";
+  static const uint8_t binary_fingerprint[16]; // = {0x8F,0xE3,0x61,0x9A,0xA4,0x29,0xE2,0x5B,0x23,0x66,0x3D,0x48,0x54,0x1B,0xA6,0x61};
+
+  UserLoginInfoDataPacket(const UserLoginInfoDataPacket&);
+  UserLoginInfoDataPacket& operator=(const UserLoginInfoDataPacket&);
+  UserLoginInfoDataPacket() : hLogin(0), userName(), UserID(), SessionID() {
+  }
+
+  virtual ~UserLoginInfoDataPacket() throw();
+  int64_t hLogin;
+  std::string userName;
+  std::string UserID;
+  std::string SessionID;
+
+  _UserLoginInfoDataPacket__isset __isset;
+
+  void __set_hLogin(const int64_t val);
+
+  void __set_userName(const std::string& val);
+
+  void __set_UserID(const std::string& val);
+
+  void __set_SessionID(const std::string& val);
+
+  bool operator == (const UserLoginInfoDataPacket & rhs) const
+  {
+    if (!(hLogin == rhs.hLogin))
+      return false;
+    if (!(userName == rhs.userName))
+      return false;
+    if (!(UserID == rhs.UserID))
+      return false;
+    if (!(SessionID == rhs.SessionID))
+      return false;
+    return true;
+  }
+  bool operator != (const UserLoginInfoDataPacket &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const UserLoginInfoDataPacket & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const UserLoginInfoDataPacket& obj);
+};
+
+void swap(UserLoginInfoDataPacket &a, UserLoginInfoDataPacket &b);
+
+typedef struct _PTZCommandDataPacket__isset {
+  _PTZCommandDataPacket__isset() : hLogin(false), channel(false), command(false), param1(false), param2(false), param3(false), dwStop(false) {}
+  bool hLogin :1;
+  bool channel :1;
+  bool command :1;
+  bool param1 :1;
+  bool param2 :1;
+  bool param3 :1;
+  bool dwStop :1;
+} _PTZCommandDataPacket__isset;
+
+class PTZCommandDataPacket {
+ public:
+
+  static const char* ascii_fingerprint; // = "801176B717A95EFA7A95E978F35737AC";
+  static const uint8_t binary_fingerprint[16]; // = {0x80,0x11,0x76,0xB7,0x17,0xA9,0x5E,0xFA,0x7A,0x95,0xE9,0x78,0xF3,0x57,0x37,0xAC};
+
+  PTZCommandDataPacket(const PTZCommandDataPacket&);
+  PTZCommandDataPacket& operator=(const PTZCommandDataPacket&);
+  PTZCommandDataPacket() : hLogin(0), channel(0), command(0), param1(0), param2(0), param3(0), dwStop(0) {
+  }
+
+  virtual ~PTZCommandDataPacket() throw();
+  int64_t hLogin;
+  int64_t channel;
+  int64_t command;
+  int64_t param1;
+  int64_t param2;
+  int64_t param3;
+  bool dwStop;
+
+  _PTZCommandDataPacket__isset __isset;
+
+  void __set_hLogin(const int64_t val);
+
+  void __set_channel(const int64_t val);
+
+  void __set_command(const int64_t val);
+
+  void __set_param1(const int64_t val);
+
+  void __set_param2(const int64_t val);
+
+  void __set_param3(const int64_t val);
+
+  void __set_dwStop(const bool val);
+
+  bool operator == (const PTZCommandDataPacket & rhs) const
+  {
+    if (!(hLogin == rhs.hLogin))
+      return false;
+    if (!(channel == rhs.channel))
+      return false;
+    if (!(command == rhs.command))
+      return false;
+    if (!(param1 == rhs.param1))
+      return false;
+    if (!(param2 == rhs.param2))
+      return false;
+    if (!(param3 == rhs.param3))
+      return false;
+    if (!(dwStop == rhs.dwStop))
+      return false;
+    return true;
+  }
+  bool operator != (const PTZCommandDataPacket &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const PTZCommandDataPacket & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const PTZCommandDataPacket& obj);
+};
+
+void swap(PTZCommandDataPacket &a, PTZCommandDataPacket &b);
 
 } // namespace
 

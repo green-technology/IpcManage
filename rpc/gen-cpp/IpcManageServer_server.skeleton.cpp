@@ -27,7 +27,7 @@ class IpcManageServerHandler : virtual public IpcManageServerIf {
     printf("UserLogin\n");
   }
 
-  void GetResInfoList(std::vector< ::ipcms::ResourceInfoReturnStruct> & _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const int32_t resType) {
+  void GetResInfoList(std::vector< ::ipcms::ResourceInfoReturnStruct> & _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::ResourceType::type resType) {
     // Your implementation goes here
     printf("GetResInfoList\n");
   }
@@ -37,14 +37,14 @@ class IpcManageServerHandler : virtual public IpcManageServerIf {
     printf("PlayVideo\n");
   }
 
-  void ApplyPTZControl( ::ipcms::ApplyPTZControlReturnStruct& _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::ApplyPTZControlDataPacket& applyPtz) {
-    // Your implementation goes here
-    printf("ApplyPTZControl\n");
-  }
-
   void RequestPTZControl( ::ipcms::RequestPTZControlReturnStruct& _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::RequestPTZControlDataPacket& requestPTZ) {
     // Your implementation goes here
     printf("RequestPTZControl\n");
+  }
+
+  void PTZControl( ::ipcms::PTZControlReturnStruct& _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::PTZControlDataPacket& command) {
+    // Your implementation goes here
+    printf("PTZControl\n");
   }
 
   bool UserLogout(const  ::ipcms::UserVerificationDataPacket& userVerify) {

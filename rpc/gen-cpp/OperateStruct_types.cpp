@@ -13,6 +13,62 @@
 
 namespace ipcms {
 
+int _kPTZCommandValues[] = {
+  PTZCommand::PTZ_UP,
+  PTZCommand::PTZ_DOWN,
+  PTZCommand::PTZ_LEFT,
+  PTZCommand::PTZ_RIGHT,
+  PTZCommand::PTZ_ZOOM_ADD,
+  PTZCommand::PTZ_ZOOM_DEC,
+  PTZCommand::PTZ_FOCUS_ADD,
+  PTZCommand::PTZ_FOCUS_DEC,
+  PTZCommand::PTZ_APERTURE_ADD,
+  PTZCommand::PTZ_APERTURE_DEC,
+  PTZCommand::PTZ_POINT_MOVE,
+  PTZCommand::PTZ_POINT_SET,
+  PTZCommand::PTZ_LAMP_OPEN,
+  PTZCommand::PTZ_LAMP_CLOSE,
+  PTZCommand::PTZ_WIPER_OPEN,
+  PTZCommand::PTZ_WIPER_CLOSE,
+  PTZCommand::PTZ_THROUGHFOG_OPEN,
+  PTZCommand::PTZ_THROUGHFOG_CLOSE,
+  PTZCommand::PTZ_DEV_OPEN,
+  PTZCommand::PTZ_DEV_CLOSE,
+  PTZCommand::PTZ_LEFTUP,
+  PTZCommand::PTZ_RIGHTUP,
+  PTZCommand::PTZ_LEFTDOWN,
+  PTZCommand::PTZ_RIGHTDOWN,
+  PTZCommand::PTZ_MAX_COMMAND
+};
+const char* _kPTZCommandNames[] = {
+  "PTZ_UP",
+  "PTZ_DOWN",
+  "PTZ_LEFT",
+  "PTZ_RIGHT",
+  "PTZ_ZOOM_ADD",
+  "PTZ_ZOOM_DEC",
+  "PTZ_FOCUS_ADD",
+  "PTZ_FOCUS_DEC",
+  "PTZ_APERTURE_ADD",
+  "PTZ_APERTURE_DEC",
+  "PTZ_POINT_MOVE",
+  "PTZ_POINT_SET",
+  "PTZ_LAMP_OPEN",
+  "PTZ_LAMP_CLOSE",
+  "PTZ_WIPER_OPEN",
+  "PTZ_WIPER_CLOSE",
+  "PTZ_THROUGHFOG_OPEN",
+  "PTZ_THROUGHFOG_CLOSE",
+  "PTZ_DEV_OPEN",
+  "PTZ_DEV_CLOSE",
+  "PTZ_LEFTUP",
+  "PTZ_RIGHTUP",
+  "PTZ_LEFTDOWN",
+  "PTZ_RIGHTDOWN",
+  "PTZ_MAX_COMMAND"
+};
+const std::map<int, const char*> _PTZCommand_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(25, _kPTZCommandValues, _kPTZCommandNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
+
 
 UserVerificationDataPacket::~UserVerificationDataPacket() throw() {
 }
@@ -257,116 +313,6 @@ std::ostream& operator<<(std::ostream& out, const PlayVideoDataPacket& obj) {
 }
 
 
-ApplyPTZControlDataPacket::~ApplyPTZControlDataPacket() throw() {
-}
-
-
-void ApplyPTZControlDataPacket::__set_hPLZ(const int64_t val) {
-  this->hPLZ = val;
-}
-
-void ApplyPTZControlDataPacket::__set_type(const int32_t val) {
-  this->type = val;
-}
-
-const char* ApplyPTZControlDataPacket::ascii_fingerprint = "AFAFBCDB9822F9D1AA4E44188E720B47";
-const uint8_t ApplyPTZControlDataPacket::binary_fingerprint[16] = {0xAF,0xAF,0xBC,0xDB,0x98,0x22,0xF9,0xD1,0xAA,0x4E,0x44,0x18,0x8E,0x72,0x0B,0x47};
-
-uint32_t ApplyPTZControlDataPacket::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_I64) {
-          xfer += iprot->readI64(this->hPLZ);
-          this->__isset.hPLZ = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 2:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->type);
-          this->__isset.type = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t ApplyPTZControlDataPacket::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  oprot->incrementRecursionDepth();
-  xfer += oprot->writeStructBegin("ApplyPTZControlDataPacket");
-
-  xfer += oprot->writeFieldBegin("hPLZ", ::apache::thrift::protocol::T_I64, 1);
-  xfer += oprot->writeI64(this->hPLZ);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_I32, 2);
-  xfer += oprot->writeI32(this->type);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  oprot->decrementRecursionDepth();
-  return xfer;
-}
-
-void swap(ApplyPTZControlDataPacket &a, ApplyPTZControlDataPacket &b) {
-  using ::std::swap;
-  swap(a.hPLZ, b.hPLZ);
-  swap(a.type, b.type);
-  swap(a.__isset, b.__isset);
-}
-
-ApplyPTZControlDataPacket::ApplyPTZControlDataPacket(const ApplyPTZControlDataPacket& other4) {
-  hPLZ = other4.hPLZ;
-  type = other4.type;
-  __isset = other4.__isset;
-}
-ApplyPTZControlDataPacket& ApplyPTZControlDataPacket::operator=(const ApplyPTZControlDataPacket& other5) {
-  hPLZ = other5.hPLZ;
-  type = other5.type;
-  __isset = other5.__isset;
-  return *this;
-}
-std::ostream& operator<<(std::ostream& out, const ApplyPTZControlDataPacket& obj) {
-  using apache::thrift::to_string;
-  out << "ApplyPTZControlDataPacket(";
-  out << "hPLZ=" << to_string(obj.hPLZ);
-  out << ", " << "type=" << to_string(obj.type);
-  out << ")";
-  return out;
-}
-
-
 RequestPTZControlDataPacket::~RequestPTZControlDataPacket() throw() {
 }
 
@@ -439,19 +385,213 @@ void swap(RequestPTZControlDataPacket &a, RequestPTZControlDataPacket &b) {
   swap(a.__isset, b.__isset);
 }
 
-RequestPTZControlDataPacket::RequestPTZControlDataPacket(const RequestPTZControlDataPacket& other6) {
-  hResource = other6.hResource;
-  __isset = other6.__isset;
+RequestPTZControlDataPacket::RequestPTZControlDataPacket(const RequestPTZControlDataPacket& other4) {
+  hResource = other4.hResource;
+  __isset = other4.__isset;
 }
-RequestPTZControlDataPacket& RequestPTZControlDataPacket::operator=(const RequestPTZControlDataPacket& other7) {
-  hResource = other7.hResource;
-  __isset = other7.__isset;
+RequestPTZControlDataPacket& RequestPTZControlDataPacket::operator=(const RequestPTZControlDataPacket& other5) {
+  hResource = other5.hResource;
+  __isset = other5.__isset;
   return *this;
 }
 std::ostream& operator<<(std::ostream& out, const RequestPTZControlDataPacket& obj) {
   using apache::thrift::to_string;
   out << "RequestPTZControlDataPacket(";
   out << "hResource=" << to_string(obj.hResource);
+  out << ")";
+  return out;
+}
+
+
+PTZControlDataPacket::~PTZControlDataPacket() throw() {
+}
+
+
+void PTZControlDataPacket::__set_hPTZ(const int64_t val) {
+  this->hPTZ = val;
+}
+
+void PTZControlDataPacket::__set_command(const PTZCommand::type val) {
+  this->command = val;
+__isset.command = true;
+}
+
+void PTZControlDataPacket::__set_param1(const int64_t val) {
+  this->param1 = val;
+}
+
+void PTZControlDataPacket::__set_param2(const int64_t val) {
+  this->param2 = val;
+}
+
+void PTZControlDataPacket::__set_param3(const int64_t val) {
+  this->param3 = val;
+}
+
+void PTZControlDataPacket::__set_dwStop(const bool val) {
+  this->dwStop = val;
+}
+
+const char* PTZControlDataPacket::ascii_fingerprint = "DD286DAE592A0D22FD0D778DC127B125";
+const uint8_t PTZControlDataPacket::binary_fingerprint[16] = {0xDD,0x28,0x6D,0xAE,0x59,0x2A,0x0D,0x22,0xFD,0x0D,0x77,0x8D,0xC1,0x27,0xB1,0x25};
+
+uint32_t PTZControlDataPacket::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->hPTZ);
+          this->__isset.hPTZ = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          int32_t ecast6;
+          xfer += iprot->readI32(ecast6);
+          this->command = (PTZCommand::type)ecast6;
+          this->__isset.command = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->param1);
+          this->__isset.param1 = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->param2);
+          this->__isset.param2 = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 5:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->param3);
+          this->__isset.param3 = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 6:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->dwStop);
+          this->__isset.dwStop = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t PTZControlDataPacket::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  oprot->incrementRecursionDepth();
+  xfer += oprot->writeStructBegin("PTZControlDataPacket");
+
+  xfer += oprot->writeFieldBegin("hPTZ", ::apache::thrift::protocol::T_I64, 1);
+  xfer += oprot->writeI64(this->hPTZ);
+  xfer += oprot->writeFieldEnd();
+
+  if (this->__isset.command) {
+    xfer += oprot->writeFieldBegin("command", ::apache::thrift::protocol::T_I32, 2);
+    xfer += oprot->writeI32((int32_t)this->command);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldBegin("param1", ::apache::thrift::protocol::T_I64, 3);
+  xfer += oprot->writeI64(this->param1);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("param2", ::apache::thrift::protocol::T_I64, 4);
+  xfer += oprot->writeI64(this->param2);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("param3", ::apache::thrift::protocol::T_I64, 5);
+  xfer += oprot->writeI64(this->param3);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("dwStop", ::apache::thrift::protocol::T_BOOL, 6);
+  xfer += oprot->writeBool(this->dwStop);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  oprot->decrementRecursionDepth();
+  return xfer;
+}
+
+void swap(PTZControlDataPacket &a, PTZControlDataPacket &b) {
+  using ::std::swap;
+  swap(a.hPTZ, b.hPTZ);
+  swap(a.command, b.command);
+  swap(a.param1, b.param1);
+  swap(a.param2, b.param2);
+  swap(a.param3, b.param3);
+  swap(a.dwStop, b.dwStop);
+  swap(a.__isset, b.__isset);
+}
+
+PTZControlDataPacket::PTZControlDataPacket(const PTZControlDataPacket& other7) {
+  hPTZ = other7.hPTZ;
+  command = other7.command;
+  param1 = other7.param1;
+  param2 = other7.param2;
+  param3 = other7.param3;
+  dwStop = other7.dwStop;
+  __isset = other7.__isset;
+}
+PTZControlDataPacket& PTZControlDataPacket::operator=(const PTZControlDataPacket& other8) {
+  hPTZ = other8.hPTZ;
+  command = other8.command;
+  param1 = other8.param1;
+  param2 = other8.param2;
+  param3 = other8.param3;
+  dwStop = other8.dwStop;
+  __isset = other8.__isset;
+  return *this;
+}
+std::ostream& operator<<(std::ostream& out, const PTZControlDataPacket& obj) {
+  using apache::thrift::to_string;
+  out << "PTZControlDataPacket(";
+  out << "hPTZ=" << to_string(obj.hPTZ);
+  out << ", " << "command="; (obj.__isset.command ? (out << to_string(obj.command)) : (out << "<null>"));
+  out << ", " << "param1=" << to_string(obj.param1);
+  out << ", " << "param2=" << to_string(obj.param2);
+  out << ", " << "param3=" << to_string(obj.param3);
+  out << ", " << "dwStop=" << to_string(obj.dwStop);
   out << ")";
   return out;
 }

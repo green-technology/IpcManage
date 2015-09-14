@@ -1,33 +1,36 @@
 #ifndef IpcManageTools_H
 #define IpcManageTools_H
 
+#include "MediaManagerStruct_types.h"
 #include <string>
 #include <map>
 
+#ifdef _DEBUG
+#define LOG(msg) printf(msg)
+#else
+#define LOG(msg)
+#endif
+
 using namespace std;
+using namespace  ::ipcms;
 
 namespace ipcTools
 {
-	enum DeviceType
+	class ConnectInfo
 	{
-		DeviceTypeNone,
-		DeviceTypeHC,
-		DeviceTypeDH
-	};
-
-	struct ConnectInfo
-	{
+	private:
+		IPCResourceDataPacket *m_data;
 	public:
 		char ip[16];
 		int port;
-		DeviceType type;
+		DeviceType::type type;
 		string userName;
 		string password;
 		int channel;
 
 		ConnectInfo()
 			: port(-1)
-			, type(DeviceTypeNone)
+			, type(DeviceType::DeviceTypeNone)
 			, userName("")
 			, password("")
 			,channel(-1)
@@ -60,16 +63,22 @@ namespace ipcTools
 	public:
 		static ConnectManager* Instance();
 
-		void* connectDVR(const char *ipc);
+		LONG connectDVR(const char *ipc);
+		BOOL	PTZControl(const PTZCommandDataPacket &commad);
 
 	private:
 		ConnectManager() {};
 
-		long connectHCDVR(const ConnectInfo &info);
-		long connectDHDVR(const ConnectInfo &info);
+		LONG connectHCDVR(char *sDVRIP, WORD wDVRPort, char *sUserName, char *sPassword);
+		LONG connectDHDVR(char *sDVRIP, WORD wDVRPort, char *sUserName, char *sPassword);
+
+		BOOL PTZControlDH(LONG hLogin, int channel, DWORD dwPTZCommand, DWORD param1, DWORD param2, DWORD param3, BOOL dwStop);
+		BOOL PTZControlHC(LONG hLogin, DWORD dwPTZCommand, DWORD param1, DWORD param2, DWORD param3, BOOL dwStop);
+
+		void getDeviceType(LONG hLogin);
 
 	private:
-		map<ConnectInfo, void*> m_ConnectList;
+		map<ConnectInfo, LONG> m_ConnectList;
 
 	};
 
