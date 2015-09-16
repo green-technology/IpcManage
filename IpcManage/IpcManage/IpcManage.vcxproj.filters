@@ -48,6 +48,9 @@
     <ClInclude Include="..\..\rpc\gen-cpp\MediaManagerStruct_types.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\rpc\gen-cpp\MediaManageTools.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\rpc\gen-cpp\IpcManageServer.cpp">
@@ -90,6 +93,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\..\rpc\gen-cpp\IpcManageTools_HC.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\rpc\gen-cpp\MediaManageTools.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\thirdParty\sqlite\CppSQLite3.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

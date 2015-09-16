@@ -5,16 +5,7 @@
 
 IpcManageServerHandler::IpcManageServerHandler()
 {
-#ifdef _DEBUG
-	HANDLE hRes = 0;
-	IPCResourceDataPacket res;
-	res.IP = "14.23.115.10";
-	res.port = 8000;
-	res.userName = "admin";
-	res.password = "12345";
 
-	m_mediaResource[hRes] = res;
-#endif
 }
 
 void IpcManageServerHandler::UserLogin( ::ipcms::UserLoginReturnStruct& _return, const std::string& userName) {
@@ -189,5 +180,21 @@ void IpcManageServerHandler::releasePTZResource(HANDLE handle)
 bool IpcManageServerHandler::authentication(const UserVerificationDataPacket &data)
 {
 	return true;
+}
+
+void IpcManageServerHandler::initMediaResource()
+{
+#ifdef _DEBUG
+	HANDLE hRes = 0;
+	IPCResourceDataPacket res;
+	res.IP = "14.23.115.10";
+	res.port = 8000;
+	res.userName = "admin";
+	res.password = "12345";
+
+	m_mediaResource[hRes] = res;
+#endif
+	//在这里添加资源管理的代码
+	
 }
 

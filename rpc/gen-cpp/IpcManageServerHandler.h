@@ -41,6 +41,8 @@ private:
 	void releasePTZResource(HANDLE handle);
 	
 	bool authentication(const UserVerificationDataPacket &data);
+	
+	void initMediaResource();
 
 	map<string, UserLoginInfoDataPacket> m_userLoginList;
 
