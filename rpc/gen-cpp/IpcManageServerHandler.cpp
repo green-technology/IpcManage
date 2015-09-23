@@ -34,7 +34,7 @@ void IpcManageServerHandler::UserLogin( ::ipcms::UserLoginReturnStruct& _return,
 		UserLoginInfoDataPacket info;
 		info.hLogin = (int64_t)hLogin;
 		info.UserID = "test";
-		//info.SessionID = "test";
+
 		string tmpStr= userName;
 		tmpStr += GetCurrentTimeString();
 		info.SessionID = getMD5(tmpStr);	// create sessionid
