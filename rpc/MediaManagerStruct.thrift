@@ -15,6 +15,7 @@ struct IPCResourceDataPacket {
         5: string password;
         6: i64 channel;
         7: i64 hPTZ;
+		8: string rtspUrl;
 }
 
 struct UserLoginInfoDataPacket {
@@ -64,6 +65,5 @@ enum HIK_PTZ_CommandType
 	HIK_SET_PRESET			= 8,				// 设置预置点 
 	HIK_CLE_PRESET			= 9,				// 清除预置点 
 	HIK_GOTO_PRESET			= 39,				// 转到预置点 
-
 
 }
