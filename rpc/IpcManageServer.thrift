@@ -26,6 +26,7 @@ service IpcManageServer {
 
 	// 新增接口 //20150923 add by frankz
 	// 新增用户 删除用户 系统内保留一个管理员用户，可以进行用户管理
+
 	// 新增资源 删除资源
 
 }

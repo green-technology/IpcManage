@@ -22,6 +22,7 @@ struct ResourceInfoReturnStruct
     4: i64 timeStart;//录像时间段
     5: i64 timeEnd;
     6: i64 nameLength;//资源描述信息长度
+	7: string rtspUrl;  //rtsp视频串 add by frankz
 }
 
 struct RequestPTZControlReturnStruct
