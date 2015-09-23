@@ -1,5 +1,6 @@
 #include "IpcManageServerHandler.h"
 #include "IpcManageTools.h"
+#include "Tools.h"
 
 #include "assert.h"
 
@@ -33,7 +34,10 @@ void IpcManageServerHandler::UserLogin( ::ipcms::UserLoginReturnStruct& _return,
 		UserLoginInfoDataPacket info;
 		info.hLogin = (int64_t)hLogin;
 		info.UserID = "test";
-		info.SessionID = "test";
+		//info.SessionID = "test";
+		string tmpStr= userName;
+		tmpStr += GetCurrentTimeString();
+		info.SessionID = getMD5(tmpStr);	// create sessionid
 
 		m_userLoginList[userName] = info;
 		_return.ErrorNum = TRUE;
