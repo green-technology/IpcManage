@@ -7,10 +7,9 @@
 *.sdf
 *.suo
 *.opensdf
-*/Debug/*
 */ipch/*
 *.idb
-
+Debug
 
 # Precompiled Headers
 *.gch
