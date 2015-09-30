@@ -57,7 +57,7 @@ int main() {
 			cmd.hPTZ = ptz.hPTZ;
 			cmd.command = PTZCommand::PTZ_LEFT;
 			cmd.param1 = 0;
-			cmd.param2 = 7;
+			cmd.param2 = 0;
 			cmd.param3 = 0;
 			cmd.dwStop = false;
 			PTZControlReturnStruct rtn_cmd;
