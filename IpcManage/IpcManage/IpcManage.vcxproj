@@ -97,6 +97,23 @@
     <ClCompile Include="..\..\thirdParty\sqlite\CppSQLite3.cpp" />
     <ClCompile Include="Tools.cpp" />
   </ItemGroup>
+    <ItemGroup>
+    <CustomBuild Include="binary_distrib\cef_binary_3.2217.1922_windows32\cefclient.gyp">
+      <FileType>Document</FileType>
+      <Command>
+if %errorlevel% neq 0 exit /b %errorlevel%
+call call xcopy /efy "..\..\thirdParty\ipc_sdk\dh\*.dll" "$(OutDir)"
+if %errorlevel% neq 0 exit /b %errorlevel%
+call call xcopy /efy "..\..\thirdParty\ipc_sdk\hc\*.dll" "$(OutDir)"
+if %errorlevel% neq 0 exit /b %errorlevel%
+call call xcopy /efy "..\..\thirdParty\sqlite\*.dll" "$(OutDir)"
+if %errorlevel% neq 0 exit /b %errorlevel%
+call call xcopy /efy "..\..\thirdParty\sqlite\*.db" "$(OutDir)"
+      </Command>
+      <Message>copy_resources, and also copy_executables, and also copy_libraries</Message>
+      <Outputs>$(OutDir)\copy_resources.stamp;$(OutDir)\copy_executables.stamp;$(OutDir)\copy_libraries.stamp</Outputs>
+    </CustomBuild>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
