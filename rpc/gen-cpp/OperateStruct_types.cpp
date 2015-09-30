@@ -413,7 +413,6 @@ void PTZControlDataPacket::__set_hPTZ(const int64_t val) {
 
 void PTZControlDataPacket::__set_command(const PTZCommand::type val) {
   this->command = val;
-__isset.command = true;
 }
 
 void PTZControlDataPacket::__set_param1(const int64_t val) {
@@ -432,8 +431,8 @@ void PTZControlDataPacket::__set_dwStop(const bool val) {
   this->dwStop = val;
 }
 
-const char* PTZControlDataPacket::ascii_fingerprint = "DD286DAE592A0D22FD0D778DC127B125";
-const uint8_t PTZControlDataPacket::binary_fingerprint[16] = {0xDD,0x28,0x6D,0xAE,0x59,0x2A,0x0D,0x22,0xFD,0x0D,0x77,0x8D,0xC1,0x27,0xB1,0x25};
+const char* PTZControlDataPacket::ascii_fingerprint = "7B9D533C185BE3D5EAB1D0AF8C7B0035";
+const uint8_t PTZControlDataPacket::binary_fingerprint[16] = {0x7B,0x9D,0x53,0x3C,0x18,0x5B,0xE3,0xD5,0xEA,0xB1,0xD0,0xAF,0x8C,0x7B,0x00,0x35};
 
 uint32_t PTZControlDataPacket::read(::apache::thrift::protocol::TProtocol* iprot) {
 
@@ -526,11 +525,10 @@ uint32_t PTZControlDataPacket::write(::apache::thrift::protocol::TProtocol* opro
   xfer += oprot->writeI64(this->hPTZ);
   xfer += oprot->writeFieldEnd();
 
-  if (this->__isset.command) {
-    xfer += oprot->writeFieldBegin("command", ::apache::thrift::protocol::T_I32, 2);
-    xfer += oprot->writeI32((int32_t)this->command);
-    xfer += oprot->writeFieldEnd();
-  }
+  xfer += oprot->writeFieldBegin("command", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32((int32_t)this->command);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldBegin("param1", ::apache::thrift::protocol::T_I64, 3);
   xfer += oprot->writeI64(this->param1);
   xfer += oprot->writeFieldEnd();
@@ -587,7 +585,7 @@ std::ostream& operator<<(std::ostream& out, const PTZControlDataPacket& obj) {
   using apache::thrift::to_string;
   out << "PTZControlDataPacket(";
   out << "hPTZ=" << to_string(obj.hPTZ);
-  out << ", " << "command="; (obj.__isset.command ? (out << to_string(obj.command)) : (out << "<null>"));
+  out << ", " << "command=" << to_string(obj.command);
   out << ", " << "param1=" << to_string(obj.param1);
   out << ", " << "param2=" << to_string(obj.param2);
   out << ", " << "param3=" << to_string(obj.param3);

@@ -55,7 +55,7 @@ int main() {
 
 			PTZControlDataPacket cmd;
 			cmd.hPTZ = ptz.hPTZ;
-			cmd.command = PTZCommand::PTZ_LEFT;
+			cmd.command = PTZCommand::PTZ_RIGHT;
 			cmd.param1 = 0;
 			cmd.param2 = 7;
 			cmd.param3 = 0;

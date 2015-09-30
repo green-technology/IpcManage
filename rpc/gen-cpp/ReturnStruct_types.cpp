@@ -197,8 +197,12 @@ void ResourceInfoReturnStruct::__set_nameLength(const int64_t val) {
   this->nameLength = val;
 }
 
-const char* ResourceInfoReturnStruct::ascii_fingerprint = "AC9C4895E6FDB4C04F2C42875F33A426";
-const uint8_t ResourceInfoReturnStruct::binary_fingerprint[16] = {0xAC,0x9C,0x48,0x95,0xE6,0xFD,0xB4,0xC0,0x4F,0x2C,0x42,0x87,0x5F,0x33,0xA4,0x26};
+void ResourceInfoReturnStruct::__set_rtspUrl(const std::string& val) {
+  this->rtspUrl = val;
+}
+
+const char* ResourceInfoReturnStruct::ascii_fingerprint = "AF568B61559D5E1F965AF6BFFA012F4A";
+const uint8_t ResourceInfoReturnStruct::binary_fingerprint[16] = {0xAF,0x56,0x8B,0x61,0x55,0x9D,0x5E,0x1F,0x96,0x5A,0xF6,0xBF,0xFA,0x01,0x2F,0x4A};
 
 uint32_t ResourceInfoReturnStruct::read(::apache::thrift::protocol::TProtocol* iprot) {
 
@@ -270,6 +274,14 @@ uint32_t ResourceInfoReturnStruct::read(::apache::thrift::protocol::TProtocol* i
           xfer += iprot->skip(ftype);
         }
         break;
+      case 7:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->rtspUrl);
+          this->__isset.rtspUrl = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -312,6 +324,10 @@ uint32_t ResourceInfoReturnStruct::write(::apache::thrift::protocol::TProtocol* 
   xfer += oprot->writeI64(this->nameLength);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("rtspUrl", ::apache::thrift::protocol::T_STRING, 7);
+  xfer += oprot->writeString(this->rtspUrl);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   oprot->decrementRecursionDepth();
@@ -326,6 +342,7 @@ void swap(ResourceInfoReturnStruct &a, ResourceInfoReturnStruct &b) {
   swap(a.timeStart, b.timeStart);
   swap(a.timeEnd, b.timeEnd);
   swap(a.nameLength, b.nameLength);
+  swap(a.rtspUrl, b.rtspUrl);
   swap(a.__isset, b.__isset);
 }
 
@@ -336,6 +353,7 @@ ResourceInfoReturnStruct::ResourceInfoReturnStruct(const ResourceInfoReturnStruc
   timeStart = other3.timeStart;
   timeEnd = other3.timeEnd;
   nameLength = other3.nameLength;
+  rtspUrl = other3.rtspUrl;
   __isset = other3.__isset;
 }
 ResourceInfoReturnStruct& ResourceInfoReturnStruct::operator=(const ResourceInfoReturnStruct& other4) {
@@ -345,6 +363,7 @@ ResourceInfoReturnStruct& ResourceInfoReturnStruct::operator=(const ResourceInfo
   timeStart = other4.timeStart;
   timeEnd = other4.timeEnd;
   nameLength = other4.nameLength;
+  rtspUrl = other4.rtspUrl;
   __isset = other4.__isset;
   return *this;
 }
@@ -357,6 +376,7 @@ std::ostream& operator<<(std::ostream& out, const ResourceInfoReturnStruct& obj)
   out << ", " << "timeStart=" << to_string(obj.timeStart);
   out << ", " << "timeEnd=" << to_string(obj.timeEnd);
   out << ", " << "nameLength=" << to_string(obj.nameLength);
+  out << ", " << "rtspUrl=" << to_string(obj.rtspUrl);
   out << ")";
   return out;
 }
