@@ -9,11 +9,8 @@
 *.opensdf
 */Debug/*
 */ipch/*
-<<<<<<< HEAD
 *.idb
-=======
-Debug
->>>>>>> ace760e8a2996fc64bab538246f2de51d15d0c08
+
 
 # Precompiled Headers
 *.gch
