@@ -103,24 +103,25 @@ class UserLoginReturnStruct {
 void swap(UserLoginReturnStruct &a, UserLoginReturnStruct &b);
 
 typedef struct _ResourceInfoReturnStruct__isset {
-  _ResourceInfoReturnStruct__isset() : resourceType(false), hResource(false), hasPLZ(false), timeStart(false), timeEnd(false), nameLength(false) {}
+  _ResourceInfoReturnStruct__isset() : resourceType(false), hResource(false), hasPLZ(false), timeStart(false), timeEnd(false), nameLength(false), rtspUrl(false) {}
   bool resourceType :1;
   bool hResource :1;
   bool hasPLZ :1;
   bool timeStart :1;
   bool timeEnd :1;
   bool nameLength :1;
+  bool rtspUrl :1;
 } _ResourceInfoReturnStruct__isset;
 
 class ResourceInfoReturnStruct {
  public:
 
-  static const char* ascii_fingerprint; // = "AC9C4895E6FDB4C04F2C42875F33A426";
-  static const uint8_t binary_fingerprint[16]; // = {0xAC,0x9C,0x48,0x95,0xE6,0xFD,0xB4,0xC0,0x4F,0x2C,0x42,0x87,0x5F,0x33,0xA4,0x26};
+  static const char* ascii_fingerprint; // = "AF568B61559D5E1F965AF6BFFA012F4A";
+  static const uint8_t binary_fingerprint[16]; // = {0xAF,0x56,0x8B,0x61,0x55,0x9D,0x5E,0x1F,0x96,0x5A,0xF6,0xBF,0xFA,0x01,0x2F,0x4A};
 
   ResourceInfoReturnStruct(const ResourceInfoReturnStruct&);
   ResourceInfoReturnStruct& operator=(const ResourceInfoReturnStruct&);
-  ResourceInfoReturnStruct() : resourceType((ResourceType::type)0), hResource(0), hasPLZ(0), timeStart(0), timeEnd(0), nameLength(0) {
+  ResourceInfoReturnStruct() : resourceType((ResourceType::type)0), hResource(0), hasPLZ(0), timeStart(0), timeEnd(0), nameLength(0), rtspUrl() {
   }
 
   virtual ~ResourceInfoReturnStruct() throw();
@@ -130,6 +131,7 @@ class ResourceInfoReturnStruct {
   int64_t timeStart;
   int64_t timeEnd;
   int64_t nameLength;
+  std::string rtspUrl;
 
   _ResourceInfoReturnStruct__isset __isset;
 
@@ -144,6 +146,8 @@ class ResourceInfoReturnStruct {
   void __set_timeEnd(const int64_t val);
 
   void __set_nameLength(const int64_t val);
+
+  void __set_rtspUrl(const std::string& val);
 
   bool operator == (const ResourceInfoReturnStruct & rhs) const
   {
@@ -160,6 +164,8 @@ class ResourceInfoReturnStruct {
     if (!(timeEnd == rhs.timeEnd))
       return false;
     if (!(nameLength == rhs.nameLength))
+      return false;
+    if (!(rtspUrl == rhs.rtspUrl))
       return false;
     return true;
   }

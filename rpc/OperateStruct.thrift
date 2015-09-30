@@ -52,7 +52,7 @@ enum PTZCommand
 struct PTZControlDataPacket
 {
 	1: i64					hPTZ;
-	2: optional PTZCommand	command;
+	2: PTZCommand	        command;
 	3: i64					param1;
 	4: i64					param2;
 	5: i64					param3;

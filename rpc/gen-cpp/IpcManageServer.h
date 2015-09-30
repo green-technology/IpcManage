@@ -16,11 +16,11 @@ class IpcManageServerIf {
  public:
   virtual ~IpcManageServerIf() {}
   virtual void UserLogin( ::ipcms::UserLoginReturnStruct& _return, const std::string& userName) = 0;
+  virtual bool UserLogout(const  ::ipcms::UserVerificationDataPacket& userVerify) = 0;
   virtual void GetResInfoList(std::vector< ::ipcms::ResourceInfoReturnStruct> & _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::ResourceType::type resType) = 0;
   virtual int8_t PlayVideo(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::PlayVideoDataPacket& playVideo) = 0;
   virtual void RequestPTZControl( ::ipcms::RequestPTZControlReturnStruct& _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::RequestPTZControlDataPacket& requestPTZ) = 0;
   virtual void PTZControl( ::ipcms::PTZControlReturnStruct& _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::PTZControlDataPacket& command) = 0;
-  virtual bool UserLogout(const  ::ipcms::UserVerificationDataPacket& userVerify) = 0;
 };
 
 class IpcManageServerIfFactory {
@@ -53,6 +53,10 @@ class IpcManageServerNull : virtual public IpcManageServerIf {
   void UserLogin( ::ipcms::UserLoginReturnStruct& /* _return */, const std::string& /* userName */) {
     return;
   }
+  bool UserLogout(const  ::ipcms::UserVerificationDataPacket& /* userVerify */) {
+    bool _return = false;
+    return _return;
+  }
   void GetResInfoList(std::vector< ::ipcms::ResourceInfoReturnStruct> & /* _return */, const  ::ipcms::UserVerificationDataPacket& /* userVerify */, const  ::ipcms::ResourceType::type /* resType */) {
     return;
   }
@@ -65,10 +69,6 @@ class IpcManageServerNull : virtual public IpcManageServerIf {
   }
   void PTZControl( ::ipcms::PTZControlReturnStruct& /* _return */, const  ::ipcms::UserVerificationDataPacket& /* userVerify */, const  ::ipcms::PTZControlDataPacket& /* command */) {
     return;
-  }
-  bool UserLogout(const  ::ipcms::UserVerificationDataPacket& /* userVerify */) {
-    bool _return = false;
-    return _return;
   }
 };
 
@@ -192,6 +192,126 @@ class IpcManageServer_UserLogin_presult {
   friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_UserLogin_presult& obj);
 };
 
+typedef struct _IpcManageServer_UserLogout_args__isset {
+  _IpcManageServer_UserLogout_args__isset() : userVerify(false) {}
+  bool userVerify :1;
+} _IpcManageServer_UserLogout_args__isset;
+
+class IpcManageServer_UserLogout_args {
+ public:
+
+  static const char* ascii_fingerprint; // = "A756D3DBE614FB13F70BF7F7B6EB3D73";
+  static const uint8_t binary_fingerprint[16]; // = {0xA7,0x56,0xD3,0xDB,0xE6,0x14,0xFB,0x13,0xF7,0x0B,0xF7,0xF7,0xB6,0xEB,0x3D,0x73};
+
+  IpcManageServer_UserLogout_args(const IpcManageServer_UserLogout_args&);
+  IpcManageServer_UserLogout_args& operator=(const IpcManageServer_UserLogout_args&);
+  IpcManageServer_UserLogout_args() {
+  }
+
+  virtual ~IpcManageServer_UserLogout_args() throw();
+   ::ipcms::UserVerificationDataPacket userVerify;
+
+  _IpcManageServer_UserLogout_args__isset __isset;
+
+  void __set_userVerify(const  ::ipcms::UserVerificationDataPacket& val);
+
+  bool operator == (const IpcManageServer_UserLogout_args & rhs) const
+  {
+    if (!(userVerify == rhs.userVerify))
+      return false;
+    return true;
+  }
+  bool operator != (const IpcManageServer_UserLogout_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const IpcManageServer_UserLogout_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_UserLogout_args& obj);
+};
+
+
+class IpcManageServer_UserLogout_pargs {
+ public:
+
+  static const char* ascii_fingerprint; // = "A756D3DBE614FB13F70BF7F7B6EB3D73";
+  static const uint8_t binary_fingerprint[16]; // = {0xA7,0x56,0xD3,0xDB,0xE6,0x14,0xFB,0x13,0xF7,0x0B,0xF7,0xF7,0xB6,0xEB,0x3D,0x73};
+
+
+  virtual ~IpcManageServer_UserLogout_pargs() throw();
+  const  ::ipcms::UserVerificationDataPacket* userVerify;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_UserLogout_pargs& obj);
+};
+
+typedef struct _IpcManageServer_UserLogout_result__isset {
+  _IpcManageServer_UserLogout_result__isset() : success(false) {}
+  bool success :1;
+} _IpcManageServer_UserLogout_result__isset;
+
+class IpcManageServer_UserLogout_result {
+ public:
+
+  static const char* ascii_fingerprint; // = "D9D3B4421B1F23CB4063C80B484E7909";
+  static const uint8_t binary_fingerprint[16]; // = {0xD9,0xD3,0xB4,0x42,0x1B,0x1F,0x23,0xCB,0x40,0x63,0xC8,0x0B,0x48,0x4E,0x79,0x09};
+
+  IpcManageServer_UserLogout_result(const IpcManageServer_UserLogout_result&);
+  IpcManageServer_UserLogout_result& operator=(const IpcManageServer_UserLogout_result&);
+  IpcManageServer_UserLogout_result() : success(0) {
+  }
+
+  virtual ~IpcManageServer_UserLogout_result() throw();
+  bool success;
+
+  _IpcManageServer_UserLogout_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const IpcManageServer_UserLogout_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const IpcManageServer_UserLogout_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const IpcManageServer_UserLogout_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_UserLogout_result& obj);
+};
+
+typedef struct _IpcManageServer_UserLogout_presult__isset {
+  _IpcManageServer_UserLogout_presult__isset() : success(false) {}
+  bool success :1;
+} _IpcManageServer_UserLogout_presult__isset;
+
+class IpcManageServer_UserLogout_presult {
+ public:
+
+  static const char* ascii_fingerprint; // = "D9D3B4421B1F23CB4063C80B484E7909";
+  static const uint8_t binary_fingerprint[16]; // = {0xD9,0xD3,0xB4,0x42,0x1B,0x1F,0x23,0xCB,0x40,0x63,0xC8,0x0B,0x48,0x4E,0x79,0x09};
+
+
+  virtual ~IpcManageServer_UserLogout_presult() throw();
+  bool* success;
+
+  _IpcManageServer_UserLogout_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_UserLogout_presult& obj);
+};
+
 typedef struct _IpcManageServer_GetResInfoList_args__isset {
   _IpcManageServer_GetResInfoList_args__isset() : userVerify(false), resType(false) {}
   bool userVerify :1;
@@ -264,8 +384,8 @@ typedef struct _IpcManageServer_GetResInfoList_result__isset {
 class IpcManageServer_GetResInfoList_result {
  public:
 
-  static const char* ascii_fingerprint; // = "A01D7ABFC58F43366D4B1E0C1009B5F3";
-  static const uint8_t binary_fingerprint[16]; // = {0xA0,0x1D,0x7A,0xBF,0xC5,0x8F,0x43,0x36,0x6D,0x4B,0x1E,0x0C,0x10,0x09,0xB5,0xF3};
+  static const char* ascii_fingerprint; // = "F0424A1243C148C47B03D0C5C069753A";
+  static const uint8_t binary_fingerprint[16]; // = {0xF0,0x42,0x4A,0x12,0x43,0xC1,0x48,0xC4,0x7B,0x03,0xD0,0xC5,0xC0,0x69,0x75,0x3A};
 
   IpcManageServer_GetResInfoList_result(const IpcManageServer_GetResInfoList_result&);
   IpcManageServer_GetResInfoList_result& operator=(const IpcManageServer_GetResInfoList_result&);
@@ -305,8 +425,8 @@ typedef struct _IpcManageServer_GetResInfoList_presult__isset {
 class IpcManageServer_GetResInfoList_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "A01D7ABFC58F43366D4B1E0C1009B5F3";
-  static const uint8_t binary_fingerprint[16]; // = {0xA0,0x1D,0x7A,0xBF,0xC5,0x8F,0x43,0x36,0x6D,0x4B,0x1E,0x0C,0x10,0x09,0xB5,0xF3};
+  static const char* ascii_fingerprint; // = "F0424A1243C148C47B03D0C5C069753A";
+  static const uint8_t binary_fingerprint[16]; // = {0xF0,0x42,0x4A,0x12,0x43,0xC1,0x48,0xC4,0x7B,0x03,0xD0,0xC5,0xC0,0x69,0x75,0x3A};
 
 
   virtual ~IpcManageServer_GetResInfoList_presult() throw();
@@ -582,8 +702,8 @@ typedef struct _IpcManageServer_PTZControl_args__isset {
 class IpcManageServer_PTZControl_args {
  public:
 
-  static const char* ascii_fingerprint; // = "03F28EC4B3362A6B8374A4FDC67D9E33";
-  static const uint8_t binary_fingerprint[16]; // = {0x03,0xF2,0x8E,0xC4,0xB3,0x36,0x2A,0x6B,0x83,0x74,0xA4,0xFD,0xC6,0x7D,0x9E,0x33};
+  static const char* ascii_fingerprint; // = "59B81EF3997909A6AB828FEE1985912E";
+  static const uint8_t binary_fingerprint[16]; // = {0x59,0xB8,0x1E,0xF3,0x99,0x79,0x09,0xA6,0xAB,0x82,0x8F,0xEE,0x19,0x85,0x91,0x2E};
 
   IpcManageServer_PTZControl_args(const IpcManageServer_PTZControl_args&);
   IpcManageServer_PTZControl_args& operator=(const IpcManageServer_PTZControl_args&);
@@ -624,8 +744,8 @@ class IpcManageServer_PTZControl_args {
 class IpcManageServer_PTZControl_pargs {
  public:
 
-  static const char* ascii_fingerprint; // = "03F28EC4B3362A6B8374A4FDC67D9E33";
-  static const uint8_t binary_fingerprint[16]; // = {0x03,0xF2,0x8E,0xC4,0xB3,0x36,0x2A,0x6B,0x83,0x74,0xA4,0xFD,0xC6,0x7D,0x9E,0x33};
+  static const char* ascii_fingerprint; // = "59B81EF3997909A6AB828FEE1985912E";
+  static const uint8_t binary_fingerprint[16]; // = {0x59,0xB8,0x1E,0xF3,0x99,0x79,0x09,0xA6,0xAB,0x82,0x8F,0xEE,0x19,0x85,0x91,0x2E};
 
 
   virtual ~IpcManageServer_PTZControl_pargs() throw();
@@ -700,126 +820,6 @@ class IpcManageServer_PTZControl_presult {
   friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_PTZControl_presult& obj);
 };
 
-typedef struct _IpcManageServer_UserLogout_args__isset {
-  _IpcManageServer_UserLogout_args__isset() : userVerify(false) {}
-  bool userVerify :1;
-} _IpcManageServer_UserLogout_args__isset;
-
-class IpcManageServer_UserLogout_args {
- public:
-
-  static const char* ascii_fingerprint; // = "A756D3DBE614FB13F70BF7F7B6EB3D73";
-  static const uint8_t binary_fingerprint[16]; // = {0xA7,0x56,0xD3,0xDB,0xE6,0x14,0xFB,0x13,0xF7,0x0B,0xF7,0xF7,0xB6,0xEB,0x3D,0x73};
-
-  IpcManageServer_UserLogout_args(const IpcManageServer_UserLogout_args&);
-  IpcManageServer_UserLogout_args& operator=(const IpcManageServer_UserLogout_args&);
-  IpcManageServer_UserLogout_args() {
-  }
-
-  virtual ~IpcManageServer_UserLogout_args() throw();
-   ::ipcms::UserVerificationDataPacket userVerify;
-
-  _IpcManageServer_UserLogout_args__isset __isset;
-
-  void __set_userVerify(const  ::ipcms::UserVerificationDataPacket& val);
-
-  bool operator == (const IpcManageServer_UserLogout_args & rhs) const
-  {
-    if (!(userVerify == rhs.userVerify))
-      return false;
-    return true;
-  }
-  bool operator != (const IpcManageServer_UserLogout_args &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const IpcManageServer_UserLogout_args & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_UserLogout_args& obj);
-};
-
-
-class IpcManageServer_UserLogout_pargs {
- public:
-
-  static const char* ascii_fingerprint; // = "A756D3DBE614FB13F70BF7F7B6EB3D73";
-  static const uint8_t binary_fingerprint[16]; // = {0xA7,0x56,0xD3,0xDB,0xE6,0x14,0xFB,0x13,0xF7,0x0B,0xF7,0xF7,0xB6,0xEB,0x3D,0x73};
-
-
-  virtual ~IpcManageServer_UserLogout_pargs() throw();
-  const  ::ipcms::UserVerificationDataPacket* userVerify;
-
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_UserLogout_pargs& obj);
-};
-
-typedef struct _IpcManageServer_UserLogout_result__isset {
-  _IpcManageServer_UserLogout_result__isset() : success(false) {}
-  bool success :1;
-} _IpcManageServer_UserLogout_result__isset;
-
-class IpcManageServer_UserLogout_result {
- public:
-
-  static const char* ascii_fingerprint; // = "D9D3B4421B1F23CB4063C80B484E7909";
-  static const uint8_t binary_fingerprint[16]; // = {0xD9,0xD3,0xB4,0x42,0x1B,0x1F,0x23,0xCB,0x40,0x63,0xC8,0x0B,0x48,0x4E,0x79,0x09};
-
-  IpcManageServer_UserLogout_result(const IpcManageServer_UserLogout_result&);
-  IpcManageServer_UserLogout_result& operator=(const IpcManageServer_UserLogout_result&);
-  IpcManageServer_UserLogout_result() : success(0) {
-  }
-
-  virtual ~IpcManageServer_UserLogout_result() throw();
-  bool success;
-
-  _IpcManageServer_UserLogout_result__isset __isset;
-
-  void __set_success(const bool val);
-
-  bool operator == (const IpcManageServer_UserLogout_result & rhs) const
-  {
-    if (!(success == rhs.success))
-      return false;
-    return true;
-  }
-  bool operator != (const IpcManageServer_UserLogout_result &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const IpcManageServer_UserLogout_result & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_UserLogout_result& obj);
-};
-
-typedef struct _IpcManageServer_UserLogout_presult__isset {
-  _IpcManageServer_UserLogout_presult__isset() : success(false) {}
-  bool success :1;
-} _IpcManageServer_UserLogout_presult__isset;
-
-class IpcManageServer_UserLogout_presult {
- public:
-
-  static const char* ascii_fingerprint; // = "D9D3B4421B1F23CB4063C80B484E7909";
-  static const uint8_t binary_fingerprint[16]; // = {0xD9,0xD3,0xB4,0x42,0x1B,0x1F,0x23,0xCB,0x40,0x63,0xC8,0x0B,0x48,0x4E,0x79,0x09};
-
-
-  virtual ~IpcManageServer_UserLogout_presult() throw();
-  bool* success;
-
-  _IpcManageServer_UserLogout_presult__isset __isset;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-
-  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_UserLogout_presult& obj);
-};
-
 class IpcManageServerClient : virtual public IpcManageServerIf {
  public:
   IpcManageServerClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -848,6 +848,9 @@ class IpcManageServerClient : virtual public IpcManageServerIf {
   void UserLogin( ::ipcms::UserLoginReturnStruct& _return, const std::string& userName);
   void send_UserLogin(const std::string& userName);
   void recv_UserLogin( ::ipcms::UserLoginReturnStruct& _return);
+  bool UserLogout(const  ::ipcms::UserVerificationDataPacket& userVerify);
+  void send_UserLogout(const  ::ipcms::UserVerificationDataPacket& userVerify);
+  bool recv_UserLogout();
   void GetResInfoList(std::vector< ::ipcms::ResourceInfoReturnStruct> & _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::ResourceType::type resType);
   void send_GetResInfoList(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::ResourceType::type resType);
   void recv_GetResInfoList(std::vector< ::ipcms::ResourceInfoReturnStruct> & _return);
@@ -860,9 +863,6 @@ class IpcManageServerClient : virtual public IpcManageServerIf {
   void PTZControl( ::ipcms::PTZControlReturnStruct& _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::PTZControlDataPacket& command);
   void send_PTZControl(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::PTZControlDataPacket& command);
   void recv_PTZControl( ::ipcms::PTZControlReturnStruct& _return);
-  bool UserLogout(const  ::ipcms::UserVerificationDataPacket& userVerify);
-  void send_UserLogout(const  ::ipcms::UserVerificationDataPacket& userVerify);
-  bool recv_UserLogout();
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -879,20 +879,20 @@ class IpcManageServerProcessor : public ::apache::thrift::TDispatchProcessor {
   typedef std::map<std::string, ProcessFunction> ProcessMap;
   ProcessMap processMap_;
   void process_UserLogin(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_UserLogout(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_GetResInfoList(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_PlayVideo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RequestPTZControl(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_PTZControl(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_UserLogout(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   IpcManageServerProcessor(boost::shared_ptr<IpcManageServerIf> iface) :
     iface_(iface) {
     processMap_["UserLogin"] = &IpcManageServerProcessor::process_UserLogin;
+    processMap_["UserLogout"] = &IpcManageServerProcessor::process_UserLogout;
     processMap_["GetResInfoList"] = &IpcManageServerProcessor::process_GetResInfoList;
     processMap_["PlayVideo"] = &IpcManageServerProcessor::process_PlayVideo;
     processMap_["RequestPTZControl"] = &IpcManageServerProcessor::process_RequestPTZControl;
     processMap_["PTZControl"] = &IpcManageServerProcessor::process_PTZControl;
-    processMap_["UserLogout"] = &IpcManageServerProcessor::process_UserLogout;
   }
 
   virtual ~IpcManageServerProcessor() {}
@@ -929,6 +929,15 @@ class IpcManageServerMultiface : virtual public IpcManageServerIf {
     }
     ifaces_[i]->UserLogin(_return, userName);
     return;
+  }
+
+  bool UserLogout(const  ::ipcms::UserVerificationDataPacket& userVerify) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->UserLogout(userVerify);
+    }
+    return ifaces_[i]->UserLogout(userVerify);
   }
 
   void GetResInfoList(std::vector< ::ipcms::ResourceInfoReturnStruct> & _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::ResourceType::type resType) {
@@ -968,15 +977,6 @@ class IpcManageServerMultiface : virtual public IpcManageServerIf {
     }
     ifaces_[i]->PTZControl(_return, userVerify, command);
     return;
-  }
-
-  bool UserLogout(const  ::ipcms::UserVerificationDataPacket& userVerify) {
-    size_t sz = ifaces_.size();
-    size_t i = 0;
-    for (; i < (sz - 1); ++i) {
-      ifaces_[i]->UserLogout(userVerify);
-    }
-    return ifaces_[i]->UserLogout(userVerify);
   }
 
 };

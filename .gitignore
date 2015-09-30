@@ -9,7 +9,8 @@
 *.opensdf
 */Debug/*
 */ipch/*
-Debug
+*.idb
+
 
 # Precompiled Headers
 *.gch

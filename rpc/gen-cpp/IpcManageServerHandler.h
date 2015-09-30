@@ -34,24 +34,24 @@ class IpcManageServerHandler : virtual public IpcManageServerIf {
   bool UserLogout(const  ::ipcms::UserVerificationDataPacket& userVerify);
 
 private:
-	bool getLoginResource(const string userName, string& id);
-	void releaseLoginResource(const string id);
-	
-	void confirmPTZControl(HANDLE hUser, HANDLE hIPC);
+    bool getLoginResource(const string userName, string& id);
+    void releaseLoginResource(const string id);
+    
+    void confirmPTZControl(HANDLE hUser, HANDLE hIPC);
 
-	BOOL getPTZResource(HANDLE hRes, LONG &hPTZ);
-	void releasePTZResource(HANDLE handle);
-	
-	bool authentication(const UserVerificationDataPacket &data) const;
-	
-	void initMediaResource();
+    BOOL getPTZResource(HANDLE hRes, LONG &hPTZ);
+    void releasePTZResource(HANDLE handle);
+    
+    bool authentication(const UserVerificationDataPacket &data) const;
+    
+    void initMediaResource();
 
-	map<string/*id*/, string/*userName*/> m_userLoginList;
+    map<string/*id*/, string/*userName*/> m_userLoginList;
 
-	vector<HANDLE> m_userResource;
+    vector<HANDLE> m_userResource;
 
-	map<LONG, string> m_PTZUserList;
-	map<LONG, HANDLE/*resource*/> m_PTZHandler;
+    map<LONG, string> m_PTZUserList;
+    map<LONG, HANDLE/*resource*/> m_PTZHandler;
 
 };
 

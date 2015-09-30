@@ -212,8 +212,8 @@ typedef struct _PTZControlDataPacket__isset {
 class PTZControlDataPacket {
  public:
 
-  static const char* ascii_fingerprint; // = "DD286DAE592A0D22FD0D778DC127B125";
-  static const uint8_t binary_fingerprint[16]; // = {0xDD,0x28,0x6D,0xAE,0x59,0x2A,0x0D,0x22,0xFD,0x0D,0x77,0x8D,0xC1,0x27,0xB1,0x25};
+  static const char* ascii_fingerprint; // = "7B9D533C185BE3D5EAB1D0AF8C7B0035";
+  static const uint8_t binary_fingerprint[16]; // = {0x7B,0x9D,0x53,0x3C,0x18,0x5B,0xE3,0xD5,0xEA,0xB1,0xD0,0xAF,0x8C,0x7B,0x00,0x35};
 
   PTZControlDataPacket(const PTZControlDataPacket&);
   PTZControlDataPacket& operator=(const PTZControlDataPacket&);
@@ -246,9 +246,7 @@ class PTZControlDataPacket {
   {
     if (!(hPTZ == rhs.hPTZ))
       return false;
-    if (__isset.command != rhs.__isset.command)
-      return false;
-    else if (__isset.command && !(command == rhs.command))
+    if (!(command == rhs.command))
       return false;
     if (!(param1 == rhs.param1))
       return false;
