@@ -119,8 +119,12 @@ void IPCResourceDataPacket::__set_deviceName(const std::string& val) {
   this->deviceName = val;
 }
 
-const char* IPCResourceDataPacket::ascii_fingerprint = "F15316986C14EFC2CC15E056DA71CF75";
-const uint8_t IPCResourceDataPacket::binary_fingerprint[16] = {0xF1,0x53,0x16,0x98,0x6C,0x14,0xEF,0xC2,0xCC,0x15,0xE0,0x56,0xDA,0x71,0xCF,0x75};
+void IPCResourceDataPacket::__set_rtspUrl(const std::string& val) {
+  this->rtspUrl = val;
+}
+
+const char* IPCResourceDataPacket::ascii_fingerprint = "04C60CC0FEAB1A399AD4C95F224660B5";
+const uint8_t IPCResourceDataPacket::binary_fingerprint[16] = {0x04,0xC6,0x0C,0xC0,0xFE,0xAB,0x1A,0x39,0x9A,0xD4,0xC9,0x5F,0x22,0x46,0x60,0xB5};
 
 uint32_t IPCResourceDataPacket::read(::apache::thrift::protocol::TProtocol* iprot) {
 
@@ -208,6 +212,14 @@ uint32_t IPCResourceDataPacket::read(::apache::thrift::protocol::TProtocol* ipro
           xfer += iprot->skip(ftype);
         }
         break;
+      case 9:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->rtspUrl);
+          this->__isset.rtspUrl = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -258,6 +270,10 @@ uint32_t IPCResourceDataPacket::write(::apache::thrift::protocol::TProtocol* opr
   xfer += oprot->writeString(this->deviceName);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("rtspUrl", ::apache::thrift::protocol::T_STRING, 9);
+  xfer += oprot->writeString(this->rtspUrl);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   oprot->decrementRecursionDepth();
@@ -274,6 +290,7 @@ void swap(IPCResourceDataPacket &a, IPCResourceDataPacket &b) {
   swap(a.channel, b.channel);
   swap(a.hPTZ, b.hPTZ);
   swap(a.deviceName, b.deviceName);
+  swap(a.rtspUrl, b.rtspUrl);
   swap(a.__isset, b.__isset);
 }
 
@@ -286,6 +303,7 @@ IPCResourceDataPacket::IPCResourceDataPacket(const IPCResourceDataPacket& other1
   channel = other1.channel;
   hPTZ = other1.hPTZ;
   deviceName = other1.deviceName;
+  rtspUrl = other1.rtspUrl;
   __isset = other1.__isset;
 }
 IPCResourceDataPacket& IPCResourceDataPacket::operator=(const IPCResourceDataPacket& other2) {
@@ -297,6 +315,7 @@ IPCResourceDataPacket& IPCResourceDataPacket::operator=(const IPCResourceDataPac
   channel = other2.channel;
   hPTZ = other2.hPTZ;
   deviceName = other2.deviceName;
+  rtspUrl = other2.rtspUrl;
   __isset = other2.__isset;
   return *this;
 }
@@ -311,6 +330,7 @@ std::ostream& operator<<(std::ostream& out, const IPCResourceDataPacket& obj) {
   out << ", " << "channel=" << to_string(obj.channel);
   out << ", " << "hPTZ=" << to_string(obj.hPTZ);
   out << ", " << "deviceName=" << to_string(obj.deviceName);
+  out << ", " << "rtspUrl=" << to_string(obj.rtspUrl);
   out << ")";
   return out;
 }

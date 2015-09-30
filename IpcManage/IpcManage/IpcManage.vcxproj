@@ -41,7 +41,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\thirdParty\boost_1_55_0_vs2010;..\..\thirdParty\thrift_0.9.2_vs2010\include;..\..\thirdParty\ipc_sdk;..\..\thirdParty\sqlite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\thirdParty\boost_1_55_0_vs2010;..\..\thirdParty\thrift_0.9.2_vs2010\include;..\..\thirdParty\ipc_sdk;..\..\thirdParty\sqlite;..\..\thirdParty\openssl-1.0.1m-vs2010\include;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -76,6 +76,7 @@
     <ClInclude Include="..\..\rpc\gen-cpp\OperateStruct_types.h" />
     <ClInclude Include="..\..\rpc\gen-cpp\ReturnStruct_constants.h" />
     <ClInclude Include="..\..\rpc\gen-cpp\ReturnStruct_types.h" />
+    <ClInclude Include="Tools.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\rpc\gen-cpp\IpcManageServer.cpp" />
@@ -94,6 +95,7 @@
     <ClCompile Include="..\..\rpc\gen-cpp\ReturnStruct_constants.cpp" />
     <ClCompile Include="..\..\rpc\gen-cpp\ReturnStruct_types.cpp" />
     <ClCompile Include="..\..\thirdParty\sqlite\CppSQLite3.cpp" />
+    <ClCompile Include="Tools.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

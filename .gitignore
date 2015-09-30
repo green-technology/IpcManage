@@ -31,3 +31,5 @@
 # Executables
 *.out
 *.app
+*.log
+*.tlog

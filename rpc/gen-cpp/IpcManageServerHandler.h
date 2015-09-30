@@ -5,6 +5,8 @@
 #include "IpcManageServer.h"
 #include "MediaManagerStruct_types.h"
 
+
+
 #ifdef _DEBUG
 #define LOG(msg) printf(msg)
 #else
@@ -50,7 +52,6 @@ private:
 
 	map<LONG, string> m_PTZUserList;
 	map<LONG, HANDLE/*resource*/> m_PTZHandler;
-	map<HANDLE/*resource*/, IPCResourceDataPacket> m_mediaResource;
 
 };
 
