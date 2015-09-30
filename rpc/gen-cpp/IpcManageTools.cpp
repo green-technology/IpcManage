@@ -17,28 +17,21 @@ namespace ipcTools
 		return instance;
 	}
 
-	LONG ConnectManager::connectDVR(const char *ipc)
+	BOOL ConnectManager::connectDVR(const IPCResourceDataPacket* ipc)
 	{
-		//通过描述ipc查找对应DVRInfo
 		ConnectInfo DVRInfo;
-#ifdef _DEBUG
-		//DVRInfo.type = DeviceType::DeviceTypeHC;
-		//strcpy_s(DVRInfo.ip, "14.23.115.10");
-		//DVRInfo.userName = "admin";
-		//DVRInfo.password = "12345";
-		//DVRInfo.port = 8000;
-		//DVRInfo.channel = 0;
-		
-		DVRInfo.type = DeviceType::DeviceTypeDH;
-		strcpy_s(DVRInfo.ip, "183.234.10.62");
-		DVRInfo.userName = "admin";
-		DVRInfo.password = "admin";
-		DVRInfo.port = 37779;
-		DVRInfo.channel = 0;
-#endif
-		map<ConnectInfo, LONG>::iterator iter = m_ConnectList.find(DVRInfo);
-		if(iter != m_ConnectList.end())
-			return iter->second;
+		DVRInfo.type = ipc->deviceType;
+		strcpy_s(DVRInfo.ip, ipc->IP.c_str());
+		DVRInfo.userName = ipc->userName;
+		DVRInfo.password = ipc->password;
+		DVRInfo.port = ipc->port;
+		DVRInfo.channel = ipc->channel;
+
+		for (map<LONG, ConnectInfo>::iterator iter = m_ConnectList.begin();iter != m_ConnectList.end();iter++)
+		{
+			if(iter->second == DVRInfo)
+				return TRUE;
+		}
 
 		char ip[16] = {0};
 		strcpy_s(ip, DVRInfo.ip);
@@ -47,17 +40,31 @@ namespace ipcTools
 		char password[100];
 		strcpy_s(password, DVRInfo.password.c_str());
 
-		LONG ret = NULL;
+		BOOL ret = FALSE;
 		switch(DVRInfo.type)
 		{
 		case DeviceType::DeviceTypeDH:
 			{
-				ret = connectDHDVR(ip, DVRInfo.port, userName, password);
+				LONG handle = connectDHDVR(ip, DVRInfo.port, userName, password);
+				if (handle != 0)
+				{
+					IPCResourceDataPacket* ipc_temp = const_cast<IPCResourceDataPacket*>(ipc);
+					ipc_temp->hPTZ = handle;
+					m_ConnectList[handle] = DVRInfo;
+					ret = TRUE;
+				}
 			}
 			break;
 		case DeviceType::DeviceTypeHC:
 			{
-				ret = connectHCDVR(ip, DVRInfo.port, userName, password);
+				LONG handle = connectHCDVR(ip, DVRInfo.port, userName, password);
+				if (handle != -1)
+				{
+					IPCResourceDataPacket* ipc_temp = const_cast<IPCResourceDataPacket*>(ipc);
+					ipc_temp->hPTZ = handle;
+					m_ConnectList[handle] = DVRInfo;
+					ret = TRUE;
+				}
 			}
 			break;
 		default:
@@ -67,21 +74,24 @@ namespace ipcTools
 		return ret;
 	}
 
-	BOOL ConnectManager::PTZControl(const PTZCommandDataPacket &commad)
+	BOOL ConnectManager::PTZControl(const PTZControlDataPacket &commad)
 	{
-		LONG hLogin = (LONG)commad.hLogin;
+		map<LONG, ConnectInfo>::iterator iter = m_ConnectList.find(commad.hPTZ);
+		if (iter == m_ConnectList.end())
+			return FALSE;
+
+		LONG hLogin = (LONG)commad.hPTZ;
 		DWORD dwPTZCommand = (DWORD)commad.command;
 		DWORD param1 = (DWORD)commad.param1;
 		DWORD param2 = (DWORD)commad.param2;
 		DWORD param3 = (DWORD)commad.param3;
 		BOOL dwStop = (DWORD)commad.dwStop;
 
-		DeviceType::type deviceType;
-		switch(deviceType)
+		switch(iter->second.type)
 		{
 			case DeviceType::DeviceTypeDH:
 				{
-					int channel = (int)commad.channel;
+					int channel = 1;
 					PTZControlDH(hLogin, channel, dwPTZCommand, param1, param2, 
 						param3, dwStop);
 				}

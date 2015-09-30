@@ -23,7 +23,8 @@ struct DeviceType {
   enum type {
     DeviceTypeNone = 0,
     DeviceTypeHC = 1,
-    DeviceTypeDH = 2
+    DeviceTypeDH = 2,
+    DeviceTypeUnSupported = 3
   };
 };
 
@@ -67,7 +68,7 @@ class UserLoginInfoDataPacket;
 class PTZCommandDataPacket;
 
 typedef struct _IPCResourceDataPacket__isset {
-  _IPCResourceDataPacket__isset() : IP(false), port(false), deviceType(false), userName(false), password(false), channel(false), hPTZ(false) {}
+  _IPCResourceDataPacket__isset() : IP(false), port(false), deviceType(false), userName(false), password(false), channel(false), hPTZ(false), deviceName(false) {}
   bool IP :1;
   bool port :1;
   bool deviceType :1;
@@ -75,17 +76,18 @@ typedef struct _IPCResourceDataPacket__isset {
   bool password :1;
   bool channel :1;
   bool hPTZ :1;
+  bool deviceName :1;
 } _IPCResourceDataPacket__isset;
 
 class IPCResourceDataPacket {
  public:
 
-  static const char* ascii_fingerprint; // = "715B761CDB751E86FA634C369BA79F71";
-  static const uint8_t binary_fingerprint[16]; // = {0x71,0x5B,0x76,0x1C,0xDB,0x75,0x1E,0x86,0xFA,0x63,0x4C,0x36,0x9B,0xA7,0x9F,0x71};
+  static const char* ascii_fingerprint; // = "F15316986C14EFC2CC15E056DA71CF75";
+  static const uint8_t binary_fingerprint[16]; // = {0xF1,0x53,0x16,0x98,0x6C,0x14,0xEF,0xC2,0xCC,0x15,0xE0,0x56,0xDA,0x71,0xCF,0x75};
 
   IPCResourceDataPacket(const IPCResourceDataPacket&);
   IPCResourceDataPacket& operator=(const IPCResourceDataPacket&);
-  IPCResourceDataPacket() : IP(), port(0), deviceType((DeviceType::type)0), userName(), password(), channel(0), hPTZ(0) {
+  IPCResourceDataPacket() : IP(), port(0), deviceType((DeviceType::type)0), userName(), password(), channel(0), hPTZ(0), deviceName() {
   }
 
   virtual ~IPCResourceDataPacket() throw();
@@ -96,6 +98,7 @@ class IPCResourceDataPacket {
   std::string password;
   int64_t channel;
   int64_t hPTZ;
+  std::string deviceName;
 
   _IPCResourceDataPacket__isset __isset;
 
@@ -112,6 +115,8 @@ class IPCResourceDataPacket {
   void __set_channel(const int64_t val);
 
   void __set_hPTZ(const int64_t val);
+
+  void __set_deviceName(const std::string& val);
 
   bool operator == (const IPCResourceDataPacket & rhs) const
   {
@@ -130,6 +135,8 @@ class IPCResourceDataPacket {
     if (!(channel == rhs.channel))
       return false;
     if (!(hPTZ == rhs.hPTZ))
+      return false;
+    if (!(deviceName == rhs.deviceName))
       return false;
     return true;
   }

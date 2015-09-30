@@ -16,14 +16,16 @@ namespace ipcms {
 int _kDeviceTypeValues[] = {
   DeviceType::DeviceTypeNone,
   DeviceType::DeviceTypeHC,
-  DeviceType::DeviceTypeDH
+  DeviceType::DeviceTypeDH,
+  DeviceType::DeviceTypeUnSupported
 };
 const char* _kDeviceTypeNames[] = {
   "DeviceTypeNone",
   "DeviceTypeHC",
-  "DeviceTypeDH"
+  "DeviceTypeDH",
+  "DeviceTypeUnSupported"
 };
-const std::map<int, const char*> _DeviceType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(3, _kDeviceTypeValues, _kDeviceTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
+const std::map<int, const char*> _DeviceType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(4, _kDeviceTypeValues, _kDeviceTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
 
 int _kHIK_PTZ_CommandTypeValues[] = {
   HIK_PTZ_CommandType::HIK_LIGHT_PWRON,
@@ -113,8 +115,12 @@ void IPCResourceDataPacket::__set_hPTZ(const int64_t val) {
   this->hPTZ = val;
 }
 
-const char* IPCResourceDataPacket::ascii_fingerprint = "715B761CDB751E86FA634C369BA79F71";
-const uint8_t IPCResourceDataPacket::binary_fingerprint[16] = {0x71,0x5B,0x76,0x1C,0xDB,0x75,0x1E,0x86,0xFA,0x63,0x4C,0x36,0x9B,0xA7,0x9F,0x71};
+void IPCResourceDataPacket::__set_deviceName(const std::string& val) {
+  this->deviceName = val;
+}
+
+const char* IPCResourceDataPacket::ascii_fingerprint = "F15316986C14EFC2CC15E056DA71CF75";
+const uint8_t IPCResourceDataPacket::binary_fingerprint[16] = {0xF1,0x53,0x16,0x98,0x6C,0x14,0xEF,0xC2,0xCC,0x15,0xE0,0x56,0xDA,0x71,0xCF,0x75};
 
 uint32_t IPCResourceDataPacket::read(::apache::thrift::protocol::TProtocol* iprot) {
 
@@ -194,6 +200,14 @@ uint32_t IPCResourceDataPacket::read(::apache::thrift::protocol::TProtocol* ipro
           xfer += iprot->skip(ftype);
         }
         break;
+      case 8:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->deviceName);
+          this->__isset.deviceName = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -240,6 +254,10 @@ uint32_t IPCResourceDataPacket::write(::apache::thrift::protocol::TProtocol* opr
   xfer += oprot->writeI64(this->hPTZ);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("deviceName", ::apache::thrift::protocol::T_STRING, 8);
+  xfer += oprot->writeString(this->deviceName);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   oprot->decrementRecursionDepth();
@@ -255,6 +273,7 @@ void swap(IPCResourceDataPacket &a, IPCResourceDataPacket &b) {
   swap(a.password, b.password);
   swap(a.channel, b.channel);
   swap(a.hPTZ, b.hPTZ);
+  swap(a.deviceName, b.deviceName);
   swap(a.__isset, b.__isset);
 }
 
@@ -266,6 +285,7 @@ IPCResourceDataPacket::IPCResourceDataPacket(const IPCResourceDataPacket& other1
   password = other1.password;
   channel = other1.channel;
   hPTZ = other1.hPTZ;
+  deviceName = other1.deviceName;
   __isset = other1.__isset;
 }
 IPCResourceDataPacket& IPCResourceDataPacket::operator=(const IPCResourceDataPacket& other2) {
@@ -276,6 +296,7 @@ IPCResourceDataPacket& IPCResourceDataPacket::operator=(const IPCResourceDataPac
   password = other2.password;
   channel = other2.channel;
   hPTZ = other2.hPTZ;
+  deviceName = other2.deviceName;
   __isset = other2.__isset;
   return *this;
 }
@@ -289,6 +310,7 @@ std::ostream& operator<<(std::ostream& out, const IPCResourceDataPacket& obj) {
   out << ", " << "password=" << to_string(obj.password);
   out << ", " << "channel=" << to_string(obj.channel);
   out << ", " << "hPTZ=" << to_string(obj.hPTZ);
+  out << ", " << "deviceName=" << to_string(obj.deviceName);
   out << ")";
   return out;
 }

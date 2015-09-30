@@ -49,15 +49,15 @@ int main() {
 
 			RequestPTZControlReturnStruct ptz;
 			RequestPTZControlDataPacket rqPTZ;
-			rqPTZ.hResource = resList[0].hResource;
+			rqPTZ.hResource = resList[2].hResource;
 			ipcClient.RequestPTZControl(ptz, data, rqPTZ);
 			std::cout<<ptz.result<< endl;
 
 			PTZControlDataPacket cmd;
 			cmd.hPTZ = ptz.hPTZ;
-			cmd.command = PTZCommand::PTZ_ZOOM_ADD;
+			cmd.command = PTZCommand::PTZ_LEFT;
 			cmd.param1 = 0;
-			cmd.param2 = 0;
+			cmd.param2 = 7;
 			cmd.param3 = 0;
 			cmd.dwStop = false;
 			PTZControlReturnStruct rtn_cmd;
@@ -67,7 +67,7 @@ int main() {
 			char e;
 			std::cin>>e;
 
-			cmd.command = PTZCommand::PTZ_ZOOM_DEC;
+			cmd.command = PTZCommand::PTZ_LEFT;
 			cmd.param1 = 0;
 			cmd.param2 = 0;
 			cmd.param3 = 0;

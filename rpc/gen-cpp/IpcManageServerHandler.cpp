@@ -1,11 +1,12 @@
 #include "IpcManageServerHandler.h"
 #include "IpcManageTools.h"
+#include "MediaManageTools.h"
 
 #include "assert.h"
 
 IpcManageServerHandler::IpcManageServerHandler()
 {
-
+	initMediaResource();
 }
 
 void IpcManageServerHandler::UserLogin( ::ipcms::UserLoginReturnStruct& _return, const std::string& userName) {
@@ -15,27 +16,27 @@ void IpcManageServerHandler::UserLogin( ::ipcms::UserLoginReturnStruct& _return,
 	LOG(userName.c_str());
 
 	//用户验证，以用户名作为KEY
-	map<string, UserLoginInfoDataPacket>::iterator iter = m_userLoginList.find(userName);
-	if(iter != m_userLoginList.end())
+	for (map<string, string>::iterator iter = m_userLoginList.begin();iter != m_userLoginList.end();iter++)
 	{
-		_return.ErrorNum = FALSE;
-		return;
+		if (iter->second == userName)
+		{
+			_return.ErrorNum = FALSE;
+			return;
+		}
 	}
-
+	
 	//分配资源
-	HANDLE hLogin;
-	if (!getLoginResource(hLogin))
+	string id;
+	if (!getLoginResource(userName, id))
 	{
 		_return.ErrorNum = FALSE;
 	}
 	else
 	{
 		UserLoginInfoDataPacket info;
-		info.hLogin = (int64_t)hLogin;
-		info.UserID = "test";
+		info.UserID = id;
 		info.SessionID = "test";
 
-		m_userLoginList[userName] = info;
 		_return.ErrorNum = TRUE;
 		_return.UserID = info.UserID;
 		_return.SessionID = info.SessionID;
@@ -51,16 +52,36 @@ void IpcManageServerHandler::GetResInfoList(std::vector< ::ipcms::ResourceInfoRe
 	if(!authentication(userVerify))
 		return;
 
-#ifdef _DEBUG
-	ResourceInfoReturnStruct item;
-	item.resourceType = ResourceType::ResourceTypeIPC;
-	item.hResource = 0;
-	item.hasPLZ = true;
-	item.timeStart = 0;
-	item.timeEnd = 0;
+	switch(resType)
+	{
+	case ResourceType::ResourceTypeALL:
+	case ResourceType::ResourceTypeIPC:
+		{
+			const map<HANDLE/*resource*/, IPCResourceDataPacket *> resMap = ipcTools::MediaManager::Instance()->getAllResource();
+			for (map<HANDLE/*resource*/, IPCResourceDataPacket *>::const_iterator iter = resMap.begin(); iter != resMap.end(); iter++)
+			{
+				ResourceInfoReturnStruct item;
+				item.resourceType = ResourceType::ResourceTypeIPC;
+				item.hResource = (int64_t)iter->first;
+				item.hasPLZ = true;
+				item.timeStart = 0;
+				item.timeEnd = 0;
 
-	_return.push_back(item);
-#endif
+				_return.push_back(item);
+				
+			}
+		}
+		if(resType != ResourceType::ResourceTypeALL)
+			break;
+	case ResourceType::ResourceTypeReplay:
+		{
+
+		}
+		break;
+	default:
+		assert(FALSE);
+		break;
+	}
 
 }
 
@@ -75,8 +96,7 @@ void IpcManageServerHandler::RequestPTZControl( ::ipcms::RequestPTZControlReturn
 
 	HANDLE hRes = (HANDLE)requestPTZ.hResource;
 	LONG hPTZ = NULL;
-	getPTZResource(hRes, hPTZ);
-	if (hPTZ == NULL)
+	if (getPTZResource(hRes, hPTZ) == FALSE)
 	{
 		_return.hPTZ = NULL;
 		_return.result = -1;
@@ -106,15 +126,18 @@ void IpcManageServerHandler::PTZControl(::ipcms::PTZControlReturnStruct&  _retur
 	if(!authentication(userVerify))
 		return;
 
-	HANDLE hPTZ = (HANDLE)command.hPTZ;
-	map<HANDLE, HANDLE>::iterator iter = m_PTZHandler.find(hPTZ);
+	LONG hPTZ = (LONG)command.hPTZ;
+	map<LONG, HANDLE>::iterator iter = m_PTZHandler.find(hPTZ);
 	if (iter == m_PTZHandler.end())
 	{
 		_return.result = PTZControlReturnType::PTZControlReturnTypeInvalidHandle;
 		return;
 	}
 
-	ipcTools::ConnectManager::Instance();
+	if(ipcTools::ConnectManager::Instance()->PTZControl(command) == TRUE)
+		_return.result = PTZControlReturnType::PTZControlReturnTypeSuccess;
+	else
+		_return.result = PTZControlReturnType::PTZControlReturnTypeError;
 }
 
 bool IpcManageServerHandler::UserLogout(const  ::ipcms::UserVerificationDataPacket& userVerify) {
@@ -123,24 +146,32 @@ bool IpcManageServerHandler::UserLogout(const  ::ipcms::UserVerificationDataPack
 
 	if (!authentication(userVerify))
 		return false;
-	//releaseLoginResource(hLogin);
+	releaseLoginResource(userVerify.UserID);
 
 	return true;
 }
 
-bool IpcManageServerHandler::getLoginResource(HANDLE &handle)
+bool IpcManageServerHandler::getLoginResource(const string userName, string& id)
 {
-	bool ret = false;
-#ifdef _DEBUG
-	handle = 0;
-	ret = true;
-#endif
-	return ret;
+	SYSTEMTIME loctime;
+	GetLocalTime(&loctime);
+	char szTime[128]={0};
+	sprintf_s(szTime, "%.4d%.2d%.2d%.2d%.2d%.2d", loctime.wYear, loctime.wMonth, loctime.wDay, loctime.wHour, loctime.wMinute, loctime.wSecond);
+
+	id = userName + szTime;
+
+	m_userLoginList[id] = userName;
+
+	return true;
 }
 
-void IpcManageServerHandler::releaseLoginResource(HANDLE handle)
+void IpcManageServerHandler::releaseLoginResource(const string id)
 {
-
+	map<string, string>::iterator iter = m_userLoginList.find(id);
+	if (iter != m_userLoginList.end())
+	{
+		m_userLoginList.erase(iter);
+	}
 }
 
 void IpcManageServerHandler::confirmPTZControl(HANDLE hUser, HANDLE hIPC)
@@ -148,28 +179,23 @@ void IpcManageServerHandler::confirmPTZControl(HANDLE hUser, HANDLE hIPC)
 
 }
 
-void IpcManageServerHandler::getPTZResource(HANDLE hRes, LONG &hPTZ)
+BOOL IpcManageServerHandler::getPTZResource(HANDLE hRes, LONG &hPTZ)
 {
-	HANDLE currentUser = NULL;
+	BOOL ret = FALSE;
 
-	map<HANDLE, IPCResourceDataPacket>::iterator iter = m_mediaResource.find(hRes);
-	if (iter == m_mediaResource.end())
-	{
-		return;
-	}
-
-	if (iter->second.hPTZ == NULL)
+	const IPCResourceDataPacket* ipc = ipcTools::MediaManager::Instance()->getResource(hRes);
+	if (ipc != NULL)
 	{
 		//通过SDK建立连接
-		hPTZ = ipcTools::ConnectManager::Instance()->connectDVR("");
-		if(hPTZ != NULL)
-			iter->second.hPTZ = (int64_t)hPTZ;
+		if(ipcTools::ConnectManager::Instance()->connectDVR(ipc) != FALSE)
+		{
+			hPTZ = ipc->hPTZ;
+			m_PTZHandler[hPTZ] = hRes;
+			ret = TRUE;
+		}
 	}
-	else
-	{
-		hPTZ = (LONG)iter->second.hPTZ;
-	}
-	return;
+
+	return ret;
 }
 
 void IpcManageServerHandler::releasePTZResource(HANDLE handle)
@@ -177,9 +203,14 @@ void IpcManageServerHandler::releasePTZResource(HANDLE handle)
 
 }
 
-bool IpcManageServerHandler::authentication(const UserVerificationDataPacket &data)
+bool IpcManageServerHandler::authentication(const UserVerificationDataPacket &data) const
 {
-	return true;
+	map<string, string>::const_iterator iter = m_userLoginList.find(data.UserID);
+	if (iter != m_userLoginList.end())
+	{
+		return true;
+	}
+	return false;
 }
 
 void IpcManageServerHandler::initMediaResource()

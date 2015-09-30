@@ -2,6 +2,7 @@
 #define IpcManageTools_H
 
 #include "MediaManagerStruct_types.h"
+#include "OperateStruct_types.h"
 #include <string>
 #include <map>
 
@@ -63,8 +64,8 @@ namespace ipcTools
 	public:
 		static ConnectManager* Instance();
 
-		LONG connectDVR(const char *ipc);
-		BOOL	PTZControl(const PTZCommandDataPacket &commad);
+		BOOL connectDVR(const IPCResourceDataPacket* ipc);
+		BOOL	PTZControl(const PTZControlDataPacket &commad);
 
 
 	private:
@@ -83,7 +84,7 @@ namespace ipcTools
 		void getDeviceType(LONG hLogin);
 
 	private:
-		map<ConnectInfo, LONG> m_ConnectList;
+		map<LONG, ConnectInfo> m_ConnectList;
 
 	};
 

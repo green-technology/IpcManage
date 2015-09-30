@@ -3,7 +3,8 @@ namespace cpp ipcms
 enum DeviceType {
 		DeviceTypeNone,
 		DeviceTypeHC,
-		DeviceTypeDH
+		DeviceTypeDH,
+		DeviceTypeUnSupported
 }
 
 //多媒体资源管理数据包
@@ -15,6 +16,7 @@ struct IPCResourceDataPacket {
         5: string password;
         6: i64 channel;
         7: i64 hPTZ;
+        8: string deviceName;
 }
 
 struct UserLoginInfoDataPacket {
