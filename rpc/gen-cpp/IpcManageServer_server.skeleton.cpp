@@ -27,6 +27,11 @@ class IpcManageServerHandler : virtual public IpcManageServerIf {
     printf("UserLogin\n");
   }
 
+  bool UserLogout(const  ::ipcms::UserVerificationDataPacket& userVerify) {
+    // Your implementation goes here
+    printf("UserLogout\n");
+  }
+
   void GetResInfoList(std::vector< ::ipcms::ResourceInfoReturnStruct> & _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::ResourceType::type resType) {
     // Your implementation goes here
     printf("GetResInfoList\n");
@@ -47,9 +52,24 @@ class IpcManageServerHandler : virtual public IpcManageServerIf {
     printf("PTZControl\n");
   }
 
-  bool UserLogout(const  ::ipcms::UserVerificationDataPacket& userVerify) {
+   ::ipcms::ReturnType::type ReleasePTZControl(const  ::ipcms::UserVerificationDataPacket& userVerify, const int64_t hPTZ) {
     // Your implementation goes here
-    printf("UserLogout\n");
+    printf("ReleasePTZControl\n");
+  }
+
+   ::ipcms::ReturnType::type addResourceIPC(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::IPCResourceDataPacket& ipc) {
+    // Your implementation goes here
+    printf("addResourceIPC\n");
+  }
+
+   ::ipcms::ReturnType::type addResourceRecord(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::RecordResource& record, const std::string& file) {
+    // Your implementation goes here
+    printf("addResourceRecord\n");
+  }
+
+   ::ipcms::ReturnType::type deleteResource(const  ::ipcms::UserVerificationDataPacket& userVerify, const int64_t handle) {
+    // Your implementation goes here
+    printf("deleteResource\n");
   }
 
 };

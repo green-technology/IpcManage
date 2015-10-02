@@ -69,3 +69,11 @@ enum HIK_PTZ_CommandType
 	HIK_GOTO_PRESET			= 39,				// 转到预置点 
 
 }
+
+struct RecordResource
+{
+	1: string 	name;
+	2: string	path;
+	3: i64 		startTime;
+	4: i64		timeLength;
+}

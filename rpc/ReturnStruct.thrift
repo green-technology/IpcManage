@@ -43,3 +43,11 @@ struct PTZControlReturnStruct
 {
     1:optional PTZControlReturnType result;
 }
+
+enum ReturnType
+{
+    Success,
+    InvalidUser,
+    InvalidHandle,
+    FailUnspecified
+}

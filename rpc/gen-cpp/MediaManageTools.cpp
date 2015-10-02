@@ -1,6 +1,7 @@
 #include "MediaManageTools.h"
 #include "CppSQLite3.h"
 #include <string>
+#include "ReturnStruct_types.h"
 
 using namespace std;
 
@@ -168,6 +169,28 @@ namespace ipcTools
 		return strType;
 	}
 
+#define MAX_HANDLE 16
+
+	HANDLE getHandle(ResourceType::type type, HANDLE src)
+	{
+		assert(!((int)src >> MAX_HANDLE));
+
+		HANDLE dst = src;
+		switch(type)
+		{
+		case ResourceType::ResourceTypeIPC:
+			dst = HANDLE((int)src + 1);
+			break;
+		case ResourceType::ResourceTypeReplay:
+			dst = HANDLE(((int)src << 4) + 1);
+		default:
+			assert(false);
+			dst = NULL;
+			break;
+		}
+		return dst;
+	}
+
 	void MediaManager::initFromLocal()
 	{
 		string		strCameraType;			// ÉãÏñÍ·ÀàÐÍ
@@ -206,7 +229,7 @@ namespace ipcTools
 				lpCamera->IP					= UTF_82ASCII(strIp);
 				lpCamera->port				= query.getIntField(2);
 				lpCamera->channel				= query.getIntField(6);
-				HANDLE hRes = (HANDLE)query.getInt64Field(0);
+				HANDLE hRes = getHandle(ResourceType::ResourceTypeIPC, (HANDLE)query.getInt64Field(0));
 
 				m_DeviceResource.insert(map<HANDLE/*resource*/, IPCResourceDataPacket*>::value_type(hRes, lpCamera));
 				
@@ -230,39 +253,56 @@ namespace ipcTools
 		return iter->second;
 	}
 
-	HANDLE MediaManager::addDeviceResource(const IPCResourceDataPacket* res)
+	BOOL MediaManager::addDeviceResource(const IPCResourceDataPacket* res)
 	{
 		char szSql[MAX_PATH] = {0};
 		sprintf_s(szSql, "insert into IPC values(NULL, '%s', '%ll', '%s' , '%s', '%s', '%d') ",
 			res->IP, res->port, DeviceType2str(res->deviceType), res->userName, res->password, res->channel);
 
-		CppSQLite3DB db;
-		db.open(g_szFile);
-		int nRet2 = db.execDML("begin transaction;");
-		string strSql = szSql;
-		nRet2 = db.execDML(ASCII2UTF_8(strSql).c_str());
-		nRet2 = db.execDML("commit transaction;");
+		try
+		{
+			CppSQLite3DB db;
+			db.open(g_szFile);
+			int nRet2 = db.execDML("begin transaction;");
+			string strSql = szSql;
+			nRet2 = db.execDML(ASCII2UTF_8(strSql).c_str());
+			nRet2 = db.execDML("commit transaction;");
 
-		HANDLE hRes = (HANDLE)db.lastRowId();
+			HANDLE hRes = (HANDLE)db.lastRowId();
 
-		IPCResourceDataPacket *lpCamera				= new IPCResourceDataPacket();
-		*lpCamera = *res;
-		m_DeviceResource.insert(map<HANDLE/*resource*/, IPCResourceDataPacket*>::value_type(hRes, lpCamera));
+			IPCResourceDataPacket *lpCamera				= new IPCResourceDataPacket();
+			*lpCamera = *res;
+			m_DeviceResource.insert(map<HANDLE/*resource*/, IPCResourceDataPacket*>::value_type(hRes, lpCamera));
+		}
+		catch (...)
+		{
+			return FALSE;
+		}
 
-		return hRes;
+		return TRUE;
 	}
 
-	BOOL MediaManager::deleteDeviceResource(int recordID)
+	BOOL MediaManager::deleteDeviceResource(const HANDLE handle)
 	{
 		char szSql[MAX_PATH] = {0};
-		sprintf_s(szSql, "delete from IPC where id=%d", recordID);
+		if (((int)handle >> MAX_HANDLE) == 0)
+			sprintf_s(szSql, "delete from IPC where id=%d", (int)handle);
+		else
+			sprintf_s(szSql, "delete from Record where id=%d", (int)handle >> MAX_HANDLE);
 
-		CppSQLite3DB db;
-		db.open(g_szFile);
-		int nRet2 = db.execDML("begin transaction;");
-		string strSql = szSql;
-		nRet2 = db.execDML(ASCII2UTF_8(strSql).c_str());
-		nRet2 = db.execDML("commit transaction;");
+		try
+		{
+			CppSQLite3DB db;
+			db.open(g_szFile);
+			int nRet2 = db.execDML("begin transaction;");
+			string strSql = szSql;
+			nRet2 = db.execDML(ASCII2UTF_8(strSql).c_str());
+			nRet2 = db.execDML("commit transaction;");
+		}
+		catch (...)
+		{
+			return FALSE;
+		}
 
 		return TRUE;
 	}

@@ -94,18 +94,17 @@ namespace ipcTools
 		if (!convertCommandDH(dwPTZCommand, cmd))
 			return FALSE;
 
-		switch(dwPTZCommand)
+		if (cmd >= DH_EXTPTZ_LEFTTOP)
 		{
-		case DH_EXTPTZ_AUXIOPEN:
-		case DH_EXTPTZ_AUXICLOSE:
-			bRet=CLIENT_DHPTZControlEx(hLogin, channel, cmd, param1, 0, 0, FALSE);
-			break;
-		default:
-			bRet= CLIENT_DHPTZControlEx(hLogin, channel, cmd, param1, param2, param3, dwStop);
-			break;
+			bRet=CLIENT_DHPTZControl(hLogin, channel, cmd, (BYTE)param1, (BYTE)param2, 0, FALSE);
+		} 
+		else
+		{
+			bRet= CLIENT_DHPTZControl(hLogin, channel, cmd, 0, (BYTE)param2, 0, dwStop);
 		}
 		if(!bRet)
 		{
+			DWORD dwError = CLIENT_GetLastError();
 			LOG("执行大华云台控制命令失败！\n");
 			return FALSE;
 		}
@@ -113,5 +112,9 @@ namespace ipcTools
 		return TRUE;
 	}
 
+	BOOL ConnectManager::closeConnectDH(LONG hLogin)
+	{
+		return CLIENT_Logout(hLogin);
+	}
 
 }

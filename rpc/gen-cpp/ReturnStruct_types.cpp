@@ -37,6 +37,20 @@ const char* _kPTZControlReturnTypeNames[] = {
 };
 const std::map<int, const char*> _PTZControlReturnType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(3, _kPTZControlReturnTypeValues, _kPTZControlReturnTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
 
+int _kReturnTypeValues[] = {
+  ReturnType::Success,
+  ReturnType::InvalidUser,
+  ReturnType::InvalidHandle,
+  ReturnType::FailUnspecified
+};
+const char* _kReturnTypeNames[] = {
+  "Success",
+  "InvalidUser",
+  "InvalidHandle",
+  "FailUnspecified"
+};
+const std::map<int, const char*> _ReturnType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(4, _kReturnTypeValues, _kReturnTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
+
 
 UserLoginReturnStruct::~UserLoginReturnStruct() throw() {
 }

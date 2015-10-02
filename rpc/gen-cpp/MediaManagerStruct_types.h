@@ -67,6 +67,8 @@ class UserLoginInfoDataPacket;
 
 class PTZCommandDataPacket;
 
+class RecordResource;
+
 typedef struct _IPCResourceDataPacket__isset {
   _IPCResourceDataPacket__isset() : IP(false), port(false), deviceType(false), userName(false), password(false), channel(false), hPTZ(false), deviceName(false), rtspUrl(false) {}
   bool IP :1;
@@ -299,6 +301,67 @@ class PTZCommandDataPacket {
 };
 
 void swap(PTZCommandDataPacket &a, PTZCommandDataPacket &b);
+
+typedef struct _RecordResource__isset {
+  _RecordResource__isset() : name(false), path(false), startTime(false), timeLength(false) {}
+  bool name :1;
+  bool path :1;
+  bool startTime :1;
+  bool timeLength :1;
+} _RecordResource__isset;
+
+class RecordResource {
+ public:
+
+  static const char* ascii_fingerprint; // = "50272E49E7C02012722B8F62131C940B";
+  static const uint8_t binary_fingerprint[16]; // = {0x50,0x27,0x2E,0x49,0xE7,0xC0,0x20,0x12,0x72,0x2B,0x8F,0x62,0x13,0x1C,0x94,0x0B};
+
+  RecordResource(const RecordResource&);
+  RecordResource& operator=(const RecordResource&);
+  RecordResource() : name(), path(), startTime(0), timeLength(0) {
+  }
+
+  virtual ~RecordResource() throw();
+  std::string name;
+  std::string path;
+  int64_t startTime;
+  int64_t timeLength;
+
+  _RecordResource__isset __isset;
+
+  void __set_name(const std::string& val);
+
+  void __set_path(const std::string& val);
+
+  void __set_startTime(const int64_t val);
+
+  void __set_timeLength(const int64_t val);
+
+  bool operator == (const RecordResource & rhs) const
+  {
+    if (!(name == rhs.name))
+      return false;
+    if (!(path == rhs.path))
+      return false;
+    if (!(startTime == rhs.startTime))
+      return false;
+    if (!(timeLength == rhs.timeLength))
+      return false;
+    return true;
+  }
+  bool operator != (const RecordResource &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const RecordResource & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const RecordResource& obj);
+};
+
+void swap(RecordResource &a, RecordResource &b);
 
 } // namespace
 

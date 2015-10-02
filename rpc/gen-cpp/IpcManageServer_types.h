@@ -17,6 +17,7 @@
 #include <thrift/cxxfunctional.h>
 #include "ReturnStruct_types.h"
 #include "OperateStruct_types.h"
+#include "MediaManagerStruct_types.h"
 
 
 namespace ipcms {

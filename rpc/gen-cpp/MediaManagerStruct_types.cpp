@@ -695,4 +695,154 @@ std::ostream& operator<<(std::ostream& out, const PTZCommandDataPacket& obj) {
   return out;
 }
 
+
+RecordResource::~RecordResource() throw() {
+}
+
+
+void RecordResource::__set_name(const std::string& val) {
+  this->name = val;
+}
+
+void RecordResource::__set_path(const std::string& val) {
+  this->path = val;
+}
+
+void RecordResource::__set_startTime(const int64_t val) {
+  this->startTime = val;
+}
+
+void RecordResource::__set_timeLength(const int64_t val) {
+  this->timeLength = val;
+}
+
+const char* RecordResource::ascii_fingerprint = "50272E49E7C02012722B8F62131C940B";
+const uint8_t RecordResource::binary_fingerprint[16] = {0x50,0x27,0x2E,0x49,0xE7,0xC0,0x20,0x12,0x72,0x2B,0x8F,0x62,0x13,0x1C,0x94,0x0B};
+
+uint32_t RecordResource::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->name);
+          this->__isset.name = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->path);
+          this->__isset.path = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->startTime);
+          this->__isset.startTime = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->timeLength);
+          this->__isset.timeLength = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t RecordResource::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  oprot->incrementRecursionDepth();
+  xfer += oprot->writeStructBegin("RecordResource");
+
+  xfer += oprot->writeFieldBegin("name", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->name);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->path);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("startTime", ::apache::thrift::protocol::T_I64, 3);
+  xfer += oprot->writeI64(this->startTime);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("timeLength", ::apache::thrift::protocol::T_I64, 4);
+  xfer += oprot->writeI64(this->timeLength);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  oprot->decrementRecursionDepth();
+  return xfer;
+}
+
+void swap(RecordResource &a, RecordResource &b) {
+  using ::std::swap;
+  swap(a.name, b.name);
+  swap(a.path, b.path);
+  swap(a.startTime, b.startTime);
+  swap(a.timeLength, b.timeLength);
+  swap(a.__isset, b.__isset);
+}
+
+RecordResource::RecordResource(const RecordResource& other7) {
+  name = other7.name;
+  path = other7.path;
+  startTime = other7.startTime;
+  timeLength = other7.timeLength;
+  __isset = other7.__isset;
+}
+RecordResource& RecordResource::operator=(const RecordResource& other8) {
+  name = other8.name;
+  path = other8.path;
+  startTime = other8.startTime;
+  timeLength = other8.timeLength;
+  __isset = other8.__isset;
+  return *this;
+}
+std::ostream& operator<<(std::ostream& out, const RecordResource& obj) {
+  using apache::thrift::to_string;
+  out << "RecordResource(";
+  out << "name=" << to_string(obj.name);
+  out << ", " << "path=" << to_string(obj.path);
+  out << ", " << "startTime=" << to_string(obj.startTime);
+  out << ", " << "timeLength=" << to_string(obj.timeLength);
+  out << ")";
+  return out;
+}
+
 } // namespace

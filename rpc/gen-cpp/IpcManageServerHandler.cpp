@@ -92,8 +92,11 @@ int8_t IpcManageServerHandler::PlayVideo(const  ::ipcms::UserVerificationDataPac
 	return 0;
 }
 
-void IpcManageServerHandler::RequestPTZControl( ::ipcms::RequestPTZControlReturnStruct&  _return, const  ::ipcms::UserVerificationDataPacket& /* userVerify */, const  ::ipcms::RequestPTZControlDataPacket&  requestPTZ) {
+void IpcManageServerHandler::RequestPTZControl( ::ipcms::RequestPTZControlReturnStruct&  _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::RequestPTZControlDataPacket&  requestPTZ) {
 	printf("RequestPTZControl\n");
+
+	if(!authentication(userVerify))
+		return;
 
 	HANDLE hRes = (HANDLE)requestPTZ.hResource;
 	LONG hPTZ = NULL;
@@ -113,6 +116,8 @@ void IpcManageServerHandler::RequestPTZControl( ::ipcms::RequestPTZControlReturn
 		}
 		else
 		{
+			m_PTZUserList[hPTZ] = userVerify.UserID;
+
 			_return.hPTZ = (int64_t)hPTZ;
 			_return.result = TRUE;
 		}
@@ -141,6 +146,24 @@ void IpcManageServerHandler::PTZControl(::ipcms::PTZControlReturnStruct&  _retur
 		_return.result = PTZControlReturnType::PTZControlReturnTypeError;
 }
 
+ReturnType::type IpcManageServerHandler::ReleasePTZControl(const  ::ipcms::UserVerificationDataPacket& userVerify, const int64_t hPTZ)
+{
+	if(!authentication(userVerify))
+		return ReturnType::InvalidUser;
+
+	map<LONG, string>::iterator iterUser = m_PTZUserList.find(hPTZ);
+	if (iterUser != m_PTZUserList.end())
+	{
+		if (iterUser->second == userVerify.UserID)
+		{
+			ipcTools::ConnectManager::Instance()->closeConnect((LONG)hPTZ);
+			return ReturnType::Success;
+		}
+	}
+
+	return ReturnType::InvalidHandle;
+}
+
 bool IpcManageServerHandler::UserLogout(const  ::ipcms::UserVerificationDataPacket& userVerify) {
 	// Your implementation goes here
 	printf("UserLogout\n");
@@ -150,6 +173,36 @@ bool IpcManageServerHandler::UserLogout(const  ::ipcms::UserVerificationDataPack
 	releaseLoginResource(userVerify.UserID);
 
 	return true;
+}
+
+ReturnType::type IpcManageServerHandler::addResourceIPC(const  ::ipcms::UserVerificationDataPacket& userVerify, const ::ipcms::IPCResourceDataPacket& ipc)
+{
+	if(!authentication(userVerify))
+		return ReturnType::InvalidUser;
+
+	if (ipcTools::MediaManager::Instance()->addDeviceResource(&ipc))
+		return ReturnType::Success;
+
+	return ReturnType::FailUnspecified;
+}
+
+ReturnType::type IpcManageServerHandler::addResourceRecord(const  ::ipcms::UserVerificationDataPacket& userVerify, const ::ipcms::RecordResource& record, const std::string& file)
+{
+	if(!authentication(userVerify))
+		return ReturnType::InvalidUser;
+
+	return ReturnType::FailUnspecified;
+}
+
+ReturnType::type IpcManageServerHandler::deleteResource(const  ::ipcms::UserVerificationDataPacket& userVerify, const int64_t handle)
+{
+	if(!authentication(userVerify))
+		return ReturnType::InvalidUser;
+
+	if (ipcTools::MediaManager::Instance()->deleteDeviceResource((HANDLE)handle))
+		return ReturnType::Success;
+
+	return ReturnType::FailUnspecified;
 }
 
 bool IpcManageServerHandler::getLoginResource(const string userName, string& id)
@@ -197,11 +250,6 @@ BOOL IpcManageServerHandler::getPTZResource(HANDLE hRes, LONG &hPTZ)
 	}
 
 	return ret;
-}
-
-void IpcManageServerHandler::releasePTZResource(HANDLE handle)
-{
-
 }
 
 bool IpcManageServerHandler::authentication(const UserVerificationDataPacket &data) const

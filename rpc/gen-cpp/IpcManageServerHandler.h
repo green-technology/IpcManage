@@ -17,41 +17,46 @@ using namespace std;
 using namespace  ::ipcms;
 
 class IpcManageServerHandler : virtual public IpcManageServerIf {
- public:
-  IpcManageServerHandler();
+public:
+	IpcManageServerHandler();
 
-  void UserLogin( ::ipcms::UserLoginReturnStruct& _return, const std::string& userName);
+	void UserLogin( ::ipcms::UserLoginReturnStruct& _return, const std::string& userName) override;
 
-   void GetResInfoList(std::vector< ::ipcms::ResourceInfoReturnStruct> & _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::ResourceType::type resType);
+	void GetResInfoList(std::vector< ::ipcms::ResourceInfoReturnStruct> & _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::ResourceType::type resType) override;
 
-  int8_t PlayVideo(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::PlayVideoDataPacket& playVideo);
+	int8_t PlayVideo(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::PlayVideoDataPacket& playVideo) override;
 
-  //申请云台控制权限
-  void RequestPTZControl( ::ipcms::RequestPTZControlReturnStruct& /* _return */, const  ::ipcms::UserVerificationDataPacket& /* userVerify */, const  ::ipcms::RequestPTZControlDataPacket& /* requestPTZ */);
+	//申请云台控制权限
+	void RequestPTZControl( ::ipcms::RequestPTZControlReturnStruct& /* _return */, const  ::ipcms::UserVerificationDataPacket& /* userVerify */, const  ::ipcms::RequestPTZControlDataPacket& /* requestPTZ */) override;
 
-   void PTZControl( ::ipcms::PTZControlReturnStruct& /* _return */, const  ::ipcms::UserVerificationDataPacket& /* userVerify */, const  ::ipcms::PTZControlDataPacket& /* command */);
+	void PTZControl( ::ipcms::PTZControlReturnStruct& /* _return */, const  ::ipcms::UserVerificationDataPacket& /* userVerify */, const  ::ipcms::PTZControlDataPacket& /* command */) override;
+	
+	ReturnType::type ReleasePTZControl(const  ::ipcms::UserVerificationDataPacket& userVerify, const int64_t hPTZ) override;
 
-  bool UserLogout(const  ::ipcms::UserVerificationDataPacket& userVerify);
+	bool UserLogout(const  ::ipcms::UserVerificationDataPacket& userVerify) override;
+
+	ReturnType::type addResourceIPC(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::IPCResourceDataPacket& ipc) override;
+	ReturnType::type addResourceRecord(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::RecordResource& record, const std::string& file) override;
+	ReturnType::type deleteResource(const  ::ipcms::UserVerificationDataPacket& userVerify, const int64_t handle) override;
 
 private:
-    bool getLoginResource(const string userName, string& id);
-    void releaseLoginResource(const string id);
-    
-    void confirmPTZControl(HANDLE hUser, HANDLE hIPC);
+	bool getLoginResource(const string userName, string& id);
+	void releaseLoginResource(const string id);
 
-    BOOL getPTZResource(HANDLE hRes, LONG &hPTZ);
-    void releasePTZResource(HANDLE handle);
-    
-    bool authentication(const UserVerificationDataPacket &data) const;
-    
-    void initMediaResource();
+	void confirmPTZControl(HANDLE hUser, HANDLE hIPC);
 
-    map<string/*id*/, string/*userName*/> m_userLoginList;
+	BOOL getPTZResource(HANDLE hRes, LONG &hPTZ);
 
-    vector<HANDLE> m_userResource;
+	bool authentication(const UserVerificationDataPacket &data) const;
 
-    map<LONG, string> m_PTZUserList;
-    map<LONG, HANDLE/*resource*/> m_PTZHandler;
+	void initMediaResource();
+
+	map<string/*id*/, string/*userName*/> m_userLoginList;
+
+	vector<HANDLE> m_userResource;
+
+	map<LONG, string> m_PTZUserList;
+	map<LONG, HANDLE/*resource*/> m_PTZHandler;
 
 };
 

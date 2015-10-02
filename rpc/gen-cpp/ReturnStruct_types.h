@@ -39,6 +39,17 @@ struct PTZControlReturnType {
 
 extern const std::map<int, const char*> _PTZControlReturnType_VALUES_TO_NAMES;
 
+struct ReturnType {
+  enum type {
+    Success = 0,
+    InvalidUser = 1,
+    InvalidHandle = 2,
+    FailUnspecified = 3
+  };
+};
+
+extern const std::map<int, const char*> _ReturnType_VALUES_TO_NAMES;
+
 class UserLoginReturnStruct;
 
 class ResourceInfoReturnStruct;

@@ -36,6 +36,12 @@
     <ClInclude Include="..\..\rpc\gen-cpp\ReturnStruct_types.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\rpc\gen-cpp\MediaManagerStruct_constants.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\rpc\gen-cpp\MediaManagerStruct_types.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\rpc\gen-cpp\IpcManageServer.cpp">
@@ -60,6 +66,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="client.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\rpc\gen-cpp\MediaManagerStruct_constants.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\rpc\gen-cpp\MediaManagerStruct_types.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

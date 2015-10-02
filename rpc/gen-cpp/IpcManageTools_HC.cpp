@@ -140,5 +140,10 @@ namespace ipcTools
 		return TRUE;
 	}
 
+	BOOL ConnectManager::closeConnectHC(LONG hLogin)
+	{
+		return NET_DVR_Logout_V30(hLogin);
+	}
+
 }
 

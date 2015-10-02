@@ -21,6 +21,10 @@ class IpcManageServerIf {
   virtual int8_t PlayVideo(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::PlayVideoDataPacket& playVideo) = 0;
   virtual void RequestPTZControl( ::ipcms::RequestPTZControlReturnStruct& _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::RequestPTZControlDataPacket& requestPTZ) = 0;
   virtual void PTZControl( ::ipcms::PTZControlReturnStruct& _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::PTZControlDataPacket& command) = 0;
+  virtual  ::ipcms::ReturnType::type ReleasePTZControl(const  ::ipcms::UserVerificationDataPacket& userVerify, const int64_t hPTZ) = 0;
+  virtual  ::ipcms::ReturnType::type addResourceIPC(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::IPCResourceDataPacket& ipc) = 0;
+  virtual  ::ipcms::ReturnType::type addResourceRecord(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::RecordResource& record, const std::string& file) = 0;
+  virtual  ::ipcms::ReturnType::type deleteResource(const  ::ipcms::UserVerificationDataPacket& userVerify, const int64_t handle) = 0;
 };
 
 class IpcManageServerIfFactory {
@@ -69,6 +73,22 @@ class IpcManageServerNull : virtual public IpcManageServerIf {
   }
   void PTZControl( ::ipcms::PTZControlReturnStruct& /* _return */, const  ::ipcms::UserVerificationDataPacket& /* userVerify */, const  ::ipcms::PTZControlDataPacket& /* command */) {
     return;
+  }
+   ::ipcms::ReturnType::type ReleasePTZControl(const  ::ipcms::UserVerificationDataPacket& /* userVerify */, const int64_t /* hPTZ */) {
+     ::ipcms::ReturnType::type _return = ( ::ipcms::ReturnType::type)0;
+    return _return;
+  }
+   ::ipcms::ReturnType::type addResourceIPC(const  ::ipcms::UserVerificationDataPacket& /* userVerify */, const  ::ipcms::IPCResourceDataPacket& /* ipc */) {
+     ::ipcms::ReturnType::type _return = ( ::ipcms::ReturnType::type)0;
+    return _return;
+  }
+   ::ipcms::ReturnType::type addResourceRecord(const  ::ipcms::UserVerificationDataPacket& /* userVerify */, const  ::ipcms::RecordResource& /* record */, const std::string& /* file */) {
+     ::ipcms::ReturnType::type _return = ( ::ipcms::ReturnType::type)0;
+    return _return;
+  }
+   ::ipcms::ReturnType::type deleteResource(const  ::ipcms::UserVerificationDataPacket& /* userVerify */, const int64_t /* handle */) {
+     ::ipcms::ReturnType::type _return = ( ::ipcms::ReturnType::type)0;
+    return _return;
   }
 };
 
@@ -820,6 +840,521 @@ class IpcManageServer_PTZControl_presult {
   friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_PTZControl_presult& obj);
 };
 
+typedef struct _IpcManageServer_ReleasePTZControl_args__isset {
+  _IpcManageServer_ReleasePTZControl_args__isset() : userVerify(false), hPTZ(false) {}
+  bool userVerify :1;
+  bool hPTZ :1;
+} _IpcManageServer_ReleasePTZControl_args__isset;
+
+class IpcManageServer_ReleasePTZControl_args {
+ public:
+
+  static const char* ascii_fingerprint; // = "33A8EF08BE7EA8D4271557196FE5F11B";
+  static const uint8_t binary_fingerprint[16]; // = {0x33,0xA8,0xEF,0x08,0xBE,0x7E,0xA8,0xD4,0x27,0x15,0x57,0x19,0x6F,0xE5,0xF1,0x1B};
+
+  IpcManageServer_ReleasePTZControl_args(const IpcManageServer_ReleasePTZControl_args&);
+  IpcManageServer_ReleasePTZControl_args& operator=(const IpcManageServer_ReleasePTZControl_args&);
+  IpcManageServer_ReleasePTZControl_args() : hPTZ(0) {
+  }
+
+  virtual ~IpcManageServer_ReleasePTZControl_args() throw();
+   ::ipcms::UserVerificationDataPacket userVerify;
+  int64_t hPTZ;
+
+  _IpcManageServer_ReleasePTZControl_args__isset __isset;
+
+  void __set_userVerify(const  ::ipcms::UserVerificationDataPacket& val);
+
+  void __set_hPTZ(const int64_t val);
+
+  bool operator == (const IpcManageServer_ReleasePTZControl_args & rhs) const
+  {
+    if (!(userVerify == rhs.userVerify))
+      return false;
+    if (!(hPTZ == rhs.hPTZ))
+      return false;
+    return true;
+  }
+  bool operator != (const IpcManageServer_ReleasePTZControl_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const IpcManageServer_ReleasePTZControl_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_ReleasePTZControl_args& obj);
+};
+
+
+class IpcManageServer_ReleasePTZControl_pargs {
+ public:
+
+  static const char* ascii_fingerprint; // = "33A8EF08BE7EA8D4271557196FE5F11B";
+  static const uint8_t binary_fingerprint[16]; // = {0x33,0xA8,0xEF,0x08,0xBE,0x7E,0xA8,0xD4,0x27,0x15,0x57,0x19,0x6F,0xE5,0xF1,0x1B};
+
+
+  virtual ~IpcManageServer_ReleasePTZControl_pargs() throw();
+  const  ::ipcms::UserVerificationDataPacket* userVerify;
+  const int64_t* hPTZ;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_ReleasePTZControl_pargs& obj);
+};
+
+typedef struct _IpcManageServer_ReleasePTZControl_result__isset {
+  _IpcManageServer_ReleasePTZControl_result__isset() : success(false) {}
+  bool success :1;
+} _IpcManageServer_ReleasePTZControl_result__isset;
+
+class IpcManageServer_ReleasePTZControl_result {
+ public:
+
+  static const char* ascii_fingerprint; // = "F1BC2174724B9D2E335CD95F6D6F9367";
+  static const uint8_t binary_fingerprint[16]; // = {0xF1,0xBC,0x21,0x74,0x72,0x4B,0x9D,0x2E,0x33,0x5C,0xD9,0x5F,0x6D,0x6F,0x93,0x67};
+
+  IpcManageServer_ReleasePTZControl_result(const IpcManageServer_ReleasePTZControl_result&);
+  IpcManageServer_ReleasePTZControl_result& operator=(const IpcManageServer_ReleasePTZControl_result&);
+  IpcManageServer_ReleasePTZControl_result() : success(( ::ipcms::ReturnType::type)0) {
+  }
+
+  virtual ~IpcManageServer_ReleasePTZControl_result() throw();
+   ::ipcms::ReturnType::type success;
+
+  _IpcManageServer_ReleasePTZControl_result__isset __isset;
+
+  void __set_success(const  ::ipcms::ReturnType::type val);
+
+  bool operator == (const IpcManageServer_ReleasePTZControl_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const IpcManageServer_ReleasePTZControl_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const IpcManageServer_ReleasePTZControl_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_ReleasePTZControl_result& obj);
+};
+
+typedef struct _IpcManageServer_ReleasePTZControl_presult__isset {
+  _IpcManageServer_ReleasePTZControl_presult__isset() : success(false) {}
+  bool success :1;
+} _IpcManageServer_ReleasePTZControl_presult__isset;
+
+class IpcManageServer_ReleasePTZControl_presult {
+ public:
+
+  static const char* ascii_fingerprint; // = "F1BC2174724B9D2E335CD95F6D6F9367";
+  static const uint8_t binary_fingerprint[16]; // = {0xF1,0xBC,0x21,0x74,0x72,0x4B,0x9D,0x2E,0x33,0x5C,0xD9,0x5F,0x6D,0x6F,0x93,0x67};
+
+
+  virtual ~IpcManageServer_ReleasePTZControl_presult() throw();
+   ::ipcms::ReturnType::type* success;
+
+  _IpcManageServer_ReleasePTZControl_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_ReleasePTZControl_presult& obj);
+};
+
+typedef struct _IpcManageServer_addResourceIPC_args__isset {
+  _IpcManageServer_addResourceIPC_args__isset() : userVerify(false), ipc(false) {}
+  bool userVerify :1;
+  bool ipc :1;
+} _IpcManageServer_addResourceIPC_args__isset;
+
+class IpcManageServer_addResourceIPC_args {
+ public:
+
+  static const char* ascii_fingerprint; // = "8DC0C7BD6FF6F563F5F7220AF413EB2D";
+  static const uint8_t binary_fingerprint[16]; // = {0x8D,0xC0,0xC7,0xBD,0x6F,0xF6,0xF5,0x63,0xF5,0xF7,0x22,0x0A,0xF4,0x13,0xEB,0x2D};
+
+  IpcManageServer_addResourceIPC_args(const IpcManageServer_addResourceIPC_args&);
+  IpcManageServer_addResourceIPC_args& operator=(const IpcManageServer_addResourceIPC_args&);
+  IpcManageServer_addResourceIPC_args() {
+  }
+
+  virtual ~IpcManageServer_addResourceIPC_args() throw();
+   ::ipcms::UserVerificationDataPacket userVerify;
+   ::ipcms::IPCResourceDataPacket ipc;
+
+  _IpcManageServer_addResourceIPC_args__isset __isset;
+
+  void __set_userVerify(const  ::ipcms::UserVerificationDataPacket& val);
+
+  void __set_ipc(const  ::ipcms::IPCResourceDataPacket& val);
+
+  bool operator == (const IpcManageServer_addResourceIPC_args & rhs) const
+  {
+    if (!(userVerify == rhs.userVerify))
+      return false;
+    if (!(ipc == rhs.ipc))
+      return false;
+    return true;
+  }
+  bool operator != (const IpcManageServer_addResourceIPC_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const IpcManageServer_addResourceIPC_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_addResourceIPC_args& obj);
+};
+
+
+class IpcManageServer_addResourceIPC_pargs {
+ public:
+
+  static const char* ascii_fingerprint; // = "8DC0C7BD6FF6F563F5F7220AF413EB2D";
+  static const uint8_t binary_fingerprint[16]; // = {0x8D,0xC0,0xC7,0xBD,0x6F,0xF6,0xF5,0x63,0xF5,0xF7,0x22,0x0A,0xF4,0x13,0xEB,0x2D};
+
+
+  virtual ~IpcManageServer_addResourceIPC_pargs() throw();
+  const  ::ipcms::UserVerificationDataPacket* userVerify;
+  const  ::ipcms::IPCResourceDataPacket* ipc;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_addResourceIPC_pargs& obj);
+};
+
+typedef struct _IpcManageServer_addResourceIPC_result__isset {
+  _IpcManageServer_addResourceIPC_result__isset() : success(false) {}
+  bool success :1;
+} _IpcManageServer_addResourceIPC_result__isset;
+
+class IpcManageServer_addResourceIPC_result {
+ public:
+
+  static const char* ascii_fingerprint; // = "F1BC2174724B9D2E335CD95F6D6F9367";
+  static const uint8_t binary_fingerprint[16]; // = {0xF1,0xBC,0x21,0x74,0x72,0x4B,0x9D,0x2E,0x33,0x5C,0xD9,0x5F,0x6D,0x6F,0x93,0x67};
+
+  IpcManageServer_addResourceIPC_result(const IpcManageServer_addResourceIPC_result&);
+  IpcManageServer_addResourceIPC_result& operator=(const IpcManageServer_addResourceIPC_result&);
+  IpcManageServer_addResourceIPC_result() : success(( ::ipcms::ReturnType::type)0) {
+  }
+
+  virtual ~IpcManageServer_addResourceIPC_result() throw();
+   ::ipcms::ReturnType::type success;
+
+  _IpcManageServer_addResourceIPC_result__isset __isset;
+
+  void __set_success(const  ::ipcms::ReturnType::type val);
+
+  bool operator == (const IpcManageServer_addResourceIPC_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const IpcManageServer_addResourceIPC_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const IpcManageServer_addResourceIPC_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_addResourceIPC_result& obj);
+};
+
+typedef struct _IpcManageServer_addResourceIPC_presult__isset {
+  _IpcManageServer_addResourceIPC_presult__isset() : success(false) {}
+  bool success :1;
+} _IpcManageServer_addResourceIPC_presult__isset;
+
+class IpcManageServer_addResourceIPC_presult {
+ public:
+
+  static const char* ascii_fingerprint; // = "F1BC2174724B9D2E335CD95F6D6F9367";
+  static const uint8_t binary_fingerprint[16]; // = {0xF1,0xBC,0x21,0x74,0x72,0x4B,0x9D,0x2E,0x33,0x5C,0xD9,0x5F,0x6D,0x6F,0x93,0x67};
+
+
+  virtual ~IpcManageServer_addResourceIPC_presult() throw();
+   ::ipcms::ReturnType::type* success;
+
+  _IpcManageServer_addResourceIPC_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_addResourceIPC_presult& obj);
+};
+
+typedef struct _IpcManageServer_addResourceRecord_args__isset {
+  _IpcManageServer_addResourceRecord_args__isset() : userVerify(false), record(false), file(false) {}
+  bool userVerify :1;
+  bool record :1;
+  bool file :1;
+} _IpcManageServer_addResourceRecord_args__isset;
+
+class IpcManageServer_addResourceRecord_args {
+ public:
+
+  static const char* ascii_fingerprint; // = "E4A3CBC18C38EB3D0145527E8468DB30";
+  static const uint8_t binary_fingerprint[16]; // = {0xE4,0xA3,0xCB,0xC1,0x8C,0x38,0xEB,0x3D,0x01,0x45,0x52,0x7E,0x84,0x68,0xDB,0x30};
+
+  IpcManageServer_addResourceRecord_args(const IpcManageServer_addResourceRecord_args&);
+  IpcManageServer_addResourceRecord_args& operator=(const IpcManageServer_addResourceRecord_args&);
+  IpcManageServer_addResourceRecord_args() : file() {
+  }
+
+  virtual ~IpcManageServer_addResourceRecord_args() throw();
+   ::ipcms::UserVerificationDataPacket userVerify;
+   ::ipcms::RecordResource record;
+  std::string file;
+
+  _IpcManageServer_addResourceRecord_args__isset __isset;
+
+  void __set_userVerify(const  ::ipcms::UserVerificationDataPacket& val);
+
+  void __set_record(const  ::ipcms::RecordResource& val);
+
+  void __set_file(const std::string& val);
+
+  bool operator == (const IpcManageServer_addResourceRecord_args & rhs) const
+  {
+    if (!(userVerify == rhs.userVerify))
+      return false;
+    if (!(record == rhs.record))
+      return false;
+    if (!(file == rhs.file))
+      return false;
+    return true;
+  }
+  bool operator != (const IpcManageServer_addResourceRecord_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const IpcManageServer_addResourceRecord_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_addResourceRecord_args& obj);
+};
+
+
+class IpcManageServer_addResourceRecord_pargs {
+ public:
+
+  static const char* ascii_fingerprint; // = "E4A3CBC18C38EB3D0145527E8468DB30";
+  static const uint8_t binary_fingerprint[16]; // = {0xE4,0xA3,0xCB,0xC1,0x8C,0x38,0xEB,0x3D,0x01,0x45,0x52,0x7E,0x84,0x68,0xDB,0x30};
+
+
+  virtual ~IpcManageServer_addResourceRecord_pargs() throw();
+  const  ::ipcms::UserVerificationDataPacket* userVerify;
+  const  ::ipcms::RecordResource* record;
+  const std::string* file;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_addResourceRecord_pargs& obj);
+};
+
+typedef struct _IpcManageServer_addResourceRecord_result__isset {
+  _IpcManageServer_addResourceRecord_result__isset() : success(false) {}
+  bool success :1;
+} _IpcManageServer_addResourceRecord_result__isset;
+
+class IpcManageServer_addResourceRecord_result {
+ public:
+
+  static const char* ascii_fingerprint; // = "F1BC2174724B9D2E335CD95F6D6F9367";
+  static const uint8_t binary_fingerprint[16]; // = {0xF1,0xBC,0x21,0x74,0x72,0x4B,0x9D,0x2E,0x33,0x5C,0xD9,0x5F,0x6D,0x6F,0x93,0x67};
+
+  IpcManageServer_addResourceRecord_result(const IpcManageServer_addResourceRecord_result&);
+  IpcManageServer_addResourceRecord_result& operator=(const IpcManageServer_addResourceRecord_result&);
+  IpcManageServer_addResourceRecord_result() : success(( ::ipcms::ReturnType::type)0) {
+  }
+
+  virtual ~IpcManageServer_addResourceRecord_result() throw();
+   ::ipcms::ReturnType::type success;
+
+  _IpcManageServer_addResourceRecord_result__isset __isset;
+
+  void __set_success(const  ::ipcms::ReturnType::type val);
+
+  bool operator == (const IpcManageServer_addResourceRecord_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const IpcManageServer_addResourceRecord_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const IpcManageServer_addResourceRecord_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_addResourceRecord_result& obj);
+};
+
+typedef struct _IpcManageServer_addResourceRecord_presult__isset {
+  _IpcManageServer_addResourceRecord_presult__isset() : success(false) {}
+  bool success :1;
+} _IpcManageServer_addResourceRecord_presult__isset;
+
+class IpcManageServer_addResourceRecord_presult {
+ public:
+
+  static const char* ascii_fingerprint; // = "F1BC2174724B9D2E335CD95F6D6F9367";
+  static const uint8_t binary_fingerprint[16]; // = {0xF1,0xBC,0x21,0x74,0x72,0x4B,0x9D,0x2E,0x33,0x5C,0xD9,0x5F,0x6D,0x6F,0x93,0x67};
+
+
+  virtual ~IpcManageServer_addResourceRecord_presult() throw();
+   ::ipcms::ReturnType::type* success;
+
+  _IpcManageServer_addResourceRecord_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_addResourceRecord_presult& obj);
+};
+
+typedef struct _IpcManageServer_deleteResource_args__isset {
+  _IpcManageServer_deleteResource_args__isset() : userVerify(false), handle(false) {}
+  bool userVerify :1;
+  bool handle :1;
+} _IpcManageServer_deleteResource_args__isset;
+
+class IpcManageServer_deleteResource_args {
+ public:
+
+  static const char* ascii_fingerprint; // = "33A8EF08BE7EA8D4271557196FE5F11B";
+  static const uint8_t binary_fingerprint[16]; // = {0x33,0xA8,0xEF,0x08,0xBE,0x7E,0xA8,0xD4,0x27,0x15,0x57,0x19,0x6F,0xE5,0xF1,0x1B};
+
+  IpcManageServer_deleteResource_args(const IpcManageServer_deleteResource_args&);
+  IpcManageServer_deleteResource_args& operator=(const IpcManageServer_deleteResource_args&);
+  IpcManageServer_deleteResource_args() : handle(0) {
+  }
+
+  virtual ~IpcManageServer_deleteResource_args() throw();
+   ::ipcms::UserVerificationDataPacket userVerify;
+  int64_t handle;
+
+  _IpcManageServer_deleteResource_args__isset __isset;
+
+  void __set_userVerify(const  ::ipcms::UserVerificationDataPacket& val);
+
+  void __set_handle(const int64_t val);
+
+  bool operator == (const IpcManageServer_deleteResource_args & rhs) const
+  {
+    if (!(userVerify == rhs.userVerify))
+      return false;
+    if (!(handle == rhs.handle))
+      return false;
+    return true;
+  }
+  bool operator != (const IpcManageServer_deleteResource_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const IpcManageServer_deleteResource_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_deleteResource_args& obj);
+};
+
+
+class IpcManageServer_deleteResource_pargs {
+ public:
+
+  static const char* ascii_fingerprint; // = "33A8EF08BE7EA8D4271557196FE5F11B";
+  static const uint8_t binary_fingerprint[16]; // = {0x33,0xA8,0xEF,0x08,0xBE,0x7E,0xA8,0xD4,0x27,0x15,0x57,0x19,0x6F,0xE5,0xF1,0x1B};
+
+
+  virtual ~IpcManageServer_deleteResource_pargs() throw();
+  const  ::ipcms::UserVerificationDataPacket* userVerify;
+  const int64_t* handle;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_deleteResource_pargs& obj);
+};
+
+typedef struct _IpcManageServer_deleteResource_result__isset {
+  _IpcManageServer_deleteResource_result__isset() : success(false) {}
+  bool success :1;
+} _IpcManageServer_deleteResource_result__isset;
+
+class IpcManageServer_deleteResource_result {
+ public:
+
+  static const char* ascii_fingerprint; // = "F1BC2174724B9D2E335CD95F6D6F9367";
+  static const uint8_t binary_fingerprint[16]; // = {0xF1,0xBC,0x21,0x74,0x72,0x4B,0x9D,0x2E,0x33,0x5C,0xD9,0x5F,0x6D,0x6F,0x93,0x67};
+
+  IpcManageServer_deleteResource_result(const IpcManageServer_deleteResource_result&);
+  IpcManageServer_deleteResource_result& operator=(const IpcManageServer_deleteResource_result&);
+  IpcManageServer_deleteResource_result() : success(( ::ipcms::ReturnType::type)0) {
+  }
+
+  virtual ~IpcManageServer_deleteResource_result() throw();
+   ::ipcms::ReturnType::type success;
+
+  _IpcManageServer_deleteResource_result__isset __isset;
+
+  void __set_success(const  ::ipcms::ReturnType::type val);
+
+  bool operator == (const IpcManageServer_deleteResource_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const IpcManageServer_deleteResource_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const IpcManageServer_deleteResource_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_deleteResource_result& obj);
+};
+
+typedef struct _IpcManageServer_deleteResource_presult__isset {
+  _IpcManageServer_deleteResource_presult__isset() : success(false) {}
+  bool success :1;
+} _IpcManageServer_deleteResource_presult__isset;
+
+class IpcManageServer_deleteResource_presult {
+ public:
+
+  static const char* ascii_fingerprint; // = "F1BC2174724B9D2E335CD95F6D6F9367";
+  static const uint8_t binary_fingerprint[16]; // = {0xF1,0xBC,0x21,0x74,0x72,0x4B,0x9D,0x2E,0x33,0x5C,0xD9,0x5F,0x6D,0x6F,0x93,0x67};
+
+
+  virtual ~IpcManageServer_deleteResource_presult() throw();
+   ::ipcms::ReturnType::type* success;
+
+  _IpcManageServer_deleteResource_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+  friend std::ostream& operator<<(std::ostream& out, const IpcManageServer_deleteResource_presult& obj);
+};
+
 class IpcManageServerClient : virtual public IpcManageServerIf {
  public:
   IpcManageServerClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -863,6 +1398,18 @@ class IpcManageServerClient : virtual public IpcManageServerIf {
   void PTZControl( ::ipcms::PTZControlReturnStruct& _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::PTZControlDataPacket& command);
   void send_PTZControl(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::PTZControlDataPacket& command);
   void recv_PTZControl( ::ipcms::PTZControlReturnStruct& _return);
+   ::ipcms::ReturnType::type ReleasePTZControl(const  ::ipcms::UserVerificationDataPacket& userVerify, const int64_t hPTZ);
+  void send_ReleasePTZControl(const  ::ipcms::UserVerificationDataPacket& userVerify, const int64_t hPTZ);
+   ::ipcms::ReturnType::type recv_ReleasePTZControl();
+   ::ipcms::ReturnType::type addResourceIPC(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::IPCResourceDataPacket& ipc);
+  void send_addResourceIPC(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::IPCResourceDataPacket& ipc);
+   ::ipcms::ReturnType::type recv_addResourceIPC();
+   ::ipcms::ReturnType::type addResourceRecord(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::RecordResource& record, const std::string& file);
+  void send_addResourceRecord(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::RecordResource& record, const std::string& file);
+   ::ipcms::ReturnType::type recv_addResourceRecord();
+   ::ipcms::ReturnType::type deleteResource(const  ::ipcms::UserVerificationDataPacket& userVerify, const int64_t handle);
+  void send_deleteResource(const  ::ipcms::UserVerificationDataPacket& userVerify, const int64_t handle);
+   ::ipcms::ReturnType::type recv_deleteResource();
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -884,6 +1431,10 @@ class IpcManageServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_PlayVideo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RequestPTZControl(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_PTZControl(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_ReleasePTZControl(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_addResourceIPC(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_addResourceRecord(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_deleteResource(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   IpcManageServerProcessor(boost::shared_ptr<IpcManageServerIf> iface) :
     iface_(iface) {
@@ -893,6 +1444,10 @@ class IpcManageServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["PlayVideo"] = &IpcManageServerProcessor::process_PlayVideo;
     processMap_["RequestPTZControl"] = &IpcManageServerProcessor::process_RequestPTZControl;
     processMap_["PTZControl"] = &IpcManageServerProcessor::process_PTZControl;
+    processMap_["ReleasePTZControl"] = &IpcManageServerProcessor::process_ReleasePTZControl;
+    processMap_["addResourceIPC"] = &IpcManageServerProcessor::process_addResourceIPC;
+    processMap_["addResourceRecord"] = &IpcManageServerProcessor::process_addResourceRecord;
+    processMap_["deleteResource"] = &IpcManageServerProcessor::process_deleteResource;
   }
 
   virtual ~IpcManageServerProcessor() {}
@@ -977,6 +1532,42 @@ class IpcManageServerMultiface : virtual public IpcManageServerIf {
     }
     ifaces_[i]->PTZControl(_return, userVerify, command);
     return;
+  }
+
+   ::ipcms::ReturnType::type ReleasePTZControl(const  ::ipcms::UserVerificationDataPacket& userVerify, const int64_t hPTZ) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->ReleasePTZControl(userVerify, hPTZ);
+    }
+    return ifaces_[i]->ReleasePTZControl(userVerify, hPTZ);
+  }
+
+   ::ipcms::ReturnType::type addResourceIPC(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::IPCResourceDataPacket& ipc) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->addResourceIPC(userVerify, ipc);
+    }
+    return ifaces_[i]->addResourceIPC(userVerify, ipc);
+  }
+
+   ::ipcms::ReturnType::type addResourceRecord(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::RecordResource& record, const std::string& file) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->addResourceRecord(userVerify, record, file);
+    }
+    return ifaces_[i]->addResourceRecord(userVerify, record, file);
+  }
+
+   ::ipcms::ReturnType::type deleteResource(const  ::ipcms::UserVerificationDataPacket& userVerify, const int64_t handle) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->deleteResource(userVerify, handle);
+    }
+    return ifaces_[i]->deleteResource(userVerify, handle);
   }
 
 };

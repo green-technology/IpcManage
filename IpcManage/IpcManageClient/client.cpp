@@ -75,6 +75,12 @@ int main() {
 			PTZControlReturnStruct rtn_cmd1;
 			ipcClient.PTZControl(rtn_cmd1, data, cmd);
 			std::cout<<rtn_cmd1.result<< endl;
+
+			ReturnType::type ret = ipcClient.ReleasePTZControl(data, ptz.hPTZ);
+
+			ipcClient.UserLogout(data);
+			std::cout<<"client login out"<< endl;
+
 		} catch (...) {
 			std::cout << "InvalidOperation: " << std::endl;
 			// or using generated operator<<: cout << io << endl;
@@ -86,7 +92,6 @@ int main() {
 	}
 
 finish:
-	std::cout<<"client login out"<< endl;
 	char e;
 	std::cin>>e;
 }
