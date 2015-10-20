@@ -114,39 +114,45 @@ class UserLoginReturnStruct {
 void swap(UserLoginReturnStruct &a, UserLoginReturnStruct &b);
 
 typedef struct _ResourceInfoReturnStruct__isset {
-  _ResourceInfoReturnStruct__isset() : resourceType(false), hResource(false), hasPLZ(false), timeStart(false), timeEnd(false), nameLength(false), rtspUrl(false) {}
+  _ResourceInfoReturnStruct__isset() : resourceType(false), IP(false), deviceName(false), hResource(false), hasPLZ(false), timeStart(false), timeEnd(false), rtspUrl(false) {}
   bool resourceType :1;
+  bool IP :1;
+  bool deviceName :1;
   bool hResource :1;
   bool hasPLZ :1;
   bool timeStart :1;
   bool timeEnd :1;
-  bool nameLength :1;
   bool rtspUrl :1;
 } _ResourceInfoReturnStruct__isset;
 
 class ResourceInfoReturnStruct {
  public:
 
-  static const char* ascii_fingerprint; // = "AF568B61559D5E1F965AF6BFFA012F4A";
-  static const uint8_t binary_fingerprint[16]; // = {0xAF,0x56,0x8B,0x61,0x55,0x9D,0x5E,0x1F,0x96,0x5A,0xF6,0xBF,0xFA,0x01,0x2F,0x4A};
+  static const char* ascii_fingerprint; // = "1CFF062C3058E2648306920D678AD2DD";
+  static const uint8_t binary_fingerprint[16]; // = {0x1C,0xFF,0x06,0x2C,0x30,0x58,0xE2,0x64,0x83,0x06,0x92,0x0D,0x67,0x8A,0xD2,0xDD};
 
   ResourceInfoReturnStruct(const ResourceInfoReturnStruct&);
   ResourceInfoReturnStruct& operator=(const ResourceInfoReturnStruct&);
-  ResourceInfoReturnStruct() : resourceType((ResourceType::type)0), hResource(0), hasPLZ(0), timeStart(0), timeEnd(0), nameLength(0), rtspUrl() {
+  ResourceInfoReturnStruct() : resourceType((ResourceType::type)0), IP(), deviceName(), hResource(0), hasPLZ(0), timeStart(0), timeEnd(0), rtspUrl() {
   }
 
   virtual ~ResourceInfoReturnStruct() throw();
   ResourceType::type resourceType;
+  std::string IP;
+  std::string deviceName;
   int64_t hResource;
   bool hasPLZ;
   int64_t timeStart;
   int64_t timeEnd;
-  int64_t nameLength;
   std::string rtspUrl;
 
   _ResourceInfoReturnStruct__isset __isset;
 
   void __set_resourceType(const ResourceType::type val);
+
+  void __set_IP(const std::string& val);
+
+  void __set_deviceName(const std::string& val);
 
   void __set_hResource(const int64_t val);
 
@@ -156,8 +162,6 @@ class ResourceInfoReturnStruct {
 
   void __set_timeEnd(const int64_t val);
 
-  void __set_nameLength(const int64_t val);
-
   void __set_rtspUrl(const std::string& val);
 
   bool operator == (const ResourceInfoReturnStruct & rhs) const
@@ -166,6 +170,10 @@ class ResourceInfoReturnStruct {
       return false;
     else if (__isset.resourceType && !(resourceType == rhs.resourceType))
       return false;
+    if (!(IP == rhs.IP))
+      return false;
+    if (!(deviceName == rhs.deviceName))
+      return false;
     if (!(hResource == rhs.hResource))
       return false;
     if (!(hasPLZ == rhs.hasPLZ))
@@ -173,8 +181,6 @@ class ResourceInfoReturnStruct {
     if (!(timeStart == rhs.timeStart))
       return false;
     if (!(timeEnd == rhs.timeEnd))
-      return false;
-    if (!(nameLength == rhs.nameLength))
       return false;
     if (!(rtspUrl == rhs.rtspUrl))
       return false;

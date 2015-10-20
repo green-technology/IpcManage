@@ -35,9 +35,10 @@ public:
 
 	bool UserLogout(const  ::ipcms::UserVerificationDataPacket& userVerify) override;
 
-	ReturnType::type addResourceIPC(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::IPCResourceDataPacket& ipc) override;
+	ReturnType::type addResource(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::IPCResourceDataPacket& ipc) override;
 	ReturnType::type addResourceRecord(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::RecordResource& record, const std::string& file) override;
 	ReturnType::type deleteResource(const  ::ipcms::UserVerificationDataPacket& userVerify, const int64_t handle) override;
+	ReturnType::type deleteAllResources(const ::ipcms::UserVerificationDataPacket& userVerify);
 
 private:
 	bool getLoginResource(const string userName, string& id);
@@ -59,5 +60,4 @@ private:
 	map<LONG, HANDLE/*resource*/> m_PTZHandler;
 
 };
-
 #endif

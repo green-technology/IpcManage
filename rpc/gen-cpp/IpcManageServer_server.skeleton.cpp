@@ -57,9 +57,9 @@ class IpcManageServerHandler : virtual public IpcManageServerIf {
     printf("ReleasePTZControl\n");
   }
 
-   ::ipcms::ReturnType::type addResourceIPC(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::IPCResourceDataPacket& ipc) {
+   ::ipcms::ReturnType::type addResource(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::IPCResourceDataPacket& ipc) {
     // Your implementation goes here
-    printf("addResourceIPC\n");
+    printf("addResource\n");
   }
 
    ::ipcms::ReturnType::type addResourceRecord(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::RecordResource& record, const std::string& file) {
@@ -70,6 +70,11 @@ class IpcManageServerHandler : virtual public IpcManageServerIf {
    ::ipcms::ReturnType::type deleteResource(const  ::ipcms::UserVerificationDataPacket& userVerify, const int64_t handle) {
     // Your implementation goes here
     printf("deleteResource\n");
+  }
+
+   ::ipcms::ReturnType::type deleteAllResources(const  ::ipcms::UserVerificationDataPacket& userVerify) {
+    // Your implementation goes here
+    printf("deleteAllResources\n");
   }
 
 };

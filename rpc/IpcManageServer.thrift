@@ -30,7 +30,8 @@ service IpcManageServer {
 	// 新增用户 删除用户 系统内保留一个管理员用户，可以进行用户管理
 
 	// 新增资源 删除资源
-	ReturnStruct.ReturnType addResourceIPC(1: OperateStruct.UserVerificationDataPacket userVerify, 2: MediaManagerStruct.IPCResourceDataPacket ipc);
+	ReturnStruct.ReturnType addResource(1: OperateStruct.UserVerificationDataPacket userVerify, 2: MediaManagerStruct.IPCResourceDataPacket ipc);
 	ReturnStruct.ReturnType addResourceRecord(1: OperateStruct.UserVerificationDataPacket userVerify, 2: MediaManagerStruct.RecordResource record, 3: string file);
 	ReturnStruct.ReturnType deleteResource(1: OperateStruct.UserVerificationDataPacket userVerify, 2: i64 handle);
+	ReturnStruct.ReturnType deleteAllResources(1: OperateStruct.UserVerificationDataPacket userVerify);
 }

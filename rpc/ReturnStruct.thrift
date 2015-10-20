@@ -17,12 +17,13 @@ enum ResourceType {
 struct ResourceInfoReturnStruct
 {
     1: optional ResourceType resourceType;
-    2: i64 hResource;
-    3: bool hasPLZ;//云台控制
-    4: i64 timeStart;//录像时间段
-    5: i64 timeEnd;
-    6: i64 nameLength;	//资源描述信息长度
-	7: string rtspUrl;  //rtsp视频串 add by frankz
+    2: string IP;
+    3: string deviceName;
+    4: i64 hResource;
+    5: bool hasPLZ;     //云台控制
+    6: i64 timeStart;   //录像时间段
+    7: i64 timeEnd;
+	8: string rtspUrl;  //rtsp视频串 add by frankz
 }
 
 struct RequestPTZControlReturnStruct
