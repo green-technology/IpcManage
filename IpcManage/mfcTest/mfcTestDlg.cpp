@@ -169,9 +169,9 @@ HCURSOR CmfcTestDlg::OnQueryDragIcon()
 void CmfcTestDlg::OnBnClickedLogin()
 {
 	UserLoginReturnStruct stuUserLoginR;
-	boost::shared_ptr<TSocket> socket(new TSocket("127.0.0.0",9090));
-	socket->setSendTimeout(30);
-	boost::shared_ptr<TTransport> transport(new TFramedTransport(socket));
+	boost::shared_ptr<TSocket> socket(new TSocket("localhost", 9090));
+	socket->setSendTimeout(TIMEOUT);
+	boost::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
 	boost::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
 	bool bRet;
 
@@ -187,10 +187,9 @@ void CmfcTestDlg::OnBnClickedLogin()
 
 		m_pRpcClient->UserLogin(stuUserLoginR,"test");
 
-		if (stuUserLoginR.ErrorNum == 0)
+		if (stuUserLoginR.ErrorNum == TRUE)
 		{
-			m_stuUserVerification.UserID = stuUserLoginR.UserID;
-			
+			m_stuUserVerification.UserID = stuUserLoginR.UserID;			
 			m_stuUserVerification.SessionID = stuUserLoginR.SessionID;
 			bRet = true;
 		}
@@ -215,7 +214,55 @@ void CmfcTestDlg::OnBnClickedLogin()
 
 void CmfcTestDlg::OnBnClickedGetreslist()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	boost::shared_ptr<TSocket> socket(new TSocket(SERVERIP,SERVERPORT));
+	socket->setSendTimeout(TIMEOUT);
+	boost::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
+	boost::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
+
+	try
+	{
+		if (m_pRpcClient == NULL)
+		{
+			m_pRpcClient = new IpcManageServerClient(protocol);
+		}
+
+		m_pRpcClient->setProtocol(protocol);
+
+		transport->open();
+
+		if (m_stuUserVerification.UserID.length() == 0)
+		{
+			MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+			return;
+		}
+
+		std::vector<ResourceInfoReturnStruct> vResInfo;
+
+		m_pRpcClient->GetResInfoList(vResInfo,m_stuUserVerification,ResourceType::ResourceTypeIPC);
+
+
+
+		if (vResInfo.size()==0)
+		{
+			transport->close();
+			MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+			return ;
+		}
+
+	}
+	catch (...)
+	{
+		MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+
+		return;
+	}
+
+	if(transport != NULL)
+	{
+		transport->close();
+	}
+
+	return;
 }
 
 

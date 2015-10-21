@@ -20,6 +20,10 @@ using namespace ipcms;
 
 using namespace std;
 
+#define SERVERIP "127.0.0.1"
+#define SERVERPORT 9090
+#define TIMEOUT		 1000
+
 
 // CmfcTestDlg ¶Ô»°¿ò
 class CmfcTestDlg : public CDialogEx

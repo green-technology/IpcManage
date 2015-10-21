@@ -212,7 +212,7 @@ ReturnType::type IpcManageServerHandler::deleteResource(const  ::ipcms::UserVeri
 }
 
 
-ReturnType::type deleteAllResources(const  ::ipcms::UserVerificationDataPacket& userVerify) {
+ReturnType::type IpcManageServerHandler::deleteAllResources(const  ::ipcms::UserVerificationDataPacket& userVerify) {
 	if(!authentication(userVerify))
 		return ReturnType::InvalidUser;
 
