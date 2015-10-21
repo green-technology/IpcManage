@@ -46,6 +46,18 @@ int main() {
 			{
 				goto finish;
 			}
+			else
+			{
+				for (int i=0;i<resList.size();i++)
+				{
+
+					std::cout<<"resList"<<i<<": "
+						<<"hasPLZ:"<<resList[i].hasPLZ<<" "
+						<<" IP: "<<resList[i].IP
+						<<" deviceName: "<<resList[i].deviceName
+						<< resList[i].hResource<<resList[i].rtspUrl<<endl;
+				}
+			}
 
 			RequestPTZControlReturnStruct ptz;
 			RequestPTZControlDataPacket rqPTZ;
@@ -63,9 +75,12 @@ int main() {
 			PTZControlReturnStruct rtn_cmd;
 			ipcClient.PTZControl(rtn_cmd, data, cmd);
 
-			std::cout<<rtn_cmd.result<<"press to continue."<< endl;
+			/*std::cout<<rtn_cmd.result<<"press to continue."<< endl;
 			char e;
-			std::cin>>e;
+			std::cin>>e;*/
+
+			system("pause");
+
 
 			cmd.command = PTZCommand::PTZ_LEFT;
 			cmd.param1 = 0;
@@ -92,6 +107,6 @@ int main() {
 	}
 
 finish:
-	char e;
-	std::cin>>e;
+	cout<<"finish"<<endl;
+	system("pause");
 }

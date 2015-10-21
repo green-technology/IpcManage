@@ -27,10 +27,10 @@ namespace ipcTools
 		}
 
 		const map<HANDLE/*resource*/, IPCResourceDataPacket *>& getAllResource() const {return m_DeviceResource;}
-		const IPCResourceDataPacket* getResource(HANDLE hRes) const;
-
+		const IPCResourceDataPacket* getResource(HANDLE hRes) const;		
 		BOOL addDeviceResource(const IPCResourceDataPacket*);
 		BOOL deleteDeviceResource(const HANDLE handle);
+		BOOL deleteAllDeviceResource();
 	protected:
 	private:
 		MediaManager() {}

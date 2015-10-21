@@ -307,4 +307,26 @@ namespace ipcTools
 		return TRUE;
 	}
 
+	BOOL MediaManager::deleteAllDeviceResource()
+	{
+		char szSql[MAX_PATH] = {0};
+		sprintf_s(szSql, "delete from IPC");
+
+		try
+		{
+			CppSQLite3DB db;
+			db.open(g_szFile);
+			int nRet2 = db.execDML("begin transaction;");
+			string strSql = szSql;
+			nRet2 = db.execDML(ASCII2UTF_8(strSql).c_str());
+			nRet2 = db.execDML("commit transaction;");
+		}
+		catch (...)
+		{
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
 }

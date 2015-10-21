@@ -191,6 +191,14 @@ void ResourceInfoReturnStruct::__set_resourceType(const ResourceType::type val) 
 __isset.resourceType = true;
 }
 
+void ResourceInfoReturnStruct::__set_IP(const std::string& val) {
+  this->IP = val;
+}
+
+void ResourceInfoReturnStruct::__set_deviceName(const std::string& val) {
+  this->deviceName = val;
+}
+
 void ResourceInfoReturnStruct::__set_hResource(const int64_t val) {
   this->hResource = val;
 }
@@ -207,16 +215,12 @@ void ResourceInfoReturnStruct::__set_timeEnd(const int64_t val) {
   this->timeEnd = val;
 }
 
-void ResourceInfoReturnStruct::__set_nameLength(const int64_t val) {
-  this->nameLength = val;
-}
-
 void ResourceInfoReturnStruct::__set_rtspUrl(const std::string& val) {
   this->rtspUrl = val;
 }
 
-const char* ResourceInfoReturnStruct::ascii_fingerprint = "AF568B61559D5E1F965AF6BFFA012F4A";
-const uint8_t ResourceInfoReturnStruct::binary_fingerprint[16] = {0xAF,0x56,0x8B,0x61,0x55,0x9D,0x5E,0x1F,0x96,0x5A,0xF6,0xBF,0xFA,0x01,0x2F,0x4A};
+const char* ResourceInfoReturnStruct::ascii_fingerprint = "1CFF062C3058E2648306920D678AD2DD";
+const uint8_t ResourceInfoReturnStruct::binary_fingerprint[16] = {0x1C,0xFF,0x06,0x2C,0x30,0x58,0xE2,0x64,0x83,0x06,0x92,0x0D,0x67,0x8A,0xD2,0xDD};
 
 uint32_t ResourceInfoReturnStruct::read(::apache::thrift::protocol::TProtocol* iprot) {
 
@@ -249,6 +253,22 @@ uint32_t ResourceInfoReturnStruct::read(::apache::thrift::protocol::TProtocol* i
         }
         break;
       case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->IP);
+          this->__isset.IP = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->deviceName);
+          this->__isset.deviceName = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
         if (ftype == ::apache::thrift::protocol::T_I64) {
           xfer += iprot->readI64(this->hResource);
           this->__isset.hResource = true;
@@ -256,7 +276,7 @@ uint32_t ResourceInfoReturnStruct::read(::apache::thrift::protocol::TProtocol* i
           xfer += iprot->skip(ftype);
         }
         break;
-      case 3:
+      case 5:
         if (ftype == ::apache::thrift::protocol::T_BOOL) {
           xfer += iprot->readBool(this->hasPLZ);
           this->__isset.hasPLZ = true;
@@ -264,7 +284,7 @@ uint32_t ResourceInfoReturnStruct::read(::apache::thrift::protocol::TProtocol* i
           xfer += iprot->skip(ftype);
         }
         break;
-      case 4:
+      case 6:
         if (ftype == ::apache::thrift::protocol::T_I64) {
           xfer += iprot->readI64(this->timeStart);
           this->__isset.timeStart = true;
@@ -272,7 +292,7 @@ uint32_t ResourceInfoReturnStruct::read(::apache::thrift::protocol::TProtocol* i
           xfer += iprot->skip(ftype);
         }
         break;
-      case 5:
+      case 7:
         if (ftype == ::apache::thrift::protocol::T_I64) {
           xfer += iprot->readI64(this->timeEnd);
           this->__isset.timeEnd = true;
@@ -280,15 +300,7 @@ uint32_t ResourceInfoReturnStruct::read(::apache::thrift::protocol::TProtocol* i
           xfer += iprot->skip(ftype);
         }
         break;
-      case 6:
-        if (ftype == ::apache::thrift::protocol::T_I64) {
-          xfer += iprot->readI64(this->nameLength);
-          this->__isset.nameLength = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 7:
+      case 8:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
           xfer += iprot->readString(this->rtspUrl);
           this->__isset.rtspUrl = true;
@@ -318,27 +330,31 @@ uint32_t ResourceInfoReturnStruct::write(::apache::thrift::protocol::TProtocol* 
     xfer += oprot->writeI32((int32_t)this->resourceType);
     xfer += oprot->writeFieldEnd();
   }
-  xfer += oprot->writeFieldBegin("hResource", ::apache::thrift::protocol::T_I64, 2);
+  xfer += oprot->writeFieldBegin("IP", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->IP);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("deviceName", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString(this->deviceName);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("hResource", ::apache::thrift::protocol::T_I64, 4);
   xfer += oprot->writeI64(this->hResource);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("hasPLZ", ::apache::thrift::protocol::T_BOOL, 3);
+  xfer += oprot->writeFieldBegin("hasPLZ", ::apache::thrift::protocol::T_BOOL, 5);
   xfer += oprot->writeBool(this->hasPLZ);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("timeStart", ::apache::thrift::protocol::T_I64, 4);
+  xfer += oprot->writeFieldBegin("timeStart", ::apache::thrift::protocol::T_I64, 6);
   xfer += oprot->writeI64(this->timeStart);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("timeEnd", ::apache::thrift::protocol::T_I64, 5);
+  xfer += oprot->writeFieldBegin("timeEnd", ::apache::thrift::protocol::T_I64, 7);
   xfer += oprot->writeI64(this->timeEnd);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("nameLength", ::apache::thrift::protocol::T_I64, 6);
-  xfer += oprot->writeI64(this->nameLength);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("rtspUrl", ::apache::thrift::protocol::T_STRING, 7);
+  xfer += oprot->writeFieldBegin("rtspUrl", ::apache::thrift::protocol::T_STRING, 8);
   xfer += oprot->writeString(this->rtspUrl);
   xfer += oprot->writeFieldEnd();
 
@@ -351,32 +367,35 @@ uint32_t ResourceInfoReturnStruct::write(::apache::thrift::protocol::TProtocol* 
 void swap(ResourceInfoReturnStruct &a, ResourceInfoReturnStruct &b) {
   using ::std::swap;
   swap(a.resourceType, b.resourceType);
+  swap(a.IP, b.IP);
+  swap(a.deviceName, b.deviceName);
   swap(a.hResource, b.hResource);
   swap(a.hasPLZ, b.hasPLZ);
   swap(a.timeStart, b.timeStart);
   swap(a.timeEnd, b.timeEnd);
-  swap(a.nameLength, b.nameLength);
   swap(a.rtspUrl, b.rtspUrl);
   swap(a.__isset, b.__isset);
 }
 
 ResourceInfoReturnStruct::ResourceInfoReturnStruct(const ResourceInfoReturnStruct& other3) {
   resourceType = other3.resourceType;
+  IP = other3.IP;
+  deviceName = other3.deviceName;
   hResource = other3.hResource;
   hasPLZ = other3.hasPLZ;
   timeStart = other3.timeStart;
   timeEnd = other3.timeEnd;
-  nameLength = other3.nameLength;
   rtspUrl = other3.rtspUrl;
   __isset = other3.__isset;
 }
 ResourceInfoReturnStruct& ResourceInfoReturnStruct::operator=(const ResourceInfoReturnStruct& other4) {
   resourceType = other4.resourceType;
+  IP = other4.IP;
+  deviceName = other4.deviceName;
   hResource = other4.hResource;
   hasPLZ = other4.hasPLZ;
   timeStart = other4.timeStart;
   timeEnd = other4.timeEnd;
-  nameLength = other4.nameLength;
   rtspUrl = other4.rtspUrl;
   __isset = other4.__isset;
   return *this;
@@ -385,11 +404,12 @@ std::ostream& operator<<(std::ostream& out, const ResourceInfoReturnStruct& obj)
   using apache::thrift::to_string;
   out << "ResourceInfoReturnStruct(";
   out << "resourceType="; (obj.__isset.resourceType ? (out << to_string(obj.resourceType)) : (out << "<null>"));
+  out << ", " << "IP=" << to_string(obj.IP);
+  out << ", " << "deviceName=" << to_string(obj.deviceName);
   out << ", " << "hResource=" << to_string(obj.hResource);
   out << ", " << "hasPLZ=" << to_string(obj.hasPLZ);
   out << ", " << "timeStart=" << to_string(obj.timeStart);
   out << ", " << "timeEnd=" << to_string(obj.timeEnd);
-  out << ", " << "nameLength=" << to_string(obj.nameLength);
   out << ", " << "rtspUrl=" << to_string(obj.rtspUrl);
   out << ")";
   return out;

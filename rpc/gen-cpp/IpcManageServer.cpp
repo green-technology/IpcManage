@@ -1429,11 +1429,11 @@ uint32_t IpcManageServer_ReleasePTZControl_presult::read(::apache::thrift::proto
 }
 
 
-IpcManageServer_addResourceIPC_args::~IpcManageServer_addResourceIPC_args() throw() {
+IpcManageServer_addResource_args::~IpcManageServer_addResource_args() throw() {
 }
 
 
-uint32_t IpcManageServer_addResourceIPC_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t IpcManageServer_addResource_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
   std::string fname;
@@ -1481,10 +1481,10 @@ uint32_t IpcManageServer_addResourceIPC_args::read(::apache::thrift::protocol::T
   return xfer;
 }
 
-uint32_t IpcManageServer_addResourceIPC_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t IpcManageServer_addResource_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   oprot->incrementRecursionDepth();
-  xfer += oprot->writeStructBegin("IpcManageServer_addResourceIPC_args");
+  xfer += oprot->writeStructBegin("IpcManageServer_addResource_args");
 
   xfer += oprot->writeFieldBegin("userVerify", ::apache::thrift::protocol::T_STRUCT, 1);
   xfer += this->userVerify.write(oprot);
@@ -1501,14 +1501,14 @@ uint32_t IpcManageServer_addResourceIPC_args::write(::apache::thrift::protocol::
 }
 
 
-IpcManageServer_addResourceIPC_pargs::~IpcManageServer_addResourceIPC_pargs() throw() {
+IpcManageServer_addResource_pargs::~IpcManageServer_addResource_pargs() throw() {
 }
 
 
-uint32_t IpcManageServer_addResourceIPC_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t IpcManageServer_addResource_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   oprot->incrementRecursionDepth();
-  xfer += oprot->writeStructBegin("IpcManageServer_addResourceIPC_pargs");
+  xfer += oprot->writeStructBegin("IpcManageServer_addResource_pargs");
 
   xfer += oprot->writeFieldBegin("userVerify", ::apache::thrift::protocol::T_STRUCT, 1);
   xfer += (*(this->userVerify)).write(oprot);
@@ -1525,11 +1525,11 @@ uint32_t IpcManageServer_addResourceIPC_pargs::write(::apache::thrift::protocol:
 }
 
 
-IpcManageServer_addResourceIPC_result::~IpcManageServer_addResourceIPC_result() throw() {
+IpcManageServer_addResource_result::~IpcManageServer_addResource_result() throw() {
 }
 
 
-uint32_t IpcManageServer_addResourceIPC_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t IpcManageServer_addResource_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
   std::string fname;
@@ -1571,11 +1571,11 @@ uint32_t IpcManageServer_addResourceIPC_result::read(::apache::thrift::protocol:
   return xfer;
 }
 
-uint32_t IpcManageServer_addResourceIPC_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t IpcManageServer_addResource_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("IpcManageServer_addResourceIPC_result");
+  xfer += oprot->writeStructBegin("IpcManageServer_addResource_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I32, 0);
@@ -1588,11 +1588,11 @@ uint32_t IpcManageServer_addResourceIPC_result::write(::apache::thrift::protocol
 }
 
 
-IpcManageServer_addResourceIPC_presult::~IpcManageServer_addResourceIPC_presult() throw() {
+IpcManageServer_addResource_presult::~IpcManageServer_addResource_presult() throw() {
 }
 
 
-uint32_t IpcManageServer_addResourceIPC_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t IpcManageServer_addResource_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
   std::string fname;
@@ -2062,6 +2062,196 @@ uint32_t IpcManageServer_deleteResource_presult::read(::apache::thrift::protocol
   return xfer;
 }
 
+
+IpcManageServer_deleteAllResources_args::~IpcManageServer_deleteAllResources_args() throw() {
+}
+
+
+uint32_t IpcManageServer_deleteAllResources_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->userVerify.read(iprot);
+          this->__isset.userVerify = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t IpcManageServer_deleteAllResources_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  oprot->incrementRecursionDepth();
+  xfer += oprot->writeStructBegin("IpcManageServer_deleteAllResources_args");
+
+  xfer += oprot->writeFieldBegin("userVerify", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += this->userVerify.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  oprot->decrementRecursionDepth();
+  return xfer;
+}
+
+
+IpcManageServer_deleteAllResources_pargs::~IpcManageServer_deleteAllResources_pargs() throw() {
+}
+
+
+uint32_t IpcManageServer_deleteAllResources_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  oprot->incrementRecursionDepth();
+  xfer += oprot->writeStructBegin("IpcManageServer_deleteAllResources_pargs");
+
+  xfer += oprot->writeFieldBegin("userVerify", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += (*(this->userVerify)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  oprot->decrementRecursionDepth();
+  return xfer;
+}
+
+
+IpcManageServer_deleteAllResources_result::~IpcManageServer_deleteAllResources_result() throw() {
+}
+
+
+uint32_t IpcManageServer_deleteAllResources_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          int32_t ecast20;
+          xfer += iprot->readI32(ecast20);
+          this->success = ( ::ipcms::ReturnType::type)ecast20;
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t IpcManageServer_deleteAllResources_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("IpcManageServer_deleteAllResources_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I32, 0);
+    xfer += oprot->writeI32((int32_t)this->success);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+IpcManageServer_deleteAllResources_presult::~IpcManageServer_deleteAllResources_presult() throw() {
+}
+
+
+uint32_t IpcManageServer_deleteAllResources_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          int32_t ecast21;
+          xfer += iprot->readI32(ecast21);
+          (*(this->success)) = ( ::ipcms::ReturnType::type)ecast21;
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
 void IpcManageServerClient::UserLogin( ::ipcms::UserLoginReturnStruct& _return, const std::string& userName)
 {
   send_UserLogin(userName);
@@ -2473,18 +2663,18 @@ void IpcManageServerClient::send_ReleasePTZControl(const  ::ipcms::UserVerificat
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "ReleasePTZControl failed: unknown result");
 }
 
- ::ipcms::ReturnType::type IpcManageServerClient::addResourceIPC(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::IPCResourceDataPacket& ipc)
+ ::ipcms::ReturnType::type IpcManageServerClient::addResource(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::IPCResourceDataPacket& ipc)
 {
-  send_addResourceIPC(userVerify, ipc);
-  return recv_addResourceIPC();
+  send_addResource(userVerify, ipc);
+  return recv_addResource();
 }
 
-void IpcManageServerClient::send_addResourceIPC(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::IPCResourceDataPacket& ipc)
+void IpcManageServerClient::send_addResource(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::IPCResourceDataPacket& ipc)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("addResourceIPC", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("addResource", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  IpcManageServer_addResourceIPC_pargs args;
+  IpcManageServer_addResource_pargs args;
   args.userVerify = &userVerify;
   args.ipc = &ipc;
   args.write(oprot_);
@@ -2494,7 +2684,7 @@ void IpcManageServerClient::send_addResourceIPC(const  ::ipcms::UserVerification
   oprot_->getTransport()->flush();
 }
 
- ::ipcms::ReturnType::type IpcManageServerClient::recv_addResourceIPC()
+ ::ipcms::ReturnType::type IpcManageServerClient::recv_addResource()
 {
 
   int32_t rseqid = 0;
@@ -2514,13 +2704,13 @@ void IpcManageServerClient::send_addResourceIPC(const  ::ipcms::UserVerification
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  if (fname.compare("addResourceIPC") != 0) {
+  if (fname.compare("addResource") != 0) {
     iprot_->skip(::apache::thrift::protocol::T_STRUCT);
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
    ::ipcms::ReturnType::type _return;
-  IpcManageServer_addResourceIPC_presult result;
+  IpcManageServer_addResource_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -2529,7 +2719,7 @@ void IpcManageServerClient::send_addResourceIPC(const  ::ipcms::UserVerification
   if (result.__isset.success) {
     return _return;
   }
-  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "addResourceIPC failed: unknown result");
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "addResource failed: unknown result");
 }
 
  ::ipcms::ReturnType::type IpcManageServerClient::addResourceRecord(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::RecordResource& record, const std::string& file)
@@ -2649,6 +2839,64 @@ void IpcManageServerClient::send_deleteResource(const  ::ipcms::UserVerification
     return _return;
   }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "deleteResource failed: unknown result");
+}
+
+ ::ipcms::ReturnType::type IpcManageServerClient::deleteAllResources(const  ::ipcms::UserVerificationDataPacket& userVerify)
+{
+  send_deleteAllResources(userVerify);
+  return recv_deleteAllResources();
+}
+
+void IpcManageServerClient::send_deleteAllResources(const  ::ipcms::UserVerificationDataPacket& userVerify)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("deleteAllResources", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  IpcManageServer_deleteAllResources_pargs args;
+  args.userVerify = &userVerify;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+ ::ipcms::ReturnType::type IpcManageServerClient::recv_deleteAllResources()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("deleteAllResources") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+   ::ipcms::ReturnType::type _return;
+  IpcManageServer_deleteAllResources_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    return _return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "deleteAllResources failed: unknown result");
 }
 
 bool IpcManageServerProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
@@ -3048,38 +3296,38 @@ void IpcManageServerProcessor::process_ReleasePTZControl(int32_t seqid, ::apache
   }
 }
 
-void IpcManageServerProcessor::process_addResourceIPC(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void IpcManageServerProcessor::process_addResource(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("IpcManageServer.addResourceIPC", callContext);
+    ctx = this->eventHandler_->getContext("IpcManageServer.addResource", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "IpcManageServer.addResourceIPC");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "IpcManageServer.addResource");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "IpcManageServer.addResourceIPC");
+    this->eventHandler_->preRead(ctx, "IpcManageServer.addResource");
   }
 
-  IpcManageServer_addResourceIPC_args args;
+  IpcManageServer_addResource_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "IpcManageServer.addResourceIPC", bytes);
+    this->eventHandler_->postRead(ctx, "IpcManageServer.addResource", bytes);
   }
 
-  IpcManageServer_addResourceIPC_result result;
+  IpcManageServer_addResource_result result;
   try {
-    result.success = iface_->addResourceIPC(args.userVerify, args.ipc);
+    result.success = iface_->addResource(args.userVerify, args.ipc);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "IpcManageServer.addResourceIPC");
+      this->eventHandler_->handlerError(ctx, "IpcManageServer.addResource");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
-    oprot->writeMessageBegin("addResourceIPC", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    oprot->writeMessageBegin("addResource", ::apache::thrift::protocol::T_EXCEPTION, seqid);
     x.write(oprot);
     oprot->writeMessageEnd();
     oprot->getTransport()->writeEnd();
@@ -3088,17 +3336,17 @@ void IpcManageServerProcessor::process_addResourceIPC(int32_t seqid, ::apache::t
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "IpcManageServer.addResourceIPC");
+    this->eventHandler_->preWrite(ctx, "IpcManageServer.addResource");
   }
 
-  oprot->writeMessageBegin("addResourceIPC", ::apache::thrift::protocol::T_REPLY, seqid);
+  oprot->writeMessageBegin("addResource", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
   bytes = oprot->getTransport()->writeEnd();
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "IpcManageServer.addResourceIPC", bytes);
+    this->eventHandler_->postWrite(ctx, "IpcManageServer.addResource", bytes);
   }
 }
 
@@ -3207,6 +3455,60 @@ void IpcManageServerProcessor::process_deleteResource(int32_t seqid, ::apache::t
 
   if (this->eventHandler_.get() != NULL) {
     this->eventHandler_->postWrite(ctx, "IpcManageServer.deleteResource", bytes);
+  }
+}
+
+void IpcManageServerProcessor::process_deleteAllResources(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (this->eventHandler_.get() != NULL) {
+    ctx = this->eventHandler_->getContext("IpcManageServer.deleteAllResources", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "IpcManageServer.deleteAllResources");
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->preRead(ctx, "IpcManageServer.deleteAllResources");
+  }
+
+  IpcManageServer_deleteAllResources_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->postRead(ctx, "IpcManageServer.deleteAllResources", bytes);
+  }
+
+  IpcManageServer_deleteAllResources_result result;
+  try {
+    result.success = iface_->deleteAllResources(args.userVerify);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != NULL) {
+      this->eventHandler_->handlerError(ctx, "IpcManageServer.deleteAllResources");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("deleteAllResources", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->preWrite(ctx, "IpcManageServer.deleteAllResources");
+  }
+
+  oprot->writeMessageBegin("deleteAllResources", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->postWrite(ctx, "IpcManageServer.deleteAllResources", bytes);
   }
 }
 

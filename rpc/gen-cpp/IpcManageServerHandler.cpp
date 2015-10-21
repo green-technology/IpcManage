@@ -53,6 +53,8 @@ void IpcManageServerHandler::GetResInfoList(std::vector< ::ipcms::ResourceInfoRe
 	if(!authentication(userVerify))
 		return;
 
+
+	IPCResourceDataPacket * pRpcRes=nullptr;
 	switch(resType)
 	{
 	case ResourceType::ResourceTypeALL:
@@ -61,9 +63,13 @@ void IpcManageServerHandler::GetResInfoList(std::vector< ::ipcms::ResourceInfoRe
 			const map<HANDLE/*resource*/, IPCResourceDataPacket *> resMap = ipcTools::MediaManager::Instance()->getAllResource();
 			for (map<HANDLE/*resource*/, IPCResourceDataPacket *>::const_iterator iter = resMap.begin(); iter != resMap.end(); iter++)
 			{
+				pRpcRes = iter->second;
+
 				ResourceInfoReturnStruct item;
 				item.resourceType = ResourceType::ResourceTypeIPC;
 				item.hResource = (int64_t)iter->first;
+				item.IP = pRpcRes->IP;
+				item.deviceName = pRpcRes->deviceName;
 				item.hasPLZ = true;
 				item.timeStart = 0;
 				item.timeEnd = 0;
@@ -175,7 +181,7 @@ bool IpcManageServerHandler::UserLogout(const  ::ipcms::UserVerificationDataPack
 	return true;
 }
 
-ReturnType::type IpcManageServerHandler::addResourceIPC(const  ::ipcms::UserVerificationDataPacket& userVerify, const ::ipcms::IPCResourceDataPacket& ipc)
+ReturnType::type IpcManageServerHandler::addResource(const  ::ipcms::UserVerificationDataPacket& userVerify, const ::ipcms::IPCResourceDataPacket& ipc)
 {
 	if(!authentication(userVerify))
 		return ReturnType::InvalidUser;
@@ -200,6 +206,17 @@ ReturnType::type IpcManageServerHandler::deleteResource(const  ::ipcms::UserVeri
 		return ReturnType::InvalidUser;
 
 	if (ipcTools::MediaManager::Instance()->deleteDeviceResource((HANDLE)handle))
+		return ReturnType::Success;
+
+	return ReturnType::FailUnspecified;
+}
+
+
+ReturnType::type IpcManageServerHandler::deleteAllResources(const  ::ipcms::UserVerificationDataPacket& userVerify) {
+	if(!authentication(userVerify))
+		return ReturnType::InvalidUser;
+
+	if (ipcTools::MediaManager::Instance()->deleteAllDeviceResource())
 		return ReturnType::Success;
 
 	return ReturnType::FailUnspecified;
