@@ -14,7 +14,7 @@ void IpcManageServerHandler::UserLogin( ::ipcms::UserLoginReturnStruct& _return,
 	// Your implementation goes here
 	printf("UserLogin\n");
 
-	LOG(userName.c_str());
+	//LOG(INFO)<<userName;
 
 	//用户验证，以用户名作为KEY
 	for (map<string, string>::iterator iter = m_userLoginList.begin();iter != m_userLoginList.end();iter++)
@@ -42,7 +42,7 @@ void IpcManageServerHandler::UserLogin( ::ipcms::UserLoginReturnStruct& _return,
 		_return.UserID = info.UserID;
 		_return.SessionID = info.SessionID;
 
-		LOG(info.UserID.c_str());
+		//LOG(INFO)<<info.UserID;
 
 	}
 }

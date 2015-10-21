@@ -3,8 +3,8 @@
 
 void CALLBACK exceptionCallBack(DWORD dwType, LONG lUserID, LONG lHandle, void *pUser)
 {
-	LOG("\n########海康SDK连接中断########\n");
-	LOG("\n########SDK连接中断########\n");
+	/*LOG("\n########海康SDK连接中断########\n");
+	LOG("\n########SDK连接中断########\n");*/
 }
 
 namespace ipcTools
@@ -133,7 +133,7 @@ namespace ipcTools
 
 		if(!bRet)
 		{
-			LOG("执行海康云台控制命令失败！\n");
+			//LOG("执行海康云台控制命令失败！\n");
 			return FALSE;
 		}
 

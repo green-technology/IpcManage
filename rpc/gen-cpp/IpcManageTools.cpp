@@ -144,11 +144,11 @@ namespace ipcTools
 			{
 			case DeviceType::DeviceTypeDH:
 				{
-					closeConnectDH(info->hPTZ);
+					closeConnectDH(hPTZ);
 				}
 				break;
 			case DeviceType::DeviceTypeHC:
-				closeConnectHC(info->hPTZ);
+				closeConnectHC(hPTZ);
 				break;
 			default:
 				assert(false);

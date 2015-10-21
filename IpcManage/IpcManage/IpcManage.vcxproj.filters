@@ -57,6 +57,9 @@
     <ClInclude Include="Tools.h">
       <Filter>util</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\rpc\gen-cpp\log.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\rpc\gen-cpp\IpcManageServer.cpp">
@@ -110,5 +113,11 @@
     <ClCompile Include="Tools.cpp">
       <Filter>util</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\rpc\gen-cpp\log.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="binary_distrib\cef_binary_3.2217.1922_windows32\cefclient.gyp" />
   </ItemGroup>
 </Project>

@@ -1,12 +1,13 @@
 ﻿#include "IpcManageTools.h"
 #include <Windows.h>
 #include "dh\dhnetsdk.h"
+//#include "glog\logging.h"
 
 void CALLBACK DisConnectCallBack(LONG lLoginID, char *pchDVRIP, LONG nDVRPort, DWORD dwUser)
 {
-	LOG("\n########大华SDK连接中断########\n");
-	LOG(pchDVRIP);
-	LOG("\n########SDK连接中断########\n");
+	//LOG("\n########大华SDK连接中断########\n");
+	//LOG(pchDVRIP);
+	//LOG("\n########SDK连接中断########\n");
 }
 
 namespace ipcTools
@@ -105,7 +106,7 @@ namespace ipcTools
 		if(!bRet)
 		{
 			DWORD dwError = CLIENT_GetLastError();
-			LOG("执行大华云台控制命令失败！\n");
+			//LOG("执行大华云台控制命令失败！\n");
 			return FALSE;
 		}
 
@@ -114,7 +115,13 @@ namespace ipcTools
 
 	BOOL ConnectManager::closeConnectDH(LONG hLogin)
 	{
-		return CLIENT_Logout(hLogin);
+		BOOL ret = CLIENT_Logout(hLogin);
+		if(!ret)
+		{
+			DWORD dwError = CLIENT_GetLastError();
+			//LOG(ERROR)<<"大华断开连接失败:"<<dwError;
+		}
+		return ret;
 	}
 
 }

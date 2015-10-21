@@ -6,11 +6,8 @@
 #include <string>
 #include <map>
 
-#ifdef _DEBUG
-#define LOG(msg) printf(msg)
-#else
-#define LOG(msg)
-#endif
+//#undef ERROR
+//#include "glog\logging.h"
 
 using namespace std;
 using namespace  ::ipcms;
