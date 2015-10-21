@@ -11,7 +11,7 @@ enum DeviceType {
 struct IPCResourceDataPacket {
         1: string IP;
         2: i64 port;
-        3: optional DeviceType deviceType;
+        3: DeviceType deviceType;
         4: string userName;
         5: string password;
         6: i64 channel;

@@ -256,8 +256,10 @@ namespace ipcTools
 	BOOL MediaManager::addDeviceResource(const IPCResourceDataPacket* res)
 	{
 		char szSql[MAX_PATH] = {0};
-		sprintf_s(szSql, "insert into IPC values(NULL, '%s', '%ll', '%s' , '%s', '%s', '%d') ",
-			res->IP, res->port, DeviceType2str(res->deviceType), res->userName, res->password, res->channel);
+		string tmpstr = DeviceType2str(res->deviceType);
+		sprintf(szSql, "insert into IPC values(NULL, '%s','%d'",res->IP.c_str(), res->port);
+		sprintf(szSql,"%s,'%s','%s','%s','%d')",szSql,tmpstr.c_str(),res->userName.c_str(),res->password.c_str(),res->channel);
+		//sprintf_s(szSql,MAX_PATH, "insert into IPC values(NULL, '%s','%d','%s','%s', '%s', '%d') ",res->IP.c_str(), res->port,tmpstr.c_str(), res->userName.c_str(), res->password.c_str(), res->channel);
 
 		try
 		{

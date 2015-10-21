@@ -96,7 +96,6 @@ void IPCResourceDataPacket::__set_port(const int64_t val) {
 
 void IPCResourceDataPacket::__set_deviceType(const DeviceType::type val) {
   this->deviceType = val;
-__isset.deviceType = true;
 }
 
 void IPCResourceDataPacket::__set_userName(const std::string& val) {
@@ -123,8 +122,8 @@ void IPCResourceDataPacket::__set_rtspUrl(const std::string& val) {
   this->rtspUrl = val;
 }
 
-const char* IPCResourceDataPacket::ascii_fingerprint = "04C60CC0FEAB1A399AD4C95F224660B5";
-const uint8_t IPCResourceDataPacket::binary_fingerprint[16] = {0x04,0xC6,0x0C,0xC0,0xFE,0xAB,0x1A,0x39,0x9A,0xD4,0xC9,0x5F,0x22,0x46,0x60,0xB5};
+const char* IPCResourceDataPacket::ascii_fingerprint = "AEF334AE2BE32505C130C080A7C668D8";
+const uint8_t IPCResourceDataPacket::binary_fingerprint[16] = {0xAE,0xF3,0x34,0xAE,0x2B,0xE3,0x25,0x05,0xC1,0x30,0xC0,0x80,0xA7,0xC6,0x68,0xD8};
 
 uint32_t IPCResourceDataPacket::read(::apache::thrift::protocol::TProtocol* iprot) {
 
@@ -245,11 +244,10 @@ uint32_t IPCResourceDataPacket::write(::apache::thrift::protocol::TProtocol* opr
   xfer += oprot->writeI64(this->port);
   xfer += oprot->writeFieldEnd();
 
-  if (this->__isset.deviceType) {
-    xfer += oprot->writeFieldBegin("deviceType", ::apache::thrift::protocol::T_I32, 3);
-    xfer += oprot->writeI32((int32_t)this->deviceType);
-    xfer += oprot->writeFieldEnd();
-  }
+  xfer += oprot->writeFieldBegin("deviceType", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeI32((int32_t)this->deviceType);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldBegin("userName", ::apache::thrift::protocol::T_STRING, 4);
   xfer += oprot->writeString(this->userName);
   xfer += oprot->writeFieldEnd();
@@ -324,7 +322,7 @@ std::ostream& operator<<(std::ostream& out, const IPCResourceDataPacket& obj) {
   out << "IPCResourceDataPacket(";
   out << "IP=" << to_string(obj.IP);
   out << ", " << "port=" << to_string(obj.port);
-  out << ", " << "deviceType="; (obj.__isset.deviceType ? (out << to_string(obj.deviceType)) : (out << "<null>"));
+  out << ", " << "deviceType=" << to_string(obj.deviceType);
   out << ", " << "userName=" << to_string(obj.userName);
   out << ", " << "password=" << to_string(obj.password);
   out << ", " << "channel=" << to_string(obj.channel);

@@ -85,8 +85,8 @@ typedef struct _IPCResourceDataPacket__isset {
 class IPCResourceDataPacket {
  public:
 
-  static const char* ascii_fingerprint; // = "04C60CC0FEAB1A399AD4C95F224660B5";
-  static const uint8_t binary_fingerprint[16]; // = {0x04,0xC6,0x0C,0xC0,0xFE,0xAB,0x1A,0x39,0x9A,0xD4,0xC9,0x5F,0x22,0x46,0x60,0xB5};
+  static const char* ascii_fingerprint; // = "AEF334AE2BE32505C130C080A7C668D8";
+  static const uint8_t binary_fingerprint[16]; // = {0xAE,0xF3,0x34,0xAE,0x2B,0xE3,0x25,0x05,0xC1,0x30,0xC0,0x80,0xA7,0xC6,0x68,0xD8};
 
   IPCResourceDataPacket(const IPCResourceDataPacket&);
   IPCResourceDataPacket& operator=(const IPCResourceDataPacket&);
@@ -130,9 +130,7 @@ class IPCResourceDataPacket {
       return false;
     if (!(port == rhs.port))
       return false;
-    if (__isset.deviceType != rhs.__isset.deviceType)
-      return false;
-    else if (__isset.deviceType && !(deviceType == rhs.deviceType))
+    if (!(deviceType == rhs.deviceType))
       return false;
     if (!(userName == rhs.userName))
       return false;
