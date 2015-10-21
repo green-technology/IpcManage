@@ -52,11 +52,11 @@ protected:
 public:
 	afx_msg void OnBnClickedLogin();
 	afx_msg void OnBnClickedGetreslist();
-	afx_msg void OnBnClickedButton4();
+	afx_msg void OnBnClickedRequestptzcontrol();
+
 	afx_msg void OnBnClickedLeft();
 	afx_msg void OnBnClickedRight();
 	afx_msg void OnBnClickedDown();
-	afx_msg void OnBnClickedButton5();
 	afx_msg void OnBnClickedAdddevres();
 	afx_msg void OnBnClickedDeldevres();
 	afx_msg void OnBnClickedCleardevs();
@@ -67,4 +67,9 @@ public:
 private:
 	IpcManageServerClient* m_pRpcClient;
 	UserVerificationDataPacket m_stuUserVerification;
+	std::vector<ResourceInfoReturnStruct> m_vResInfo;
+	RequestPTZControlReturnStruct m_reqPTZctl;
+
+public:
+	afx_msg void OnBnClickedUp();
 };

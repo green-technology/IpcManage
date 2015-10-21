@@ -6,9 +6,25 @@
 #include "mfcTest.h"
 #include "mfcTestDlg.h"
 
+#include <comdef.h>
+#include <fcntl.h>
+#include <io.h>
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+
+
+void InitConsoleWindow()
+{
+	int nCrt;
+	FILE* fp;
+	AllocConsole();
+	nCrt = _open_osfhandle(reinterpret_cast<long>(GetStdHandle(STD_OUTPUT_HANDLE)), _O_TEXT);
+	fp = _fdopen(nCrt, "w");
+	*stdout = *fp;
+	setvbuf(stdout, nullptr, _IONBF, 0);
+}
 
 
 // CmfcTestApp
@@ -39,6 +55,11 @@ CmfcTestApp theApp;
 
 BOOL CmfcTestApp::InitInstance()
 {
+	// start console to print debug log
+#ifdef _DEBUG
+	InitConsoleWindow();
+#endif // _DEBUG
+
 	// 如果一个运行在 Windows XP 上的应用程序清单指定要
 	// 使用 ComCtl32.dll 版本 6 或更高版本来启用可视化方式，
 	//则需要 InitCommonControlsEx()。否则，将无法创建窗口。

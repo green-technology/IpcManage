@@ -67,15 +67,15 @@ BEGIN_MESSAGE_MAP(CmfcTestDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_LOGIN, &CmfcTestDlg::OnBnClickedLogin)
 	ON_BN_CLICKED(IDC_GETRESLIST, &CmfcTestDlg::OnBnClickedGetreslist)
-	ON_BN_CLICKED(IDC_BUTTON4, &CmfcTestDlg::OnBnClickedButton4)
 	ON_BN_CLICKED(IDC_LEFT, &CmfcTestDlg::OnBnClickedLeft)
 	ON_BN_CLICKED(IDC_RIGHT, &CmfcTestDlg::OnBnClickedRight)
 	ON_BN_CLICKED(IDC_DOWN, &CmfcTestDlg::OnBnClickedDown)
-	ON_BN_CLICKED(IDC_BUTTON5, &CmfcTestDlg::OnBnClickedButton5)
 	ON_BN_CLICKED(IDC_ADDDEVRES, &CmfcTestDlg::OnBnClickedAdddevres)
 	ON_BN_CLICKED(IDC_DELDEVRES, &CmfcTestDlg::OnBnClickedDeldevres)
 	ON_BN_CLICKED(IDC_CLEARDEVS, &CmfcTestDlg::OnBnClickedCleardevs)
 	ON_BN_CLICKED(IDCANCEL, &CmfcTestDlg::OnBnClickedCancel)
+	ON_BN_CLICKED(IDC_REQUESTPTZCONTROL, &CmfcTestDlg::OnBnClickedRequestptzcontrol)
+	ON_BN_CLICKED(IDC_UP, &CmfcTestDlg::OnBnClickedUp)
 END_MESSAGE_MAP()
 
 
@@ -236,17 +236,28 @@ void CmfcTestDlg::OnBnClickedGetreslist()
 			return;
 		}
 
-		std::vector<ResourceInfoReturnStruct> vResInfo;
+		m_vResInfo.clear();
 
-		m_pRpcClient->GetResInfoList(vResInfo,m_stuUserVerification,ResourceType::ResourceTypeIPC);
+		m_pRpcClient->GetResInfoList(m_vResInfo,m_stuUserVerification,ResourceType::ResourceTypeIPC);
 
 
 
-		if (vResInfo.size()==0)
+		if (m_vResInfo.size()==0)
 		{
 			transport->close();
 			MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
 			return ;
+		}
+		else
+		{
+			ResourceInfoReturnStruct resInfo;
+			for (int i=0;i<m_vResInfo.size();i++)
+			{
+				resInfo = m_vResInfo.at(i);
+				cout<<"deviceName: "<<resInfo.deviceName
+					<<"IP: "<<resInfo.IP
+					<<endl;
+			}
 		}
 
 	}
@@ -266,56 +277,458 @@ void CmfcTestDlg::OnBnClickedGetreslist()
 }
 
 
-void CmfcTestDlg::OnBnClickedButton4()
+void CmfcTestDlg::OnBnClickedRequestptzcontrol()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	boost::shared_ptr<TSocket> socket(new TSocket(SERVERIP,SERVERPORT));
+	socket->setSendTimeout(TIMEOUT);
+	boost::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
+	boost::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
+
+	try
+	{
+		if (m_pRpcClient == NULL)
+		{
+			m_pRpcClient = new IpcManageServerClient(protocol);
+		}
+
+		m_pRpcClient->setProtocol(protocol);
+
+		transport->open();
+
+		if (m_stuUserVerification.UserID.length() == 0)
+		{
+			MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+		}
+
+		RequestPTZControlDataPacket rqPTZ;
+		rqPTZ.hResource = m_vResInfo[2].hResource;
+		m_pRpcClient->RequestPTZControl(m_reqPTZctl, m_stuUserVerification,rqPTZ);
+
+		cout<<"ptzhandle:"<<m_reqPTZctl.hPTZ
+			<<endl;
+
+	}
+	catch (...)
+	{
+		MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+
+	}
+
+	if(transport != NULL)
+	{
+		transport->close();
+	}
 }
 
 
 void CmfcTestDlg::OnBnClickedLeft()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	boost::shared_ptr<TSocket> socket(new TSocket(SERVERIP,SERVERPORT));
+	socket->setSendTimeout(TIMEOUT);
+	boost::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
+	boost::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
+
+	try
+	{
+		if (m_pRpcClient == NULL)
+		{
+			m_pRpcClient = new IpcManageServerClient(protocol);
+		}
+
+		m_pRpcClient->setProtocol(protocol);
+
+		transport->open();
+
+		if (m_stuUserVerification.UserID.length() == 0)
+		{
+			MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+		}
+
+		PTZControlDataPacket cmd;
+		cmd.hPTZ = m_reqPTZctl.hPTZ;
+		cmd.command = PTZCommand::PTZ_LEFT;
+		cmd.param1 = 0;
+		cmd.param2 = 7;
+		cmd.param3 = 0;
+		cmd.dwStop = false;
+		PTZControlReturnStruct rtn_cmd;
+		m_pRpcClient->PTZControl(rtn_cmd, m_stuUserVerification, cmd);
+
+		//if (!m_pRpcClient->UserLogout(m_stuUserVerification))
+		{
+			MessageBox(_T("UserLogout 异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+		}
+
+	}
+	catch (...)
+	{
+		MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+
+	}
+
+	if(transport != NULL)
+	{
+		transport->close();
+	}
 }
 
 
 void CmfcTestDlg::OnBnClickedRight()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	boost::shared_ptr<TSocket> socket(new TSocket(SERVERIP,SERVERPORT));
+	socket->setSendTimeout(TIMEOUT);
+	boost::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
+	boost::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
+
+	try
+	{
+		if (m_pRpcClient == NULL)
+		{
+			m_pRpcClient = new IpcManageServerClient(protocol);
+		}
+
+		m_pRpcClient->setProtocol(protocol);
+
+		transport->open();
+
+		PTZControlDataPacket cmd;
+		cmd.hPTZ = m_reqPTZctl.hPTZ;
+		cmd.command = PTZCommand::PTZ_RIGHT;
+		cmd.param1 = 0;
+		cmd.param2 = 7;
+		cmd.param3 = 0;
+		cmd.dwStop = false;
+		PTZControlReturnStruct rtn_cmd;
+		m_pRpcClient->PTZControl(rtn_cmd, m_stuUserVerification, cmd);
+
+		/*if (m_stuUserVerification.UserID.length() == 0)*/
+		{
+			MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+		}
+
+
+		if (!m_pRpcClient->UserLogout(m_stuUserVerification))
+		{
+			MessageBox(_T(" 异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+		}
+
+	}
+	catch (...)
+	{
+		MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+
+	}
+
+	if(transport != NULL)
+	{
+		transport->close();
+	}
 }
 
 
 void CmfcTestDlg::OnBnClickedDown()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	boost::shared_ptr<TSocket> socket(new TSocket(SERVERIP,SERVERPORT));
+	socket->setSendTimeout(TIMEOUT);
+	boost::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
+	boost::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
+
+	try
+	{
+		if (m_pRpcClient == NULL)
+		{
+			m_pRpcClient = new IpcManageServerClient(protocol);
+		}
+
+		m_pRpcClient->setProtocol(protocol);
+
+		transport->open();
+
+		if (m_stuUserVerification.UserID.length() == 0)
+		{
+			MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+		}
+
+		PTZControlDataPacket cmd;
+		cmd.hPTZ = m_reqPTZctl.hPTZ;
+		cmd.command = PTZCommand::PTZ_DOWN;
+		cmd.param1 = 0;
+		cmd.param2 = 7;
+		cmd.param3 = 0;
+		cmd.dwStop = false;
+		PTZControlReturnStruct rtn_cmd;
+		m_pRpcClient->PTZControl(rtn_cmd, m_stuUserVerification, cmd);
+
+		//if (!m_pRpcClient->UserLogout(m_stuUserVerification))
+		{
+			MessageBox(_T("UserLogout 异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+		}
+
+	}
+	catch (...)
+	{
+		MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+
+	}
+
+	if(transport != NULL)
+	{
+		transport->close();
+	}
 }
 
 
-void CmfcTestDlg::OnBnClickedButton5()
+void CmfcTestDlg::OnBnClickedUp()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	boost::shared_ptr<TSocket> socket(new TSocket(SERVERIP,SERVERPORT));
+	socket->setSendTimeout(TIMEOUT);
+	boost::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
+	boost::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
+
+	try
+	{
+		if (m_pRpcClient == NULL)
+		{
+			m_pRpcClient = new IpcManageServerClient(protocol);
+		}
+
+		m_pRpcClient->setProtocol(protocol);
+
+		transport->open();
+
+		if (m_stuUserVerification.UserID.length() == 0)
+		{
+			MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+		}
+
+		PTZControlDataPacket cmd;
+		cmd.hPTZ = m_reqPTZctl.hPTZ;
+		cmd.command = PTZCommand::PTZ_UP;
+		cmd.param1 = 0;
+		cmd.param2 = 7;
+		cmd.param3 = 0;
+		cmd.dwStop = false;
+		PTZControlReturnStruct rtn_cmd;
+		m_pRpcClient->PTZControl(rtn_cmd, m_stuUserVerification, cmd);
+		//if (!m_pRpcClient->UserLogout(m_stuUserVerification))
+		{
+			MessageBox(_T("UserLogout 异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+		}
+
+	}
+	catch (...)
+	{
+		MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+
+	}
+
+	if(transport != NULL)
+	{
+		transport->close();
+	}
 }
+
 
 
 void CmfcTestDlg::OnBnClickedAdddevres()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	boost::shared_ptr<TSocket> socket(new TSocket(SERVERIP,SERVERPORT));
+	socket->setSendTimeout(TIMEOUT);
+	boost::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
+	boost::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
+
+	try
+	{
+		if (m_pRpcClient == NULL)
+		{
+			m_pRpcClient = new IpcManageServerClient(protocol);
+		}
+
+		m_pRpcClient->setProtocol(protocol);
+
+		transport->open();
+
+		if (m_stuUserVerification.UserID.length() == 0)
+		{
+			MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+		}
+
+		IPCResourceDataPacket ipcRes;
+		ipcRes.deviceName ="deviceName1";
+		ipcRes.IP = "127.0.0.1";
+
+		ReturnType::type ret = m_pRpcClient->addResource(m_stuUserVerification,ipcRes);
+
+		cout<<"addResource:" 
+			<<ipcRes.deviceName<<ipcRes.IP
+			<<endl;
+		if (ret != ReturnType::Success)
+		{
+			MessageBox(_T("UserLogout 异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+		}
+
+	}
+	catch (...)
+	{
+		MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+
+	}
+
+	if(transport != NULL)
+	{
+		transport->close();
+	}
 }
 
 
 void CmfcTestDlg::OnBnClickedDeldevres()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	boost::shared_ptr<TSocket> socket(new TSocket(SERVERIP,SERVERPORT));
+	socket->setSendTimeout(TIMEOUT);
+	boost::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
+	boost::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
+
+	try
+	{
+		if (m_pRpcClient == NULL)
+		{
+			m_pRpcClient = new IpcManageServerClient(protocol);
+		}
+
+		m_pRpcClient->setProtocol(protocol);
+
+		transport->open();
+
+		if (m_stuUserVerification.UserID.length() == 0)
+		{
+			MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+		}
+
+		ReturnType::type ret = m_pRpcClient->deleteResource(m_stuUserVerification,m_vResInfo[3].hResource);
+
+		m_vResInfo.clear();
+		m_pRpcClient->GetResInfoList(m_vResInfo,m_stuUserVerification,ResourceType::ResourceTypeIPC);
+
+		cout<<"after deleteResource:"
+			<<"m_vResInfo.size"<<m_vResInfo.size()<<endl;
+		ResourceInfoReturnStruct resInfo;
+		for (int i=0;i<m_vResInfo.size();i++)
+		{
+			resInfo = m_vResInfo.at(i);
+			cout<<"ResInfo"<<i<<": "
+				<<resInfo.deviceName
+				<<resInfo.IP
+				<<resInfo.hResource
+				<<resInfo.resourceType
+				<<endl;
+		}
+
+		if (ret != ReturnType::Success)
+		{
+			MessageBox(_T("UserLogout 异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+		}
+
+	}
+	catch (...)
+	{
+		MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+
+	}
+
+	if(transport != NULL)
+	{
+		transport->close();
+	}
 }
 
 
 void CmfcTestDlg::OnBnClickedCleardevs()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	boost::shared_ptr<TSocket> socket(new TSocket(SERVERIP,SERVERPORT));
+	socket->setSendTimeout(TIMEOUT);
+	boost::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
+	boost::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
+
+	try
+	{
+		if (m_pRpcClient == NULL)
+		{
+			m_pRpcClient = new IpcManageServerClient(protocol);
+		}
+
+		m_pRpcClient->setProtocol(protocol);
+
+		transport->open();
+
+		if (m_stuUserVerification.UserID.length() == 0)
+		{
+			MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+		}
+
+
+		if (!m_pRpcClient->UserLogout(m_stuUserVerification))
+		{
+			MessageBox(_T("UserLogout 异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+		}
+
+	}
+	catch (...)
+	{
+		MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+
+	}
+
+	if(transport != NULL)
+	{
+		transport->close();
+	}
 }
 
 
 void CmfcTestDlg::OnBnClickedCancel()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	boost::shared_ptr<TSocket> socket(new TSocket(SERVERIP,SERVERPORT));
+	socket->setSendTimeout(TIMEOUT);
+	boost::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
+	boost::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
+
+	try
+	{
+		if (m_pRpcClient == NULL)
+		{
+			m_pRpcClient = new IpcManageServerClient(protocol);
+		}
+
+		m_pRpcClient->setProtocol(protocol);
+
+		transport->open();
+
+		if (m_stuUserVerification.UserID.length() == 0)
+		{
+			MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+		}
+
+
+		if (!m_pRpcClient->UserLogout(m_stuUserVerification))
+		{
+			MessageBox(_T("UserLogout 异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+		}
+
+	}
+	catch (...)
+	{
+		MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+
+	}
+
+	if(transport != NULL)
+	{
+		transport->close();
+	}
+
 	CDialogEx::OnCancel();
 }
+
+
+
+

@@ -51,10 +51,10 @@ enum PTZCommand
 
 struct PTZControlDataPacket
 {
-	1: i64					hPTZ;
-	2: PTZCommand	        command;
+	1: i64					hPTZ;                   //PTZ control handle
+	2: PTZCommand	        command;                //PTZ control cmd
 	3: i64					param1;
 	4: i64					param2;
 	5: i64					param3;
-	6: bool					dwStop;
+	6: bool					dwStop;                  // is stop PTZ control
 }
