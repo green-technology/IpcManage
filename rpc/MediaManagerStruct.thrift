@@ -18,6 +18,7 @@ struct IPCResourceDataPacket {
         7: i64 hPTZ;
         8: string deviceName;
 		9: string rtspUrl;
+		10: i64 ID;          //设备资源的唯一ID
 }
 
 struct UserLoginInfoDataPacket {

@@ -409,8 +409,8 @@ typedef struct _IpcManageServer_GetResInfoList_result__isset {
 class IpcManageServer_GetResInfoList_result {
  public:
 
-  static const char* ascii_fingerprint; // = "0B3BE95A4383B49502FEB65750F42158";
-  static const uint8_t binary_fingerprint[16]; // = {0x0B,0x3B,0xE9,0x5A,0x43,0x83,0xB4,0x95,0x02,0xFE,0xB6,0x57,0x50,0xF4,0x21,0x58};
+  static const char* ascii_fingerprint; // = "1529D9972B99D4E9EB6BF16CE36D80EC";
+  static const uint8_t binary_fingerprint[16]; // = {0x15,0x29,0xD9,0x97,0x2B,0x99,0xD4,0xE9,0xEB,0x6B,0xF1,0x6C,0xE3,0x6D,0x80,0xEC};
 
   IpcManageServer_GetResInfoList_result(const IpcManageServer_GetResInfoList_result&);
   IpcManageServer_GetResInfoList_result& operator=(const IpcManageServer_GetResInfoList_result&);
@@ -450,8 +450,8 @@ typedef struct _IpcManageServer_GetResInfoList_presult__isset {
 class IpcManageServer_GetResInfoList_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "0B3BE95A4383B49502FEB65750F42158";
-  static const uint8_t binary_fingerprint[16]; // = {0x0B,0x3B,0xE9,0x5A,0x43,0x83,0xB4,0x95,0x02,0xFE,0xB6,0x57,0x50,0xF4,0x21,0x58};
+  static const char* ascii_fingerprint; // = "1529D9972B99D4E9EB6BF16CE36D80EC";
+  static const uint8_t binary_fingerprint[16]; // = {0x15,0x29,0xD9,0x97,0x2B,0x99,0xD4,0xE9,0xEB,0x6B,0xF1,0x6C,0xE3,0x6D,0x80,0xEC};
 
 
   virtual ~IpcManageServer_GetResInfoList_presult() throw();
@@ -981,8 +981,8 @@ typedef struct _IpcManageServer_addResource_args__isset {
 class IpcManageServer_addResource_args {
  public:
 
-  static const char* ascii_fingerprint; // = "DDDF0F3A278D4C5DF29747FBACDD9E62";
-  static const uint8_t binary_fingerprint[16]; // = {0xDD,0xDF,0x0F,0x3A,0x27,0x8D,0x4C,0x5D,0xF2,0x97,0x47,0xFB,0xAC,0xDD,0x9E,0x62};
+  static const char* ascii_fingerprint; // = "C54DDB3FEB010EED323B05E89CB5A5F5";
+  static const uint8_t binary_fingerprint[16]; // = {0xC5,0x4D,0xDB,0x3F,0xEB,0x01,0x0E,0xED,0x32,0x3B,0x05,0xE8,0x9C,0xB5,0xA5,0xF5};
 
   IpcManageServer_addResource_args(const IpcManageServer_addResource_args&);
   IpcManageServer_addResource_args& operator=(const IpcManageServer_addResource_args&);
@@ -1023,8 +1023,8 @@ class IpcManageServer_addResource_args {
 class IpcManageServer_addResource_pargs {
  public:
 
-  static const char* ascii_fingerprint; // = "DDDF0F3A278D4C5DF29747FBACDD9E62";
-  static const uint8_t binary_fingerprint[16]; // = {0xDD,0xDF,0x0F,0x3A,0x27,0x8D,0x4C,0x5D,0xF2,0x97,0x47,0xFB,0xAC,0xDD,0x9E,0x62};
+  static const char* ascii_fingerprint; // = "C54DDB3FEB010EED323B05E89CB5A5F5";
+  static const uint8_t binary_fingerprint[16]; // = {0xC5,0x4D,0xDB,0x3F,0xEB,0x01,0x0E,0xED,0x32,0x3B,0x05,0xE8,0x9C,0xB5,0xA5,0xF5};
 
 
   virtual ~IpcManageServer_addResource_pargs() throw();
@@ -1486,9 +1486,8 @@ class IpcManageServerClient : virtual public IpcManageServerIf {
     setProtocol(prot);
   }
   IpcManageServerClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> iprot, boost::shared_ptr< ::apache::thrift::protocol::TProtocol> oprot) {
-    setProtocol(iprot,oprot);
+	  setProtocol(iprot,oprot);
   }
-
   void setProtocol(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
 	  setProtocol(prot,prot);
   }

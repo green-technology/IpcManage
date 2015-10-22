@@ -73,6 +73,7 @@ void IpcManageServerHandler::GetResInfoList(std::vector< ::ipcms::ResourceInfoRe
 				item.hasPLZ = true;
 				item.timeStart = 0;
 				item.timeEnd = 0;
+				item.ID = pRpcRes->ID;
 
 				_return.push_back(item);
 				

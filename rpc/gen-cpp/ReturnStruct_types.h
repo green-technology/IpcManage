@@ -114,7 +114,7 @@ class UserLoginReturnStruct {
 void swap(UserLoginReturnStruct &a, UserLoginReturnStruct &b);
 
 typedef struct _ResourceInfoReturnStruct__isset {
-  _ResourceInfoReturnStruct__isset() : resourceType(false), IP(false), deviceName(false), hResource(false), hasPLZ(false), timeStart(false), timeEnd(false), rtspUrl(false) {}
+  _ResourceInfoReturnStruct__isset() : resourceType(false), IP(false), deviceName(false), hResource(false), hasPLZ(false), timeStart(false), timeEnd(false), rtspUrl(false), ID(false) {}
   bool resourceType :1;
   bool IP :1;
   bool deviceName :1;
@@ -123,17 +123,18 @@ typedef struct _ResourceInfoReturnStruct__isset {
   bool timeStart :1;
   bool timeEnd :1;
   bool rtspUrl :1;
+  bool ID :1;
 } _ResourceInfoReturnStruct__isset;
 
 class ResourceInfoReturnStruct {
  public:
 
-  static const char* ascii_fingerprint; // = "1CFF062C3058E2648306920D678AD2DD";
-  static const uint8_t binary_fingerprint[16]; // = {0x1C,0xFF,0x06,0x2C,0x30,0x58,0xE2,0x64,0x83,0x06,0x92,0x0D,0x67,0x8A,0xD2,0xDD};
+  static const char* ascii_fingerprint; // = "439EFE098509EA5CE1F9607BA6B2E18C";
+  static const uint8_t binary_fingerprint[16]; // = {0x43,0x9E,0xFE,0x09,0x85,0x09,0xEA,0x5C,0xE1,0xF9,0x60,0x7B,0xA6,0xB2,0xE1,0x8C};
 
   ResourceInfoReturnStruct(const ResourceInfoReturnStruct&);
   ResourceInfoReturnStruct& operator=(const ResourceInfoReturnStruct&);
-  ResourceInfoReturnStruct() : resourceType((ResourceType::type)0), IP(), deviceName(), hResource(0), hasPLZ(0), timeStart(0), timeEnd(0), rtspUrl() {
+  ResourceInfoReturnStruct() : resourceType((ResourceType::type)0), IP(), deviceName(), hResource(0), hasPLZ(0), timeStart(0), timeEnd(0), rtspUrl(), ID(0) {
   }
 
   virtual ~ResourceInfoReturnStruct() throw();
@@ -145,6 +146,7 @@ class ResourceInfoReturnStruct {
   int64_t timeStart;
   int64_t timeEnd;
   std::string rtspUrl;
+  int64_t ID;
 
   _ResourceInfoReturnStruct__isset __isset;
 
@@ -164,11 +166,11 @@ class ResourceInfoReturnStruct {
 
   void __set_rtspUrl(const std::string& val);
 
+  void __set_ID(const int64_t val);
+
   bool operator == (const ResourceInfoReturnStruct & rhs) const
   {
-    if (__isset.resourceType != rhs.__isset.resourceType)
-      return false;
-    else if (__isset.resourceType && !(resourceType == rhs.resourceType))
+    if (!(resourceType == rhs.resourceType))
       return false;
     if (!(IP == rhs.IP))
       return false;
@@ -183,6 +185,8 @@ class ResourceInfoReturnStruct {
     if (!(timeEnd == rhs.timeEnd))
       return false;
     if (!(rtspUrl == rhs.rtspUrl))
+      return false;
+    if (!(ID == rhs.ID))
       return false;
     return true;
   }

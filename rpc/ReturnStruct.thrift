@@ -16,7 +16,7 @@ enum ResourceType {
 //资源信息结构
 struct ResourceInfoReturnStruct
 {
-    1: optional ResourceType resourceType;
+    1: ResourceType resourceType;
     2: string IP;
     3: string deviceName;
     4: i64 hResource;
@@ -24,6 +24,7 @@ struct ResourceInfoReturnStruct
     6: i64 timeStart;   //录像时间段
     7: i64 timeEnd;
 	8: string rtspUrl;  //rtsp视频串 add by frankz
+    9: i64 ID;          //设备资源的唯一ID
 }
 
 struct RequestPTZControlReturnStruct
