@@ -258,7 +258,7 @@ namespace ipcTools
 		char szSql[MAX_PATH] = {0};
 		string tmpstr = DeviceType2str(res->deviceType);
 		sprintf(szSql, "insert into IPC values(NULL, '%s','%d'",res->IP.c_str(), res->port);
-		sprintf(szSql,"%s,'%s','%s','%s','%d')",szSql,tmpstr.c_str(),res->userName.c_str(),res->password.c_str(),res->channel);
+		sprintf(szSql,"%s,'%s','%s','%s','%d','%s')",szSql,tmpstr.c_str(),res->userName.c_str(),res->password.c_str(),res->channel,res->deviceName);
 		//sprintf_s(szSql,MAX_PATH, "insert into IPC values(NULL, '%s','%d','%s','%s', '%s', '%d') ",res->IP.c_str(), res->port,tmpstr.c_str(), res->userName.c_str(), res->password.c_str(), res->channel);
 
 		try
