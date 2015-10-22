@@ -74,6 +74,7 @@ void IpcManageServerHandler::GetResInfoList(std::vector< ::ipcms::ResourceInfoRe
 				item.timeStart = 0;
 				item.timeEnd = 0;
 				item.ID = pRpcRes->ID;
+				item.rtspUrl = pRpcRes->rtspUrl;
 
 				_return.push_back(item);
 				

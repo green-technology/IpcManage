@@ -323,7 +323,7 @@ namespace ipcTools
 		string tmpstr = DeviceType2str(res->deviceType);
 		sprintf(szSql, "insert into IPC values(NULL, '%s','%d'",res->IP.c_str(), res->port);
 		sprintf(szSql,"%s,'%s','%s','%s','%d'",szSql,tmpstr.c_str(),res->userName.c_str(),res->password.c_str(),res->channel);
-		sprintf(szSql,"%s,'%s','%s' )",szSql,res->deviceName.c_str(),res->rtspUrl);
+		sprintf(szSql,"%s,'%s','%s' )",szSql,res->deviceName.c_str(),res->rtspUrl.c_str());
 		//sprintf_s(szSql,MAX_PATH, "insert into IPC values(NULL, '%s','%d','%s','%s', '%s', '%d') ",res->IP.c_str(), res->port,tmpstr.c_str(), res->userName.c_str(), res->password.c_str(), res->channel);
 
 		try

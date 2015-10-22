@@ -18,6 +18,7 @@ using namespace ipcms;
 
 #pragma comment(lib,"libthrift.lib")
 
+#include <iostream>
 using namespace std;
 
 #define SERVERIP "127.0.0.1"

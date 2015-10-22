@@ -190,7 +190,7 @@ void CmfcTestDlg::OnBnClickedLogin()
 
 		if (stuUserLoginR.ErrorNum == TRUE)
 		{
-			cout<<"UserLogin Success! ++++++++++++++++++++++++++++"<<endl;
+			std::cout<<"UserLogin Success! ++++++++++++++++++++++++++++"<<endl;
 			cout<<" "<<endl;
 			m_stuUserVerification.UserID = stuUserLoginR.UserID;			
 			m_stuUserVerification.SessionID = stuUserLoginR.SessionID;
@@ -265,6 +265,9 @@ void CmfcTestDlg::OnBnClickedGetreslist()
 					<<resInfo.hResource
 					<<resInfo.resourceType
 					<<" id: "<<resInfo.ID
+					<<endl;
+				cout<<"rtspUrl: "<< resInfo.rtspUrl
+					<<"\n"
 					<<endl;
 			}
 			cout<<" "<<endl;
