@@ -120,4 +120,7 @@
   <ItemGroup>
     <CustomBuild Include="binary_distrib\cef_binary_3.2217.1922_windows32\cefclient.gyp" />
   </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="binary_distrib\cef_binary_3.2217.1922_windows32\cefclient.gyp" />
+  </ItemGroup>
 </Project>

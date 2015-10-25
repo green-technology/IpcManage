@@ -76,6 +76,7 @@ BEGIN_MESSAGE_MAP(CmfcTestDlg, CDialogEx)
 	ON_BN_CLICKED(IDCANCEL, &CmfcTestDlg::OnBnClickedCancel)
 	ON_BN_CLICKED(IDC_REQUESTPTZCONTROL, &CmfcTestDlg::OnBnClickedRequestptzcontrol)
 	ON_BN_CLICKED(IDC_UP, &CmfcTestDlg::OnBnClickedUp)
+	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
 
@@ -189,6 +190,8 @@ void CmfcTestDlg::OnBnClickedLogin()
 
 		if (stuUserLoginR.ErrorNum == TRUE)
 		{
+			std::cout<<"UserLogin Success! ++++++++++++++++++++++++++++"<<endl;
+			cout<<" "<<endl;
 			m_stuUserVerification.UserID = stuUserLoginR.UserID;			
 			m_stuUserVerification.SessionID = stuUserLoginR.SessionID;
 			bRet = true;
@@ -237,27 +240,37 @@ void CmfcTestDlg::OnBnClickedGetreslist()
 		}
 
 		m_vResInfo.clear();
-
 		m_pRpcClient->GetResInfoList(m_vResInfo,m_stuUserVerification,ResourceType::ResourceTypeIPC);
 
-
+		cout<<"GetResInfoList was executed---------------"<<endl;
 
 		if (m_vResInfo.size()==0)
 		{
 			transport->close();
-			MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+			cout<<"There is not available res"<<"\n"<<endl;
+			//MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
 			return ;
 		}
 		else
 		{
+			cout<<"before deleteResource:"
+				<<"m_vResInfo.size"<<m_vResInfo.size()<<endl;
 			ResourceInfoReturnStruct resInfo;
 			for (int i=0;i<m_vResInfo.size();i++)
 			{
 				resInfo = m_vResInfo.at(i);
-				cout<<"deviceName: "<<resInfo.deviceName
-					<<"IP: "<<resInfo.IP
+				cout<<"ResInfo"<<i<<": "
+					<<resInfo.deviceName
+					<<resInfo.IP
+					<<resInfo.hResource
+					<<resInfo.resourceType
+					<<" id: "<<resInfo.ID
+					<<endl;
+				cout<<"rtspUrl: "<< resInfo.rtspUrl
+					<<"\n"
 					<<endl;
 			}
+			cout<<" "<<endl;
 		}
 
 	}
@@ -300,18 +313,25 @@ void CmfcTestDlg::OnBnClickedRequestptzcontrol()
 			MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
 		}
 
-		RequestPTZControlDataPacket rqPTZ;
-		rqPTZ.hResource = m_vResInfo[2].hResource;
-		m_pRpcClient->RequestPTZControl(m_reqPTZctl, m_stuUserVerification,rqPTZ);
+		if (m_vResInfo.size() != 0)
+		{
+			RequestPTZControlDataPacket rqPTZ;
+			rqPTZ.hResource = m_vResInfo[0].hResource;
+			m_pRpcClient->RequestPTZControl(m_reqPTZctl, m_stuUserVerification,rqPTZ);
 
-		cout<<"ptzhandle:"<<m_reqPTZctl.hPTZ
-			<<endl;
-
+			cout<<"RequestPTZControl was exectued ------------------------"<<endl;
+			cout<<"ptzhandle:"<<m_reqPTZctl.hPTZ
+				<<endl;
+			cout<<" "<<endl;
+		}
+		else
+		{
+			cout<<"There is not available dev"<<"\n"<<endl;
+		}
 	}
 	catch (...)
 	{
 		MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
-
 	}
 
 	if(transport != NULL)
@@ -354,6 +374,9 @@ void CmfcTestDlg::OnBnClickedLeft()
 		PTZControlReturnStruct rtn_cmd;
 		m_pRpcClient->PTZControl(rtn_cmd, m_stuUserVerification, cmd);
 
+		cout<<"PTZControl:"<< cmd.command<<" was executed!++++++++++++++"<<endl; 
+		cout<<" "<<endl;
+
 		//if (!m_pRpcClient->UserLogout(m_stuUserVerification))
 		{
 			MessageBox(_T("UserLogout 异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
@@ -388,7 +411,6 @@ void CmfcTestDlg::OnBnClickedRight()
 		}
 
 		m_pRpcClient->setProtocol(protocol);
-
 		transport->open();
 
 		PTZControlDataPacket cmd;
@@ -400,6 +422,9 @@ void CmfcTestDlg::OnBnClickedRight()
 		cmd.dwStop = false;
 		PTZControlReturnStruct rtn_cmd;
 		m_pRpcClient->PTZControl(rtn_cmd, m_stuUserVerification, cmd);
+
+		cout<<"PTZControl:"<< cmd.command<<" was executed!++++++++++++++"<<endl;
+		cout<<" "<<endl;
 
 		/*if (m_stuUserVerification.UserID.length() == 0)*/
 		{
@@ -459,6 +484,9 @@ void CmfcTestDlg::OnBnClickedDown()
 		PTZControlReturnStruct rtn_cmd;
 		m_pRpcClient->PTZControl(rtn_cmd, m_stuUserVerification, cmd);
 
+		cout<<"PTZControl:"<< cmd.command<<" was executed!++++++++++++++"<<endl;
+		cout<<" "<<endl;
+
 		//if (!m_pRpcClient->UserLogout(m_stuUserVerification))
 		{
 			MessageBox(_T("UserLogout 异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
@@ -510,6 +538,9 @@ void CmfcTestDlg::OnBnClickedUp()
 		cmd.dwStop = false;
 		PTZControlReturnStruct rtn_cmd;
 		m_pRpcClient->PTZControl(rtn_cmd, m_stuUserVerification, cmd);
+
+		cout<<"PTZControl:"<< cmd.command<<" was executed!++++++++++++++"<<endl;
+		cout<<" "<<endl;
 		//if (!m_pRpcClient->UserLogout(m_stuUserVerification))
 		{
 			MessageBox(_T("UserLogout 异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
@@ -527,8 +558,6 @@ void CmfcTestDlg::OnBnClickedUp()
 		transport->close();
 	}
 }
-
-
 
 void CmfcTestDlg::OnBnClickedAdddevres()
 {
@@ -554,14 +583,24 @@ void CmfcTestDlg::OnBnClickedAdddevres()
 		}
 
 		IPCResourceDataPacket ipcRes;
-		ipcRes.deviceName ="deviceName1";
-		ipcRes.IP = "127.0.0.1";
+		ipcRes.deviceName ="lf内部测试点_海康01";
+		ipcRes.IP = "14.23.115.10";
+		ipcRes.port=9090;
+		ipcRes.channel=1;
+		ipcRes.deviceType = DeviceType::type::DeviceTypeHC;
+		ipcRes.userName="admin";
+		ipcRes.password="lf123456";
+		ipcRes.rtspUrl="rtsp://admin:lf123456@14.23.115.10/mpeg4/ch1/sub/av_stream";
 
 		ReturnType::type ret = m_pRpcClient->addResource(m_stuUserVerification,ipcRes);
 
-		cout<<"addResource:" 
-			<<ipcRes.deviceName<<ipcRes.IP
-			<<endl;
+		m_vResInfo.clear();
+		m_pRpcClient->GetResInfoList(m_vResInfo,m_stuUserVerification,ResourceType::type::ResourceTypeIPC);
+
+		cout<<"after addResource+++++++++++++++++++++"<<endl;
+		cout<<"device size is "<<m_vResInfo.size()<<endl;
+		cout<<" "<<endl;
+
 		if (ret != ReturnType::Success)
 		{
 			MessageBox(_T("UserLogout 异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
@@ -604,7 +643,8 @@ void CmfcTestDlg::OnBnClickedDeldevres()
 			MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
 		}
 
-		ReturnType::type ret = m_pRpcClient->deleteResource(m_stuUserVerification,m_vResInfo[3].hResource);
+		int size = m_vResInfo.size();
+		ReturnType::type ret = m_pRpcClient->deleteResource(m_stuUserVerification,m_vResInfo[size-1].ID);
 
 		m_vResInfo.clear();
 		m_pRpcClient->GetResInfoList(m_vResInfo,m_stuUserVerification,ResourceType::ResourceTypeIPC);
@@ -620,8 +660,10 @@ void CmfcTestDlg::OnBnClickedDeldevres()
 				<<resInfo.IP
 				<<resInfo.hResource
 				<<resInfo.resourceType
+				<<" id: "<<resInfo.ID
 				<<endl;
 		}
+		cout<<""<<endl;
 
 		if (ret != ReturnType::Success)
 		{
@@ -665,10 +707,19 @@ void CmfcTestDlg::OnBnClickedCleardevs()
 			MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
 		}
 
-
-		if (!m_pRpcClient->UserLogout(m_stuUserVerification))
+		ReturnType::type ret = m_pRpcClient->deleteAllResources(m_stuUserVerification);
+		if (ret != ReturnType::type::Success)
 		{
-			MessageBox(_T("UserLogout 异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+			MessageBox(_T("deleteAllResources Success"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+		}
+		else
+		{
+			m_vResInfo.clear();
+			m_pRpcClient->GetResInfoList(m_vResInfo,m_stuUserVerification,ResourceType::type::ResourceTypeIPC);
+
+			cout<<"after deleteAllResources 00000000000000000000000000000000"<<endl;
+			cout<<"Res size is "<<m_vResInfo.size()<<endl;
+			cout<<""<<endl;
 		}
 
 	}
@@ -717,13 +768,19 @@ void CmfcTestDlg::OnBnClickedCancel()
 	}
 	catch (...)
 	{
-		MessageBox(_T("异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
+		MessageBox(_T("UserLogout net 异常"),_T("提示"),MB_ICONINFORMATION|MB_TOPMOST|MB_OK);
 
 	}
 
 	if(transport != NULL)
 	{
 		transport->close();
+	}
+
+	if (m_pRpcClient!= nullptr)
+	{
+		delete m_pRpcClient;
+		m_pRpcClient = nullptr;
 	}
 
 	CDialogEx::OnCancel();

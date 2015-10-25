@@ -56,9 +56,9 @@ CmfcTestApp theApp;
 BOOL CmfcTestApp::InitInstance()
 {
 	// start console to print debug log
-#ifdef _DEBUG
+//#ifdef _DEBUG
 	InitConsoleWindow();
-#endif // _DEBUG
+//#endif // _DEBUG
 
 	// 如果一个运行在 Windows XP 上的应用程序清单指定要
 	// 使用 ComCtl32.dll 版本 6 或更高版本来启用可视化方式，

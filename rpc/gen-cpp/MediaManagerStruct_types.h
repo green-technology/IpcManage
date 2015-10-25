@@ -70,7 +70,7 @@ class PTZCommandDataPacket;
 class RecordResource;
 
 typedef struct _IPCResourceDataPacket__isset {
-  _IPCResourceDataPacket__isset() : IP(false), port(false), deviceType(false), userName(false), password(false), channel(false), hPTZ(false), deviceName(false), rtspUrl(false) {}
+  _IPCResourceDataPacket__isset() : IP(false), port(false), deviceType(false), userName(false), password(false), channel(false), hPTZ(false), deviceName(false), rtspUrl(false), ID(false) {}
   bool IP :1;
   bool port :1;
   bool deviceType :1;
@@ -80,17 +80,18 @@ typedef struct _IPCResourceDataPacket__isset {
   bool hPTZ :1;
   bool deviceName :1;
   bool rtspUrl :1;
+  bool ID :1;
 } _IPCResourceDataPacket__isset;
 
 class IPCResourceDataPacket {
  public:
 
-  static const char* ascii_fingerprint; // = "04C60CC0FEAB1A399AD4C95F224660B5";
-  static const uint8_t binary_fingerprint[16]; // = {0x04,0xC6,0x0C,0xC0,0xFE,0xAB,0x1A,0x39,0x9A,0xD4,0xC9,0x5F,0x22,0x46,0x60,0xB5};
+  static const char* ascii_fingerprint; // = "94BA8E62A2C9AE9619B86B6AA5DA8F9F";
+  static const uint8_t binary_fingerprint[16]; // = {0x94,0xBA,0x8E,0x62,0xA2,0xC9,0xAE,0x96,0x19,0xB8,0x6B,0x6A,0xA5,0xDA,0x8F,0x9F};
 
   IPCResourceDataPacket(const IPCResourceDataPacket&);
   IPCResourceDataPacket& operator=(const IPCResourceDataPacket&);
-  IPCResourceDataPacket() : IP(), port(0), deviceType((DeviceType::type)0), userName(), password(), channel(0), hPTZ(0), deviceName(), rtspUrl() {
+  IPCResourceDataPacket() : IP(), port(0), deviceType((DeviceType::type)0), userName(), password(), channel(0), hPTZ(0), deviceName(), rtspUrl(), ID(0) {
   }
 
   virtual ~IPCResourceDataPacket() throw();
@@ -103,6 +104,7 @@ class IPCResourceDataPacket {
   int64_t hPTZ;
   std::string deviceName;
   std::string rtspUrl;
+  int64_t ID;
 
   _IPCResourceDataPacket__isset __isset;
 
@@ -124,15 +126,15 @@ class IPCResourceDataPacket {
 
   void __set_rtspUrl(const std::string& val);
 
+  void __set_ID(const int64_t val);
+
   bool operator == (const IPCResourceDataPacket & rhs) const
   {
     if (!(IP == rhs.IP))
       return false;
     if (!(port == rhs.port))
       return false;
-    if (__isset.deviceType != rhs.__isset.deviceType)
-      return false;
-    else if (__isset.deviceType && !(deviceType == rhs.deviceType))
+    if (!(deviceType == rhs.deviceType))
       return false;
     if (!(userName == rhs.userName))
       return false;
@@ -145,6 +147,8 @@ class IPCResourceDataPacket {
     if (!(deviceName == rhs.deviceName))
       return false;
     if (!(rtspUrl == rhs.rtspUrl))
+      return false;
+    if (!(ID == rhs.ID))
       return false;
     return true;
   }

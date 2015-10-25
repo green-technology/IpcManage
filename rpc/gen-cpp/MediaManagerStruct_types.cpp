@@ -96,7 +96,6 @@ void IPCResourceDataPacket::__set_port(const int64_t val) {
 
 void IPCResourceDataPacket::__set_deviceType(const DeviceType::type val) {
   this->deviceType = val;
-__isset.deviceType = true;
 }
 
 void IPCResourceDataPacket::__set_userName(const std::string& val) {
@@ -123,8 +122,12 @@ void IPCResourceDataPacket::__set_rtspUrl(const std::string& val) {
   this->rtspUrl = val;
 }
 
-const char* IPCResourceDataPacket::ascii_fingerprint = "04C60CC0FEAB1A399AD4C95F224660B5";
-const uint8_t IPCResourceDataPacket::binary_fingerprint[16] = {0x04,0xC6,0x0C,0xC0,0xFE,0xAB,0x1A,0x39,0x9A,0xD4,0xC9,0x5F,0x22,0x46,0x60,0xB5};
+void IPCResourceDataPacket::__set_ID(const int64_t val) {
+  this->ID = val;
+}
+
+const char* IPCResourceDataPacket::ascii_fingerprint = "94BA8E62A2C9AE9619B86B6AA5DA8F9F";
+const uint8_t IPCResourceDataPacket::binary_fingerprint[16] = {0x94,0xBA,0x8E,0x62,0xA2,0xC9,0xAE,0x96,0x19,0xB8,0x6B,0x6A,0xA5,0xDA,0x8F,0x9F};
 
 uint32_t IPCResourceDataPacket::read(::apache::thrift::protocol::TProtocol* iprot) {
 
@@ -220,6 +223,14 @@ uint32_t IPCResourceDataPacket::read(::apache::thrift::protocol::TProtocol* ipro
           xfer += iprot->skip(ftype);
         }
         break;
+      case 10:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->ID);
+          this->__isset.ID = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -245,11 +256,10 @@ uint32_t IPCResourceDataPacket::write(::apache::thrift::protocol::TProtocol* opr
   xfer += oprot->writeI64(this->port);
   xfer += oprot->writeFieldEnd();
 
-  if (this->__isset.deviceType) {
-    xfer += oprot->writeFieldBegin("deviceType", ::apache::thrift::protocol::T_I32, 3);
-    xfer += oprot->writeI32((int32_t)this->deviceType);
-    xfer += oprot->writeFieldEnd();
-  }
+  xfer += oprot->writeFieldBegin("deviceType", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeI32((int32_t)this->deviceType);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldBegin("userName", ::apache::thrift::protocol::T_STRING, 4);
   xfer += oprot->writeString(this->userName);
   xfer += oprot->writeFieldEnd();
@@ -274,6 +284,10 @@ uint32_t IPCResourceDataPacket::write(::apache::thrift::protocol::TProtocol* opr
   xfer += oprot->writeString(this->rtspUrl);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("ID", ::apache::thrift::protocol::T_I64, 10);
+  xfer += oprot->writeI64(this->ID);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   oprot->decrementRecursionDepth();
@@ -291,6 +305,7 @@ void swap(IPCResourceDataPacket &a, IPCResourceDataPacket &b) {
   swap(a.hPTZ, b.hPTZ);
   swap(a.deviceName, b.deviceName);
   swap(a.rtspUrl, b.rtspUrl);
+  swap(a.ID, b.ID);
   swap(a.__isset, b.__isset);
 }
 
@@ -304,6 +319,7 @@ IPCResourceDataPacket::IPCResourceDataPacket(const IPCResourceDataPacket& other1
   hPTZ = other1.hPTZ;
   deviceName = other1.deviceName;
   rtspUrl = other1.rtspUrl;
+  ID = other1.ID;
   __isset = other1.__isset;
 }
 IPCResourceDataPacket& IPCResourceDataPacket::operator=(const IPCResourceDataPacket& other2) {
@@ -316,6 +332,7 @@ IPCResourceDataPacket& IPCResourceDataPacket::operator=(const IPCResourceDataPac
   hPTZ = other2.hPTZ;
   deviceName = other2.deviceName;
   rtspUrl = other2.rtspUrl;
+  ID = other2.ID;
   __isset = other2.__isset;
   return *this;
 }
@@ -324,13 +341,14 @@ std::ostream& operator<<(std::ostream& out, const IPCResourceDataPacket& obj) {
   out << "IPCResourceDataPacket(";
   out << "IP=" << to_string(obj.IP);
   out << ", " << "port=" << to_string(obj.port);
-  out << ", " << "deviceType="; (obj.__isset.deviceType ? (out << to_string(obj.deviceType)) : (out << "<null>"));
+  out << ", " << "deviceType=" << to_string(obj.deviceType);
   out << ", " << "userName=" << to_string(obj.userName);
   out << ", " << "password=" << to_string(obj.password);
   out << ", " << "channel=" << to_string(obj.channel);
   out << ", " << "hPTZ=" << to_string(obj.hPTZ);
   out << ", " << "deviceName=" << to_string(obj.deviceName);
   out << ", " << "rtspUrl=" << to_string(obj.rtspUrl);
+  out << ", " << "ID=" << to_string(obj.ID);
   out << ")";
   return out;
 }

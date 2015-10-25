@@ -198,6 +198,7 @@ namespace ipcTools
 		string		strLogin;				// 连接到设备时登录的用户名
 		string		strPassword;			// 登录密码
 		string		strIp;					// 设备的IP地址
+		string		strRtspUrl;				//	rtsp流url串 用户播放视频流
 
 		string strSql = "SELECT * FROM [IPC]";
 		EnterCriticalSection(&m_CriticalSectionDevice);
@@ -220,6 +221,7 @@ namespace ipcTools
 				strLogin				= query.getStringField(4);
 				strPassword				= query.getStringField(5);
 				strCameraName			= query.getStringField(7);
+				strRtspUrl				= query.getStringField(8);
 
 				IPCResourceDataPacket *lpCamera				= new IPCResourceDataPacket();
 				lpCamera->deviceType			= str2DeviceType(UTF_82ASCII(strCameraType));
@@ -227,14 +229,76 @@ namespace ipcTools
 				lpCamera->userName				= UTF_82ASCII(strLogin);
 				lpCamera->password			= UTF_82ASCII(strPassword);
 				lpCamera->IP					= UTF_82ASCII(strIp);
+				lpCamera->rtspUrl			= UTF_82ASCII(strRtspUrl);
 				lpCamera->port				= query.getIntField(2);
 				lpCamera->channel				= query.getIntField(6);
+				lpCamera->ID				= query.getInt64Field(0);
 				HANDLE hRes = getHandle(ResourceType::ResourceTypeIPC, (HANDLE)query.getInt64Field(0));
 
 				m_DeviceResource.insert(map<HANDLE/*resource*/, IPCResourceDataPacket*>::value_type(hRes, lpCamera));
 				
 				query.nextRow();
 			}
+
+		}
+		catch(...)
+		{
+			assert(false);
+			// 
+		}
+
+		LeaveCriticalSection(&m_CriticalSectionDevice);
+	}
+
+	void MediaManager::syncDbData()
+	{
+		string		strCameraType;			// 摄像头类型
+		string		strCameraName;			// 摄像头名称
+		string		strLogin;				// 连接到设备时登录的用户名
+		string		strPassword;			// 登录密码
+		string		strIp;					// 设备的IP地址
+		string		strRtspUrl;				//	rtsp流url串 用户播放视频流
+
+		string strSql = "SELECT * FROM [IPC]";
+		EnterCriticalSection(&m_CriticalSectionDevice);
+
+		try
+		{
+			CppSQLite3DB database;
+			database.open(g_szFile);
+
+			//int result = database.setKey( "pwd", 3 );		// 添加密码
+			//result = database.resetKey( "sqlite3", 7 );	// 修改密码
+
+			m_DeviceResource.clear();
+
+			CppSQLite3Query query = database.execQuery(strSql.c_str());
+			while (!query.eof())
+			{
+				strIp			= query.getStringField(1);
+				strCameraType					= query.getStringField(3);
+				strLogin				= query.getStringField(4);
+				strPassword				= query.getStringField(5);
+				strCameraName			= query.getStringField(7);
+				strRtspUrl				= query.getStringField(8);
+
+				IPCResourceDataPacket *lpCamera				= new IPCResourceDataPacket();
+				lpCamera->deviceType			= str2DeviceType(UTF_82ASCII(strCameraType));
+				lpCamera->deviceName			= UTF_82ASCII(strCameraName);
+				lpCamera->userName				= UTF_82ASCII(strLogin);
+				lpCamera->password			= UTF_82ASCII(strPassword);
+				lpCamera->IP					= UTF_82ASCII(strIp);
+				lpCamera->rtspUrl			= UTF_82ASCII(strRtspUrl);
+					lpCamera->port				= query.getIntField(2);
+				lpCamera->channel				= query.getIntField(6);
+				lpCamera->ID				= query.getInt64Field(0);
+				HANDLE hRes = getHandle(ResourceType::ResourceTypeIPC, (HANDLE)query.getInt64Field(0));
+
+				m_DeviceResource.insert(map<HANDLE/*resource*/, IPCResourceDataPacket*>::value_type(hRes, lpCamera));
+
+				query.nextRow();
+			}
+
 		}
 		catch(...)
 		{
@@ -256,8 +320,11 @@ namespace ipcTools
 	BOOL MediaManager::addDeviceResource(const IPCResourceDataPacket* res)
 	{
 		char szSql[MAX_PATH] = {0};
-		sprintf_s(szSql, "insert into IPC values(NULL, '%s', '%ll', '%s' , '%s', '%s', '%d') ",
-			res->IP, res->port, DeviceType2str(res->deviceType), res->userName, res->password, res->channel);
+		string tmpstr = DeviceType2str(res->deviceType);
+		sprintf(szSql, "insert into IPC values(NULL, '%s','%d'",res->IP.c_str(), res->port);
+		sprintf(szSql,"%s,'%s','%s','%s','%d'",szSql,tmpstr.c_str(),res->userName.c_str(),res->password.c_str(),res->channel);
+		sprintf(szSql,"%s,'%s','%s' )",szSql,res->deviceName.c_str(),res->rtspUrl.c_str());
+		//sprintf_s(szSql,MAX_PATH, "insert into IPC values(NULL, '%s','%d','%s','%s', '%s', '%d') ",res->IP.c_str(), res->port,tmpstr.c_str(), res->userName.c_str(), res->password.c_str(), res->channel);
 
 		try
 		{
@@ -273,6 +340,9 @@ namespace ipcTools
 			IPCResourceDataPacket *lpCamera				= new IPCResourceDataPacket();
 			*lpCamera = *res;
 			m_DeviceResource.insert(map<HANDLE/*resource*/, IPCResourceDataPacket*>::value_type(hRes, lpCamera));
+
+			m_bDataChange = true;
+			db.close();
 		}
 		catch (...)
 		{
@@ -298,6 +368,9 @@ namespace ipcTools
 			string strSql = szSql;
 			nRet2 = db.execDML(ASCII2UTF_8(strSql).c_str());
 			nRet2 = db.execDML("commit transaction;");
+
+			m_bDataChange = true;
+			db.close();
 		}
 		catch (...)
 		{
@@ -320,6 +393,9 @@ namespace ipcTools
 			string strSql = szSql;
 			nRet2 = db.execDML(ASCII2UTF_8(strSql).c_str());
 			nRet2 = db.execDML("commit transaction;");
+
+			m_bDataChange = true;
+			db.close();
 		}
 		catch (...)
 		{
@@ -327,6 +403,16 @@ namespace ipcTools
 		}
 
 		return TRUE;
+	}
+
+	const map<HANDLE/*resource*/, IPCResourceDataPacket *>& MediaManager::getAllResource() const
+	{
+		if (m_bDataChange)
+		{
+			Instance()->syncDbData();
+		}
+
+		return m_DeviceResource;
 	}
 
 }

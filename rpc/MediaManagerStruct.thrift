@@ -11,13 +11,14 @@ enum DeviceType {
 struct IPCResourceDataPacket {
         1: string IP;
         2: i64 port;
-        3: optional DeviceType deviceType;
+        3: DeviceType deviceType;
         4: string userName;
         5: string password;
         6: i64 channel;
         7: i64 hPTZ;
         8: string deviceName;
 		9: string rtspUrl;
+		10: i64 ID;          //设备资源的唯一ID
 }
 
 struct UserLoginInfoDataPacket {
