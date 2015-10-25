@@ -163,7 +163,7 @@ namespace ipcTools
 			strType = "´ó»ª";
 			break;
 		default:
-			assert(false);
+			//assert(false);
 			break;
 		}
 		return strType;

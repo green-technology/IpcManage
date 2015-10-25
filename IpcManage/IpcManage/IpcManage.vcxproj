@@ -50,8 +50,9 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\thirdParty\thrift_0.9.2_vs2010\lib_debug;..\..\thirdParty\boost_1_55_0_vs2010\lib\;..\..\thirdParty\openssl-1.0.1m-vs2010\lib;..\..\thirdParty\ipc_sdk\dh;..\..\thirdParty\ipc_sdk\hc;..\..\thirdParty\sqlite;..\..\thirdParty\glog;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libthrift.lib;libeay32MTd.lib;ssleay32MTd.lib;dhnetsdk.lib;HCNetSDK.lib;sqlite3.lib;libglog.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libglog.lib;libthrift.lib;libeay32MTd.lib;ssleay32MTd.lib;dhnetsdk.lib;HCNetSDK.lib;sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <AdditionalOptions>/verbose:lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -108,13 +109,8 @@
       <FileType>Document</FileType>
       <Command>
 if %errorlevel% neq 0 exit /b %errorlevel%
-call call xcopy /efy "..\..\thirdParty\ipc_sdk\dh\*.dll" "$(OutDir)"
+call call xcopy /efy "..\..\thirdParty\*.dll" "$(OutDir)"
 if %errorlevel% neq 0 exit /b %errorlevel%
-call call xcopy /efy "..\..\thirdParty\ipc_sdk\hc\*.dll" "$(OutDir)"
-if %errorlevel% neq 0 exit /b %errorlevel%
-call call xcopy /efy "..\..\thirdParty\sqlite\*.dll" "$(OutDir)"
-if %errorlevel% neq 0 exit /b %errorlevel%
-call call xcopy /efy "..\..\thirdParty\sqlite\*.db" "$(OutDir)"
       </Command>
       <Message>copy_resources, and also copy_executables, and also copy_libraries</Message>
       <Outputs>$(OutDir)\copy_resources.stamp;$(OutDir)\copy_executables.stamp;$(OutDir)\copy_libraries.stamp</Outputs>

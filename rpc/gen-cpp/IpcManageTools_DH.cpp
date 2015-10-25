@@ -1,7 +1,7 @@
 ﻿#include "IpcManageTools.h"
 #include <Windows.h>
 #include "dh\dhnetsdk.h"
-//#include "glog\logging.h"
+#include "glog\logging.h"
 
 void CALLBACK DisConnectCallBack(LONG lLoginID, char *pchDVRIP, LONG nDVRPort, DWORD dwUser)
 {
@@ -119,7 +119,7 @@ namespace ipcTools
 		if(!ret)
 		{
 			DWORD dwError = CLIENT_GetLastError();
-			//LOG(ERROR)<<"大华断开连接失败:"<<dwError;
+			LOG(ERROR)<<"大华断开连接失败:"<<dwError;
 		}
 		return ret;
 	}

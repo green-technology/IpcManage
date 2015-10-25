@@ -1085,7 +1085,7 @@ namespace base_logging {
 // LogMessage::LogStream is a std::ostream backed by this streambuf.
 // This class ignores overflow and leaves two bytes at the end of the
 // buffer to allow for a '\n' and '\0'.
-class GOOGLE_GLOG_DLL_DECL LogStreamBuf : public std::streambuf {
+class LogStreamBuf : public std::streambuf {
  public:
   // REQUIREMENTS: "len" must be >= 2 to account for the '\n' and '\n'.
   LogStreamBuf(char *buf, int len) {
@@ -1132,7 +1132,7 @@ public:
 #ifdef _MSC_VER
 # pragma warning(disable: 4275)
 #endif
-  class GOOGLE_GLOG_DLL_DECL LogStream : public std::ostream {
+  class LogStream : public std::ostream {
 #ifdef _MSC_VER
 # pragma warning(default: 4275)
 #endif
