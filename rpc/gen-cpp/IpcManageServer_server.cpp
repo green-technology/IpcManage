@@ -33,6 +33,7 @@ using namespace ::apache::thrift::server;
 using namespace  ::ipcms;
 //using namespace  shared;
 
+TThreadedServer* thriftServer = NULL;
 static void InstallService(char* inServiceName);
 static void RemoveService(char *inServiceName);
 static void RunAsService(char* inServiceName);
@@ -267,7 +268,8 @@ void WINAPI ServiceControl(DWORD inControlCode)
 	case SERVICE_CONTROL_STOP:
 	case SERVICE_CONTROL_SHUTDOWN:
 		theStatusReport = SERVICE_STOP_PENDING;
-		PostThreadMessage(_threadIDMain,WM_QUIT,NULL,NULL);
+		//PostThreadMessage(_threadIDMain,WM_QUIT,NULL,NULL);
+		thriftServer->stop();
 		break;
 	default:
 		theStatusReport = SERVICE_RUNNING;
@@ -310,14 +312,16 @@ void RunServer(char** argv)
 	boost::shared_ptr<TServerTransport> serverTransport(new TServerSocket(9090));
 	boost::shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
 
-	TThreadedServer server(processor,
+	thriftServer = new TThreadedServer(processor,
 		serverTransport,
 		transportFactory,
 		protocolFactory);
 
 	cout << "Starting the server...." << endl;
-	server.serve();
+	thriftServer->serve();
 
+	delete thriftServer;
+	thriftServer = NULL;
 	cout << "Done.. " <<endl;
 
 	google::ShutdownGoogleLogging();
