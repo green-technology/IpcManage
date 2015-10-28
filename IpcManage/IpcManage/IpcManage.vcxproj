@@ -18,7 +18,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -75,6 +75,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\rpc\gen-cpp\getopt.h" />
     <ClInclude Include="..\..\rpc\gen-cpp\IpcManageServer.h" />
     <ClInclude Include="..\..\rpc\gen-cpp\IpcManageServerHandler.h" />
     <ClInclude Include="..\..\rpc\gen-cpp\IpcManageServer_constants.h" />
@@ -90,6 +91,7 @@
     <ClInclude Include="Tools.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\rpc\gen-cpp\getopt.c" />
     <ClCompile Include="..\..\rpc\gen-cpp\IpcManageServer.cpp" />
     <ClCompile Include="..\..\rpc\gen-cpp\IpcManageServerHandler.cpp" />
     <ClCompile Include="..\..\rpc\gen-cpp\IpcManageServer_constants.cpp" />
