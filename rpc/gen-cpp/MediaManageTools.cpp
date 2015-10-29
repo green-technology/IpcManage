@@ -2,6 +2,7 @@
 #include "CppSQLite3.h"
 #include <string>
 #include "ReturnStruct_types.h"
+#include "glog/logging.h"
 
 using namespace std;
 
@@ -163,7 +164,7 @@ namespace ipcTools
 			strType = "大华";
 			break;
 		default:
-			//assert(false);
+			LOG(ERROR)<<"不识别的设备类型"<<type;
 			break;
 		}
 		return strType;
@@ -173,7 +174,7 @@ namespace ipcTools
 
 	HANDLE getHandle(ResourceType::type type, HANDLE src)
 	{
-		assert(!((int)src >> MAX_HANDLE));
+		LOG_IF(ERROR, !((int)src >> MAX_HANDLE))<<"句柄越界";
 
 		HANDLE dst = src;
 		switch(type)
@@ -184,7 +185,7 @@ namespace ipcTools
 		case ResourceType::ResourceTypeReplay:
 			dst = HANDLE(((int)src << 4) + 1);
 		default:
-			assert(false);
+			LOG(ERROR)<<"不识别的资源类型"<<type;
 			dst = NULL;
 			break;
 		}
@@ -243,8 +244,7 @@ namespace ipcTools
 		}
 		catch(...)
 		{
-			assert(false);
-			// 
+			LOG(ERROR)<<"initFromLocal 异常";
 		}
 
 		LeaveCriticalSection(&m_CriticalSectionDevice);
@@ -266,9 +266,6 @@ namespace ipcTools
 		{
 			CppSQLite3DB database;
 			database.open(g_szFile);
-
-			//int result = database.setKey( "pwd", 3 );		// 添加密码
-			//result = database.resetKey( "sqlite3", 7 );	// 修改密码
 
 			m_DeviceResource.clear();
 
@@ -302,8 +299,7 @@ namespace ipcTools
 		}
 		catch(...)
 		{
-			assert(false);
-			// 
+			LOG(ERROR)<<"syncDbData 异常";
 		}
 
 		LeaveCriticalSection(&m_CriticalSectionDevice);
@@ -324,8 +320,7 @@ namespace ipcTools
 		sprintf(szSql, "insert into IPC values(NULL, '%s','%d'",res->IP.c_str(), res->port);
 		sprintf(szSql,"%s,'%s','%s','%s','%d'",szSql,tmpstr.c_str(),res->userName.c_str(),res->password.c_str(),res->channel);
 		sprintf(szSql,"%s,'%s','%s' )",szSql,res->deviceName.c_str(),res->rtspUrl.c_str());
-		//sprintf_s(szSql,MAX_PATH, "insert into IPC values(NULL, '%s','%d','%s','%s', '%s', '%d') ",res->IP.c_str(), res->port,tmpstr.c_str(), res->userName.c_str(), res->password.c_str(), res->channel);
-
+		
 		try
 		{
 			CppSQLite3DB db;
@@ -346,7 +341,7 @@ namespace ipcTools
 		}
 		catch (...)
 		{
-			return FALSE;
+			LOG(ERROR)<<"addDeviceResource 异常";
 		}
 
 		return TRUE;
@@ -374,7 +369,7 @@ namespace ipcTools
 		}
 		catch (...)
 		{
-			return FALSE;
+			LOG(ERROR)<<"deleteDeviceResource 异常";
 		}
 
 		return TRUE;
@@ -399,7 +394,7 @@ namespace ipcTools
 		}
 		catch (...)
 		{
-			return FALSE;
+			LOG(ERROR)<<"deleteAllDeviceResource 异常";
 		}
 
 		return TRUE;

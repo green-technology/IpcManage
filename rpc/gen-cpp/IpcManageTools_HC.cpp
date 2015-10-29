@@ -1,10 +1,14 @@
 #include "IpcManageTools.h"
 #include "hc\HCNetSDK.h"
+#include "glog\logging.h"
 
 void CALLBACK exceptionCallBack(DWORD dwType, LONG lUserID, LONG lHandle, void *pUser)
 {
-	/*LOG("\n########海康SDK连接中断########\n");
-	LOG("\n########SDK连接中断########\n");*/
+	LOG(WARNING)<<"海康SDK连接中断:";
+	LOG(WARNING)<<dwType;
+	LOG(WARNING)<<lUserID;
+	LOG(WARNING)<<lHandle;
+	LOG(WARNING)<<pUser;
 }
 
 namespace ipcTools
@@ -133,7 +137,7 @@ namespace ipcTools
 
 		if(!bRet)
 		{
-			//LOG("执行海康云台控制命令失败！\n");
+			LOG(WARNING)<<"执行海康云台控制命令失败！\n";
 			return FALSE;
 		}
 

@@ -1,6 +1,5 @@
 #include "IpcManageTools.h"
-#include <assert.h>
-
+#include "glog/logging.h"
 
 namespace ipcTools
 {
@@ -15,7 +14,7 @@ namespace ipcTools
 			instance = &manager;
 			instance->initClient();
 		}
-		assert(instance);
+		LOG(ERROR)<<"ConnectManager 初始化失败";
 
 		return instance;
 	}
@@ -36,7 +35,7 @@ namespace ipcTools
 				closeConnectHC(info->hPTZ);
 				break;
 			default:
-				assert(false);
+				LOG(ERROR)<<"不识别的设备类型";
 				break;
 			}
 			iter = m_ConnectList.erase(iter);
@@ -94,7 +93,7 @@ namespace ipcTools
 			}
 			break;
 		default:
-			assert(false);
+			LOG(ERROR)<<"不识别的设备类型";
 			break;
 		}
 		return ret;
@@ -128,7 +127,7 @@ namespace ipcTools
 				}
 				break;
 			default:
-				assert(false);
+				LOG(ERROR)<<"不识别的设备类型";
 				break;
 		}
 		return FALSE;
@@ -151,7 +150,7 @@ namespace ipcTools
 				closeConnectHC(hPTZ);
 				break;
 			default:
-				assert(false);
+				LOG(ERROR)<<"不识别的设备类型";
 				break;
 			}
 			iter = m_ConnectList.erase(iter);

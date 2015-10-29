@@ -18,6 +18,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <sstream>
+#include <string>
 
 #include "IpcManageServerHandler.h"
 
@@ -300,11 +301,25 @@ void __stdcall ServiceMain(DWORD /*argc*/, LPTSTR *argv)
 	::ReportStatus( SERVICE_STOPPED, NO_ERROR );
 }
 
+//获取应用程序根目录
+void getAppPath(char* path)
+{
+	GetModuleFileName( NULL, path, MAX_PATH);
+	(strrchr(path, '\\'))[1] = 0;
+}
+
 void RunServer(char** argv)
 {
+	//google::LogToStderr();
+	
+	char *path = new char[MAX_PATH];//不能删除这段内存，否则glog会在退出时错误
+	getAppPath(path);
+	sprintf_s(path + strlen(path), MAX_PATH,  "\\ipc_");
+	google::SetLogDestination(google::GLOG_WARNING, path);
+
 	google::InitGoogleLogging(argv[0]);
-	google::LogToStderr();
-	LOG(INFO) << "GLOG START";
+
+	LOG(INFO) << "Server Start:";
 
 	boost::shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
 	boost::shared_ptr<IpcManageServerHandler> handler(new IpcManageServerHandler());
@@ -317,12 +332,12 @@ void RunServer(char** argv)
 		transportFactory,
 		protocolFactory);
 
-	cout << "Starting the server...." << endl;
 	thriftServer->serve();
 
 	delete thriftServer;
 	thriftServer = NULL;
-	cout << "Done.. " <<endl;
+
+	LOG(INFO) << "Server Exit!";
 
 	google::ShutdownGoogleLogging();
 }

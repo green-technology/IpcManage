@@ -5,9 +5,11 @@
 
 void CALLBACK DisConnectCallBack(LONG lLoginID, char *pchDVRIP, LONG nDVRPort, DWORD dwUser)
 {
-	//LOG("\n########大华SDK连接中断########\n");
-	//LOG(pchDVRIP);
-	//LOG("\n########SDK连接中断########\n");
+	LOG(WARNING)<<"大华断开连接中断:";
+	LOG(WARNING)<<lLoginID;
+	LOG(WARNING)<<pchDVRIP;
+	LOG(WARNING)<<nDVRPort;
+	LOG(WARNING)<<dwUser;
 }
 
 namespace ipcTools

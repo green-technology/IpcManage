@@ -2,8 +2,7 @@
 #include "IpcManageTools.h"
 #include "MediaManageTools.h"
 #include "Tools.h"
-
-#include "assert.h"
+#include "glog\logging.h"
 
 IpcManageServerHandler::IpcManageServerHandler()
 {
@@ -12,9 +11,7 @@ IpcManageServerHandler::IpcManageServerHandler()
 
 void IpcManageServerHandler::UserLogin( ::ipcms::UserLoginReturnStruct& _return, const std::string& userName) {
 	// Your implementation goes here
-	printf("UserLogin\n");
-
-	//LOG(INFO)<<userName;
+	LOG(INFO)<<"UserLogin:"<<userName;
 
 	//用户验证，以用户名作为KEY
 	for (map<string, string>::iterator iter = m_userLoginList.begin();iter != m_userLoginList.end();iter++)
@@ -48,7 +45,7 @@ void IpcManageServerHandler::UserLogin( ::ipcms::UserLoginReturnStruct& _return,
 }
 
 void IpcManageServerHandler::GetResInfoList(std::vector< ::ipcms::ResourceInfoReturnStruct> & _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::ResourceType::type resType) {
-	printf("GetResInfoList\n");
+	LOG(INFO)<<"GetResInfoList:"<<userVerify.UserID;
 
 	if(!authentication(userVerify))
 		return;
@@ -88,7 +85,7 @@ void IpcManageServerHandler::GetResInfoList(std::vector< ::ipcms::ResourceInfoRe
 		}
 		break;
 	default:
-		assert(FALSE);
+		LOG(INFO)<<"GetResInfoList:"<< "不识别的资源类型"<<resType;
 		break;
 	}
 
@@ -96,12 +93,13 @@ void IpcManageServerHandler::GetResInfoList(std::vector< ::ipcms::ResourceInfoRe
 
 int8_t IpcManageServerHandler::PlayVideo(const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::PlayVideoDataPacket& playVideo) {
 	// Your implementation goes here
-	printf("PlayVideo\n");
+	LOG(INFO)<<"PlayVideo:" <<userVerify.UserID;
+	LOG(WARNING)<<"没有实现";
 	return 0;
 }
 
 void IpcManageServerHandler::RequestPTZControl( ::ipcms::RequestPTZControlReturnStruct&  _return, const  ::ipcms::UserVerificationDataPacket& userVerify, const  ::ipcms::RequestPTZControlDataPacket&  requestPTZ) {
-	printf("RequestPTZControl\n");
+	LOG(INFO)<<"RequestPTZControl:" <<userVerify.UserID;
 
 	if(!authentication(userVerify))
 		return;
@@ -135,7 +133,7 @@ void IpcManageServerHandler::RequestPTZControl( ::ipcms::RequestPTZControlReturn
 void IpcManageServerHandler::PTZControl(::ipcms::PTZControlReturnStruct&  _return , const ::ipcms::UserVerificationDataPacket&  userVerify , const ::ipcms::PTZControlDataPacket&  command )
 {
 	// Your implementation goes here
-	printf("PTZControl\n");
+	LOG(INFO)<<"PTZControl:" <<userVerify.UserID;
 
 	if(!authentication(userVerify))
 		return;
@@ -174,7 +172,7 @@ ReturnType::type IpcManageServerHandler::ReleasePTZControl(const  ::ipcms::UserV
 
 bool IpcManageServerHandler::UserLogout(const  ::ipcms::UserVerificationDataPacket& userVerify) {
 	// Your implementation goes here
-	printf("UserLogout\n");
+	LOG(INFO)<<"UserLogout:" <<userVerify.UserID;
 
 	if (!authentication(userVerify))
 		return false;
@@ -278,6 +276,7 @@ bool IpcManageServerHandler::authentication(const UserVerificationDataPacket &da
 	{
 		return true;
 	}
+	LOG(INFO)<<"authentication fail";
 	return false;
 }
 
