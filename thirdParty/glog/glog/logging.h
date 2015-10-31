@@ -1112,7 +1112,7 @@ class LogStreamBuf : public std::streambuf {
 // You shouldn't actually use LogMessage's constructor to log things,
 // though.  You should use the LOG() macro (and variants thereof)
 // above.
-class GOOGLE_GLOG_DLL_DECL LogMessage {
+class LogMessage {
 public:
   enum {
     // Passing kNoLogPrefix for the line number disables the

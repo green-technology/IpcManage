@@ -12,6 +12,7 @@ IpcManageServerHandler::IpcManageServerHandler()
 void IpcManageServerHandler::UserLogin( ::ipcms::UserLoginReturnStruct& _return, const std::string& userName) {
 	// Your implementation goes here
 	LOG(INFO)<<"UserLogin:"<<userName;
+	LOG(WARNING)<<"UserLogin:"<<userName;
 
 	//用户验证，以用户名作为KEY
 	for (map<string, string>::iterator iter = m_userLoginList.begin();iter != m_userLoginList.end();iter++)

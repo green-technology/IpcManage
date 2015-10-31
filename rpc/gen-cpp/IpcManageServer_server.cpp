@@ -40,7 +40,7 @@ static void RemoveService(char *inServiceName);
 static void RunAsService(char* inServiceName);
 static SERVICE_STATUS_HANDLE sServiceStatusHandle = 0;
 void __stdcall ServiceMain(DWORD /*argc*/, LPTSTR *argv);
-void RunServer(char** argv);
+void RunServer(char* appName);
 
 int main(int argc, char **argv) {
 	bool IsService=false;
@@ -77,7 +77,7 @@ int main(int argc, char **argv) {
 	{
 		///BOOL ret =SetProcessShutdownParameters(0x3ff, SHUTDOWN_NORETRY);
 		//BOOL ret =SetConsoleCtrlHandler( (PHANDLER_ROUTINE) ctrlhandler, TRUE );
-		RunServer(argv);
+		RunServer(argv[0]);
 		::exit(0);
 	}
 	else
@@ -296,36 +296,58 @@ void __stdcall ServiceMain(DWORD /*argc*/, LPTSTR *argv)
 	::ReportStatus( SERVICE_RUNNING, NO_ERROR );
 	HRESULT hr= CoInitialize(NULL);
 	_threadIDMain = GetCurrentThreadId();
-	RunServer(argv);
+	RunServer(argv[0]);
 	CoUninitialize();
 	::ReportStatus( SERVICE_STOPPED, NO_ERROR );
 }
 
 //获取应用程序根目录
-void getAppPath(char* path)
+std::string getAppPath()
 {
-	GetModuleFileName( NULL, path, MAX_PATH);
-	(strrchr(path, '\\'))[1] = 0;
+	/*GetModuleFileName( NULL, path, MAX_PATH);
+	(strrchr(path, '\\'))[1] = 0;*/
+
+	std::string strPath;
+	char _szPath[MAX_PATH + 1]={0};
+	GetModuleFileName(NULL, _szPath, MAX_PATH);
+	(strrchr(_szPath, '\\'))[1] = 0;//删除文件名，只获得路径 字串
+	for (int n=0;_szPath[n];n++)
+	{
+		if (_szPath[n]!='\\')
+		{
+			strPath +=_szPath[n] ;
+		}
+		else
+		{
+			strPath += "\\\\";
+		}
+	}
+	return strPath;
 }
 
-void RunServer(char** argv)
+void RunServer(char* appName)
 {
 	//google::LogToStderr();
 	
-	char *path = new char[MAX_PATH];//不能删除这段内存，否则glog会在退出时错误
-	getAppPath(path);
-	sprintf_s(path + strlen(path), MAX_PATH,  "\\ipc_");
-	google::SetLogDestination(google::GLOG_WARNING, path);
-
-	google::InitGoogleLogging(argv[0]);
-
+//char *path = new char[MAX_PATH];//不能删除这段内存，否则glog会在退出时错误
+	string strPath = getAppPath();
+	strPath += "\\ipc_";
+	google::SetLogDestination(google::GLOG_INFO, strPath.c_str());
 	LOG(INFO) << "Server Start:";
+
+	google::InitGoogleLogging(appName);
+
+	//sprintf_s(const_cast<char*>(strPath.c_str()) + strPath.length(), MAX_PATH,  "\\ipc_");
+	
+
 
 	boost::shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
 	boost::shared_ptr<IpcManageServerHandler> handler(new IpcManageServerHandler());
 	boost::shared_ptr<TProcessor> processor(new IpcManageServerProcessor(handler));
 	boost::shared_ptr<TServerTransport> serverTransport(new TServerSocket(9090));
 	boost::shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
+
+	
 
 	thriftServer = new TThreadedServer(processor,
 		serverTransport,
