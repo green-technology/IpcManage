@@ -14,7 +14,7 @@ namespace ipcTools
 			instance = &manager;
 			instance->initClient();
 		}
-		LOG(ERROR)<<"ConnectManager 初始化失败";
+		//LOG(ERROR)<<"ConnectManager 初始化失败";
 
 		return instance;
 	}
@@ -89,6 +89,10 @@ namespace ipcTools
 					ipc_temp->hPTZ = handle;
 					m_ConnectList[handle] = DVRInfo;
 					ret = TRUE;
+				}
+				else
+				{
+					LOG(WARNING)<<"DeviceTypeHC:"<< ip <<"connect failed!";
 				}
 			}
 			break;

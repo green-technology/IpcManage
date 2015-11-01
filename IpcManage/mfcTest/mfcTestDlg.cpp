@@ -320,8 +320,16 @@ void CmfcTestDlg::OnBnClickedRequestptzcontrol()
 			m_pRpcClient->RequestPTZControl(m_reqPTZctl, m_stuUserVerification,rqPTZ);
 
 			cout<<"RequestPTZControl was exectued ------------------------"<<endl;
-			cout<<"ptzhandle:"<<m_reqPTZctl.hPTZ
-				<<endl;
+			if (m_reqPTZctl.result == -1)
+			{
+				cout<<"RequestPTZControl exec failed-------------------"<<endl;
+			}
+			else
+			{
+				cout<<"ptzhandle:"<<m_reqPTZctl.hPTZ
+					<<endl;
+			}
+
 			cout<<" "<<endl;
 		}
 		else

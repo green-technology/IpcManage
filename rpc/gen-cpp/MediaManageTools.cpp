@@ -174,7 +174,7 @@ namespace ipcTools
 
 	HANDLE getHandle(ResourceType::type type, HANDLE src)
 	{
-		LOG_IF(ERROR, !((int)src >> MAX_HANDLE))<<"句柄越界";
+		LOG_IF(ERROR, ((int)src >> MAX_HANDLE))<<"句柄越界";
 
 		HANDLE dst = src;
 		switch(type)

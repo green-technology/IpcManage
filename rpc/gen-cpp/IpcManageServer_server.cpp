@@ -332,14 +332,15 @@ void RunServer(char* appName)
 //char *path = new char[MAX_PATH];//不能删除这段内存，否则glog会在退出时错误
 	string strPath = getAppPath();
 	strPath += "\\ipc_";
-	google::SetLogDestination(google::GLOG_INFO, strPath.c_str());
+	google::SetLogDestination(google::INFO, strPath.c_str());
+	//google::SetLogDestination(google::GLOG_INFO, "f:\\log");
 	LOG(INFO) << "Server Start:";
 
 	google::InitGoogleLogging(appName);
-
-	//sprintf_s(const_cast<char*>(strPath.c_str()) + strPath.length(), MAX_PATH,  "\\ipc_");
+	//google::LogToStderr();
+	FLAGS_colorlogtostderr=true;
+	FLAGS_alsologtostderr=true;
 	
-
 
 	boost::shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
 	boost::shared_ptr<IpcManageServerHandler> handler(new IpcManageServerHandler());
