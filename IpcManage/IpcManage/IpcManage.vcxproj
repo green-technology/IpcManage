@@ -118,7 +118,11 @@
       <FileType>Document</FileType>
       <Command>
 if %errorlevel% neq 0 exit /b %errorlevel%
-call call xcopy /efy "..\..\thirdParty\*.dll" "$(OutDir)"
+for /R "..\..\thirdParty\" %%s in (*.dll) do ( 
+call call xcopy /efy %%s "$(OutDir)"
+)
+if %errorlevel% neq 0 exit /b %errorlevel%
+call call xcopy /efy "..\..\thirdParty\sqlite\media.db" "$(OutDir)"
 if %errorlevel% neq 0 exit /b %errorlevel%
       </Command>
       <Message>copy_resources, and also copy_executables, and also copy_libraries</Message>

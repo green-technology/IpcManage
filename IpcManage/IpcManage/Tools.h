@@ -51,3 +51,6 @@ std::wstring getFriendlyTraffic(UINT64 inNum);
 
 // 间隔时间转换 输入为ms 转为可以天时分秒
 std::wstring getFriendlyIntervalTime(UINT64 inNum );
+
+//获取应用程序根目录
+std::string getAppPath();

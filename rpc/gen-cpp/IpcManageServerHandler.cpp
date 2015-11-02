@@ -12,7 +12,6 @@ IpcManageServerHandler::IpcManageServerHandler()
 void IpcManageServerHandler::UserLogin( ::ipcms::UserLoginReturnStruct& _return, const std::string& userName) {
 	// Your implementation goes here
 	LOG(INFO)<<"UserLogin:"<<userName;
-	LOG(WARNING)<<"UserLogin:"<<userName;
 
 	//用户验证，以用户名作为KEY
 	for (map<string, string>::iterator iter = m_userLoginList.begin();iter != m_userLoginList.end();iter++)
@@ -184,6 +183,8 @@ bool IpcManageServerHandler::UserLogout(const  ::ipcms::UserVerificationDataPack
 
 ReturnType::type IpcManageServerHandler::addResource(const  ::ipcms::UserVerificationDataPacket& userVerify, const ::ipcms::IPCResourceDataPacket& ipc)
 {
+	LOG(INFO)<<"addResource:" <<userVerify.UserID;
+
 	if(!authentication(userVerify))
 		return ReturnType::InvalidUser;
 
@@ -203,6 +204,8 @@ ReturnType::type IpcManageServerHandler::addResourceRecord(const  ::ipcms::UserV
 
 ReturnType::type IpcManageServerHandler::deleteResource(const  ::ipcms::UserVerificationDataPacket& userVerify, const int64_t handle)
 {
+	LOG(INFO)<<"deleteResource:" <<userVerify.UserID;
+
 	if(!authentication(userVerify))
 		return ReturnType::InvalidUser;
 

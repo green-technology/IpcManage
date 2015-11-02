@@ -442,3 +442,28 @@ std::wstring getFriendlyIntervalTime(UINT64 inNum )
 	delete[] tmpstr;
 	return sRet;
 }
+
+//获取应用程序根目录
+std::string getAppPath()
+{
+	/*GetModuleFileName( NULL, path, MAX_PATH);
+	(strrchr(path, '\\'))[1] = 0;*/
+
+	std::string strPath;
+	char _szPath[MAX_PATH + 1]={0};
+	GetModuleFileName(NULL, _szPath, MAX_PATH);
+	(strrchr(_szPath, '\\'))[1] = 0;//删除文件名，只获得路径 字串
+	for (int n=0;_szPath[n];n++)
+	{
+		if (_szPath[n]!='\\')
+		{
+			strPath +=_szPath[n] ;
+		}
+		else
+		{
+			strPath += "\\\\";
+		}
+	}
+	return strPath;
+}
+

@@ -3,17 +3,12 @@
 #include <string>
 #include "ReturnStruct_types.h"
 #include "glog/logging.h"
+#include "Tools.h"
 
 using namespace std;
 
 namespace ipcTools
 {
-#ifdef _DEBUG
-	const char* g_szFile = "..\\Debug\\media.db";
-#else
-	const char* g_szFile = "media.db";
-#endif
-
 	//UTF-8×ªUnicode
 	std::wstring Utf82Unicode(const std::string& utf8string)
 	{
@@ -204,10 +199,14 @@ namespace ipcTools
 		string strSql = "SELECT * FROM [IPC]";
 		EnterCriticalSection(&m_CriticalSectionDevice);
 
+		LOG(INFO)<<"initFromLocal"<<strSql;
+
 		try
 		{
+			string db_path=getAppPath() +"\\"+"media.db";
+			strcpy_s(m_DBFilePath, db_path.c_str());
 			CppSQLite3DB database;
-			database.open(g_szFile);
+			database.open(m_DBFilePath);
 
 			//int result = database.setKey( "pwd", 3 );		// Ìí¼ÓÃÜÂë
 			//result = database.resetKey( "sqlite3", 7 );	// ÐÞ¸ÄÃÜÂë
@@ -262,10 +261,12 @@ namespace ipcTools
 		string strSql = "SELECT * FROM [IPC]";
 		EnterCriticalSection(&m_CriticalSectionDevice);
 
+		LOG(INFO)<<"syncDbData"<<strSql;
+
 		try
 		{
 			CppSQLite3DB database;
-			database.open(g_szFile);
+			database.open(m_DBFilePath);
 
 			m_DeviceResource.clear();
 
@@ -320,11 +321,13 @@ namespace ipcTools
 		sprintf(szSql, "insert into IPC values(NULL, '%s','%d'",res->IP.c_str(), res->port);
 		sprintf(szSql,"%s,'%s','%s','%s','%d'",szSql,tmpstr.c_str(),res->userName.c_str(),res->password.c_str(),res->channel);
 		sprintf(szSql,"%s,'%s','%s' )",szSql,res->deviceName.c_str(),res->rtspUrl.c_str());
-		
+
+		LOG(INFO)<<szSql;
+
 		try
 		{
 			CppSQLite3DB db;
-			db.open(g_szFile);
+			db.open(m_DBFilePath);
 			int nRet2 = db.execDML("begin transaction;");
 			string strSql = szSql;
 			nRet2 = db.execDML(ASCII2UTF_8(strSql).c_str());
@@ -355,10 +358,12 @@ namespace ipcTools
 		else
 			sprintf_s(szSql, "delete from Record where id=%d", (int)handle >> MAX_HANDLE);
 
+		LOG(INFO)<<szSql;
+
 		try
 		{
 			CppSQLite3DB db;
-			db.open(g_szFile);
+			db.open(m_DBFilePath);
 			int nRet2 = db.execDML("begin transaction;");
 			string strSql = szSql;
 			nRet2 = db.execDML(ASCII2UTF_8(strSql).c_str());
@@ -380,10 +385,12 @@ namespace ipcTools
 		char szSql[MAX_PATH] = {0};
 		sprintf_s(szSql, "delete from IPC");
 
+		LOG(INFO)<<szSql;
+
 		try
 		{
 			CppSQLite3DB db;
-			db.open(g_szFile);
+			db.open(m_DBFilePath);
 			int nRet2 = db.execDML("begin transaction;");
 			string strSql = szSql;
 			nRet2 = db.execDML(ASCII2UTF_8(strSql).c_str());

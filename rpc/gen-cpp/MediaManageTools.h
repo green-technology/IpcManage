@@ -35,6 +35,11 @@ namespace ipcTools
 	private:
 		MediaManager() {
 			m_bDataChange = false;
+			InitializeCriticalSection(&m_CriticalSectionDevice);
+		}
+		~MediaManager()
+		{
+			DeleteCriticalSection(&m_CriticalSectionDevice);
 		}
 		void initFromLocal();
 		void syncDbData();
@@ -42,6 +47,7 @@ namespace ipcTools
 
 		map<HANDLE/*resource*/, IPCResourceDataPacket *> m_DeviceResource;
 		bool m_bDataChange;
+		char m_DBFilePath[MAX_PATH];
 	};
 
 

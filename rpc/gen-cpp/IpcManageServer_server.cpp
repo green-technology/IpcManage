@@ -23,6 +23,7 @@
 #include "IpcManageServerHandler.h"
 
 #include "getopt.h"
+#include "Tools.h"
 
 using namespace std;
 using namespace ::apache::thrift;
@@ -301,30 +302,6 @@ void __stdcall ServiceMain(DWORD /*argc*/, LPTSTR *argv)
 	::ReportStatus( SERVICE_STOPPED, NO_ERROR );
 }
 
-//获取应用程序根目录
-std::string getAppPath()
-{
-	/*GetModuleFileName( NULL, path, MAX_PATH);
-	(strrchr(path, '\\'))[1] = 0;*/
-
-	std::string strPath;
-	char _szPath[MAX_PATH + 1]={0};
-	GetModuleFileName(NULL, _szPath, MAX_PATH);
-	(strrchr(_szPath, '\\'))[1] = 0;//删除文件名，只获得路径 字串
-	for (int n=0;_szPath[n];n++)
-	{
-		if (_szPath[n]!='\\')
-		{
-			strPath +=_szPath[n] ;
-		}
-		else
-		{
-			strPath += "\\\\";
-		}
-	}
-	return strPath;
-}
-
 void RunServer(char* appName)
 {
 	//google::LogToStderr();
@@ -332,15 +309,14 @@ void RunServer(char* appName)
 //char *path = new char[MAX_PATH];//不能删除这段内存，否则glog会在退出时错误
 	string strPath = getAppPath();
 	strPath += "\\ipc_";
-	google::SetLogDestination(google::GLOG_INFO, strPath.c_str());
-	LOG(INFO) << "Server Start:";
+	google::SetLogDestination(google::GLOG_INFO, strPath.c_str());//在InitGoogleLogging前后都可以
 
 	google::InitGoogleLogging(appName);
-	google::SetLogDestination(google::GLOG_INFO, strPath.c_str());
 
-	//google::LogToStderr();
 	FLAGS_colorlogtostderr=true;
 	FLAGS_alsologtostderr=true;
+
+	LOG(INFO) << "Server Start:";
 
 	boost::shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
 	boost::shared_ptr<IpcManageServerHandler> handler(new IpcManageServerHandler());
