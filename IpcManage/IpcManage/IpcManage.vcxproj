@@ -74,6 +74,7 @@
       <AdditionalDependencies>libglog.lib;libthrift.lib;libeay32MTd.lib;ssleay32MTd.lib;dhnetsdk.lib;HCNetSDK.lib;sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
