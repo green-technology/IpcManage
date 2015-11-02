@@ -194,6 +194,7 @@ void RemoveService(char *inServiceName)
 {
 	SC_HANDLE   theSCManager;
 	SC_HANDLE   theService;
+	SERVICE_STATUS theStatus;
 
 	theSCManager = ::OpenSCManager(
 		NULL,                   // machine (NULL == local)
@@ -207,9 +208,12 @@ void RemoveService(char *inServiceName)
 	}
 
 	theService = ::OpenService(theSCManager, inServiceName, SERVICE_ALL_ACCESS);
-	if (theService != NULL)
+
+	QueryServiceStatus(theService,&theStatus);
+	if (theStatus.dwCurrentState!=SERVICE_STOPPED)
 	{
-		unsigned short stopped = ::ControlService(theService, SERVICE_CONTROL_STOP, NULL);
+		unsigned short stopped = ::ControlService(theService, SERVICE_CONTROL_STOP, &theStatus);
+		Sleep(500);
 		if(!stopped)
 			printf("Stopping Service Error: %d\n", ::GetLastError());
 
@@ -308,7 +312,7 @@ void RunServer(char* appName)
 	
 //char *path = new char[MAX_PATH];//不能删除这段内存，否则glog会在退出时错误
 	string strPath = getAppPath();
-	strPath += "\\ipc_";
+	strPath += "\\glog\\ipc_";
 	google::SetLogDestination(google::GLOG_INFO, strPath.c_str());//在InitGoogleLogging前后都可以
 
 	google::InitGoogleLogging(appName);

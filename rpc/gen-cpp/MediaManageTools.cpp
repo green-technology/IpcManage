@@ -206,7 +206,10 @@ namespace ipcTools
 			string db_path=getAppPath() +"\\"+"media.db";
 			strcpy_s(m_DBFilePath, db_path.c_str());
 			CppSQLite3DB database;
-			database.open(m_DBFilePath);
+
+			database.open(gbk2utf(m_DBFilePath).c_str());
+			//database.open(m_DBFilePath);
+			LOG(INFO)<<"DBFilePath" <<m_DBFilePath;
 
 			//int result = database.setKey( "pwd", 3 );		// Ìí¼ÓÃÜÂë
 			//result = database.resetKey( "sqlite3", 7 );	// ÐÞ¸ÄÃÜÂë
@@ -266,7 +269,7 @@ namespace ipcTools
 		try
 		{
 			CppSQLite3DB database;
-			database.open(m_DBFilePath);
+			database.open(gbk2utf(m_DBFilePath).c_str());
 
 			m_DeviceResource.clear();
 
@@ -327,7 +330,7 @@ namespace ipcTools
 		try
 		{
 			CppSQLite3DB db;
-			db.open(m_DBFilePath);
+			db.open(gbk2utf(m_DBFilePath).c_str());
 			int nRet2 = db.execDML("begin transaction;");
 			string strSql = szSql;
 			nRet2 = db.execDML(ASCII2UTF_8(strSql).c_str());
@@ -363,7 +366,7 @@ namespace ipcTools
 		try
 		{
 			CppSQLite3DB db;
-			db.open(m_DBFilePath);
+			db.open(gbk2utf(m_DBFilePath).c_str());
 			int nRet2 = db.execDML("begin transaction;");
 			string strSql = szSql;
 			nRet2 = db.execDML(ASCII2UTF_8(strSql).c_str());
@@ -390,7 +393,7 @@ namespace ipcTools
 		try
 		{
 			CppSQLite3DB db;
-			db.open(m_DBFilePath);
+			db.open(gbk2utf(m_DBFilePath).c_str());
 			int nRet2 = db.execDML("begin transaction;");
 			string strSql = szSql;
 			nRet2 = db.execDML(ASCII2UTF_8(strSql).c_str());
